@@ -17,6 +17,7 @@ import { companyHandler } from './handlers/companyHandler.js';
 import { bestRouteHandler } from './handlers/bestRouteHandler.js';
 import { profitSummaryHandler } from './handlers/profitSummaryHandler.js';
 import { cooldownHandler } from './handlers/cooldownHandler.js';
+import { getAllUsers } from '../userStorage.js';
 
 /**
  * Bootstrap all auto-run channels on bot startup
@@ -49,7 +50,6 @@ export async function startupBootstrap(client) {
     const configuredRunners = getConfiguredRunners();
 
 // === START PERSONAL RUNNERS ===
-import { getAllUsers } from '../userStorage.js';
 
 const users = getAllUsers();
 
