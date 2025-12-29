@@ -50,25 +50,26 @@ export async function startupBootstrap(client) {
     const configuredRunners = getConfiguredRunners();
 
 // === START PERSONAL RUNNERS ===
-
 const users = getAllUsers();
 
-for (const user of users) {
+for (const user of Object.values(users)) {
     if (!user.apiKey) continue;
 
-    // personal stats
-    await startScheduler(
-        `stats:${user.discordId}`,
-        user.channels?.personalStats,
-        { user }
-    );
+    if (user.channels?.personalStats) {
+        await startScheduler(
+            `stats:${user.discordId}`,
+            user.channels.personalStats,
+            { user }
+        );
+    }
 
-    // work stats
-    await startScheduler(
-        `work:${user.discordId}`,
-        user.channels?.workStats,
-        { user }
-    );
+    if (user.channels?.workStats) {
+        await startScheduler(
+            `work:${user.discordId}`,
+            user.channels.workStats,
+            { user }
+        );
+    }
 }
 
     if (configuredRunners.length === 0) {
