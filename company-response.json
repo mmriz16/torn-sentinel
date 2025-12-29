@@ -1,0 +1,484 @@
+{
+  "company_employees": {
+    "2381000": {
+      "name": "mmriz16",
+      "position": "Cashier",
+      "days_in_company": 6,
+      "wage": 50000,
+      "manual_labor": 4498,
+      "intelligence": 5567,
+      "endurance": 9995,
+      "effectiveness": {
+        "working_stats": 98,
+        "settled_in": 6,
+        "director_education": 12,
+        "management": 3,
+        "addiction": -3,
+        "total": 116
+      },
+      "last_action": {
+        "status": "Idle",
+        "timestamp": 1766974759,
+        "relative": "2 hours ago"
+      },
+      "status": {
+        "description": "Returning to Torn from UAE",
+        "details": "",
+        "state": "Traveling",
+        "color": "blue",
+        "until": 0,
+        "plane_image_type": "light_aircraft"
+      }
+    },
+    "2686695": {
+      "name": "dipayan",
+      "position": "Cashier",
+      "days_in_company": 53,
+      "manual_labor": 3734,
+      "intelligence": 1015,
+      "endurance": 5918,
+      "effectiveness": {
+        "working_stats": 93,
+        "settled_in": 10,
+        "director_education": 12,
+        "management": 3,
+        "total": 118
+      },
+      "last_action": {
+        "status": "Offline",
+        "timestamp": 1766950105,
+        "relative": "9 hours ago"
+      },
+      "status": {
+        "description": "Okay",
+        "details": "",
+        "state": "Okay",
+        "color": "green",
+        "until": 0
+      }
+    },
+    "2862788": {
+      "name": "Pauper",
+      "position": "Cashier",
+      "days_in_company": 12,
+      "manual_labor": 24110,
+      "intelligence": 27934,
+      "endurance": 24507,
+      "effectiveness": {
+        "working_stats": 117,
+        "settled_in": 10,
+        "director_education": 12,
+        "total": 139
+      },
+      "last_action": {
+        "status": "Offline",
+        "timestamp": 1766877348,
+        "relative": "1 day ago"
+      },
+      "status": {
+        "description": "Okay",
+        "details": "",
+        "state": "Okay",
+        "color": "green",
+        "until": 0
+      }
+    },
+    "3051666": {
+      "name": "WolfieStar",
+      "position": "Trainer",
+      "days_in_company": 48,
+      "manual_labor": 10910,
+      "intelligence": 16412,
+      "endurance": 17686,
+      "effectiveness": {
+        "working_stats": 96,
+        "settled_in": 10,
+        "merits": 4,
+        "director_education": 12,
+        "management": 1,
+        "total": 123
+      },
+      "last_action": {
+        "status": "Offline",
+        "timestamp": 1766958250,
+        "relative": "7 hours ago"
+      },
+      "status": {
+        "description": "Okay",
+        "details": "",
+        "state": "Okay",
+        "color": "green",
+        "until": 0
+      }
+    },
+    "3614391": {
+      "name": "FURY-",
+      "position": "Manager",
+      "days_in_company": 52,
+      "manual_labor": 11208,
+      "intelligence": 11512,
+      "endurance": 13064,
+      "effectiveness": {
+        "working_stats": 97,
+        "settled_in": 10,
+        "merits": 4,
+        "director_education": 12,
+        "addiction": -4,
+        "total": 119
+      },
+      "last_action": {
+        "status": "Offline",
+        "timestamp": 1766973023,
+        "relative": "3 hours ago"
+      },
+      "status": {
+        "description": "Okay",
+        "details": "",
+        "state": "Okay",
+        "color": "green",
+        "until": 0
+      }
+    },
+    "3646230": {
+      "name": "PuffelPizza",
+      "position": "Cashier",
+      "days_in_company": 38,
+      "manual_labor": 3120,
+      "intelligence": 2350,
+      "endurance": 4944,
+      "effectiveness": {
+        "working_stats": 90,
+        "settled_in": 10,
+        "director_education": 12,
+        "management": 4,
+        "total": 116
+      },
+      "last_action": {
+        "status": "Offline",
+        "timestamp": 1766946244,
+        "relative": "10 hours ago"
+      },
+      "status": {
+        "description": "Okay",
+        "details": "",
+        "state": "Okay",
+        "color": "green",
+        "until": 0
+      }
+    },
+    "3731177": {
+      "name": "BigSoggy",
+      "position": "Delivery Driver",
+      "days_in_company": 53,
+      "manual_labor": 15663,
+      "intelligence": 762,
+      "endurance": 8625,
+      "effectiveness": {
+        "working_stats": 103,
+        "settled_in": 10,
+        "merits": 6,
+        "director_education": 12,
+        "total": 131
+      },
+      "last_action": {
+        "status": "Offline",
+        "timestamp": 1766982827,
+        "relative": "19 minutes ago"
+      },
+      "status": {
+        "description": "Okay",
+        "details": "",
+        "state": "Okay",
+        "color": "green",
+        "until": 0
+      }
+    },
+    "3896280": {
+      "name": "Gamepad",
+      "position": "Cashier",
+      "days_in_company": 43,
+      "manual_labor": 4284,
+      "intelligence": 5039,
+      "endurance": 2195,
+      "effectiveness": {
+        "working_stats": 90,
+        "settled_in": 10,
+        "director_education": 12,
+        "management": 4,
+        "total": 116
+      },
+      "last_action": {
+        "status": "Offline",
+        "timestamp": 1766957949,
+        "relative": "7 hours ago"
+      },
+      "status": {
+        "description": "Okay",
+        "details": "",
+        "state": "Okay",
+        "color": "green",
+        "until": 0
+      }
+    },
+    "3898110": {
+      "name": "OmenoftheSun",
+      "position": "Cashier",
+      "days_in_company": 54,
+      "manual_labor": 7292,
+      "intelligence": 632,
+      "endurance": 6132,
+      "effectiveness": {
+        "working_stats": 98,
+        "settled_in": 10,
+        "director_education": 12,
+        "management": 2,
+        "total": 122
+      },
+      "last_action": {
+        "status": "Offline",
+        "timestamp": 1766983045,
+        "relative": "15 minutes ago"
+      },
+      "status": {
+        "description": "Okay",
+        "details": "",
+        "state": "Okay",
+        "color": "green",
+        "until": 0
+      }
+    },
+    "4021543": {
+      "name": "Obsessive",
+      "position": "Stock Clerk",
+      "days_in_company": 28,
+      "manual_labor": 1424,
+      "intelligence": 173,
+      "endurance": 815,
+      "effectiveness": {
+        "working_stats": 51,
+        "settled_in": 10,
+        "merits": 6,
+        "director_education": 12,
+        "management": 14,
+        "addiction": -1,
+        "total": 92
+      },
+      "last_action": {
+        "status": "Offline",
+        "timestamp": 1766888487,
+        "relative": "1 day ago"
+      },
+      "status": {
+        "description": "In a South African hospital for 11 mins ",
+        "details": "Mugged by someone",
+        "state": "Hospital",
+        "color": "red",
+        "until": 1766984660
+      }
+    }
+  },
+  "company": {
+    "ID": 120121,
+    "company_type": 12,
+    "rating": 4,
+    "name": "Sweets, Wine and Taurine",
+    "director": 2915891,
+    "employees_hired": 10,
+    "employees_capacity": 12,
+    "daily_income": 1579490,
+    "daily_customers": 21222,
+    "weekly_income": 10950783,
+    "weekly_customers": 148706,
+    "days_old": 54,
+    "employees": {
+      "2381000": {
+        "name": "mmriz16",
+        "position": "Cashier",
+        "days_in_company": 6,
+        "last_action": {
+          "status": "Idle",
+          "timestamp": 1766974759,
+          "relative": "2 hours ago"
+        },
+        "status": {
+          "description": "Returning to Torn from UAE",
+          "details": "",
+          "state": "Traveling",
+          "color": "blue",
+          "until": 0,
+          "plane_image_type": "light_aircraft"
+        }
+      },
+      "2686695": {
+        "name": "dipayan",
+        "position": "Cashier",
+        "days_in_company": 53,
+        "last_action": {
+          "status": "Offline",
+          "timestamp": 1766950105,
+          "relative": "9 hours ago"
+        },
+        "status": {
+          "description": "Okay",
+          "details": "",
+          "state": "Okay",
+          "color": "green",
+          "until": 0
+        }
+      },
+      "2862788": {
+        "name": "Pauper",
+        "position": "Cashier",
+        "days_in_company": 12,
+        "last_action": {
+          "status": "Offline",
+          "timestamp": 1766877348,
+          "relative": "1 day ago"
+        },
+        "status": {
+          "description": "Okay",
+          "details": "",
+          "state": "Okay",
+          "color": "green",
+          "until": 0
+        }
+      },
+      "2915891": {
+        "name": "Ritteruk",
+        "position": "Director",
+        "days_in_company": 54,
+        "last_action": {
+          "status": "Offline",
+          "timestamp": 1766971793,
+          "relative": "3 hours ago"
+        },
+        "status": {
+          "description": "Okay",
+          "details": "",
+          "state": "Okay",
+          "color": "green",
+          "until": 0
+        }
+      },
+      "3051666": {
+        "name": "WolfieStar",
+        "position": "Trainer",
+        "days_in_company": 48,
+        "last_action": {
+          "status": "Offline",
+          "timestamp": 1766958250,
+          "relative": "7 hours ago"
+        },
+        "status": {
+          "description": "Okay",
+          "details": "",
+          "state": "Okay",
+          "color": "green",
+          "until": 0
+        }
+      },
+      "3614391": {
+        "name": "FURY-",
+        "position": "Manager",
+        "days_in_company": 52,
+        "last_action": {
+          "status": "Offline",
+          "timestamp": 1766973023,
+          "relative": "3 hours ago"
+        },
+        "status": {
+          "description": "Okay",
+          "details": "",
+          "state": "Okay",
+          "color": "green",
+          "until": 0
+        }
+      },
+      "3646230": {
+        "name": "PuffelPizza",
+        "position": "Cashier",
+        "days_in_company": 38,
+        "last_action": {
+          "status": "Offline",
+          "timestamp": 1766946244,
+          "relative": "10 hours ago"
+        },
+        "status": {
+          "description": "Okay",
+          "details": "",
+          "state": "Okay",
+          "color": "green",
+          "until": 0
+        }
+      },
+      "3731177": {
+        "name": "BigSoggy",
+        "position": "Delivery Driver",
+        "days_in_company": 53,
+        "last_action": {
+          "status": "Offline",
+          "timestamp": 1766982827,
+          "relative": "19 minutes ago"
+        },
+        "status": {
+          "description": "Okay",
+          "details": "",
+          "state": "Okay",
+          "color": "green",
+          "until": 0
+        }
+      },
+      "3896280": {
+        "name": "Gamepad",
+        "position": "Cashier",
+        "days_in_company": 43,
+        "last_action": {
+          "status": "Offline",
+          "timestamp": 1766957949,
+          "relative": "7 hours ago"
+        },
+        "status": {
+          "description": "Okay",
+          "details": "",
+          "state": "Okay",
+          "color": "green",
+          "until": 0
+        }
+      },
+      "3898110": {
+        "name": "OmenoftheSun",
+        "position": "Cashier",
+        "days_in_company": 54,
+        "last_action": {
+          "status": "Offline",
+          "timestamp": 1766983045,
+          "relative": "15 minutes ago"
+        },
+        "status": {
+          "description": "Okay",
+          "details": "",
+          "state": "Okay",
+          "color": "green",
+          "until": 0
+        }
+      },
+      "4021543": {
+        "name": "Obsessive",
+        "position": "Stock Clerk",
+        "days_in_company": 28,
+        "last_action": {
+          "status": "Offline",
+          "timestamp": 1766888487,
+          "relative": "1 day ago"
+        },
+        "status": {
+          "description": "In a South African hospital for 11 mins ",
+          "details": "Mugged by someone",
+          "state": "Hospital",
+          "color": "red",
+          "until": 1766984660
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,194 @@
+/**
+ * Scheduler Engine
+ * Manages isolated intervals for each auto-runner
+ */
+
+import {
+    getRunnerState,
+    setRunnerState,
+    getMessageId,
+    setMessageId,
+    isRunnerEnabled
+} from './runtimeStateManager.js';
+import { getRunner } from './autoRunRegistry.js';
+import { getAllUsers } from '../userStorage.js';
+
+// Active schedulers (key -> intervalId)
+const activeSchedulers = new Map();
+
+// Handler functions (loaded dynamically)
+const handlers = new Map();
+
+// Discord client reference
+let discordClient = null;
+
+/**
+ * Set Discord client reference
+ */
+export function setSchedulerClient(client) {
+    discordClient = client;
+}
+
+/**
+ * Register a handler function
+ */
+export function registerHandler(key, handlerFn) {
+    handlers.set(key, handlerFn);
+}
+
+/**
+ * Start a scheduler for a runner
+ */
+export async function startScheduler(runnerKey, channelId) {
+    // Guard: Don't start if already running
+    if (activeSchedulers.has(runnerKey)) {
+        console.log(`⚠️ Scheduler already running: ${runnerKey}`);
+        return;
+    }
+
+    const runner = getRunner(runnerKey);
+    if (!runner) {
+        console.error(`❌ Unknown runner: ${runnerKey}`);
+        return;
+    }
+
+    const handler = handlers.get(runner.handler);
+    if (!handler) {
+        console.error(`❌ No handler registered for: ${runner.handler}`);
+        return;
+    }
+
+    console.log(`▶️ Starting scheduler: ${runner.emoji} ${runner.name} (${runner.interval / 1000}s)`);
+
+    // Run immediately
+    await runTick(runnerKey, runner, handler, channelId);
+
+    // Then schedule recurring
+    const intervalId = setInterval(async () => {
+        await runTick(runnerKey, runner, handler, channelId);
+    }, runner.interval);
+
+    activeSchedulers.set(runnerKey, intervalId);
+}
+
+/**
+ * Run a single tick for a runner
+ */
+async function runTick(runnerKey, runner, handler, channelId) {
+    try {
+        // Check if still enabled
+        if (!isRunnerEnabled(runnerKey)) {
+            stopScheduler(runnerKey);
+            return;
+        }
+
+        // Get channel
+        const channel = await discordClient.channels.fetch(channelId).catch(() => null);
+        if (!channel) {
+            console.error(`❌ Channel not found for ${runnerKey}: ${channelId}`);
+            setRunnerState(runnerKey, { enabled: false, error: 'Channel not found' });
+            stopScheduler(runnerKey);
+            return;
+        }
+
+        // Get existing message ID
+        let messageId = getMessageId(runnerKey);
+        let message = null;
+
+        // Try to fetch existing message
+        if (messageId) {
+            try {
+                message = await channel.messages.fetch(messageId);
+            } catch (fetchError) {
+                // Message deleted or invalid - clear the stored ID
+                console.log(`📝 Message not found for ${runnerKey}, will create new`);
+                setMessageId(runnerKey, null);
+                message = null;
+            }
+        }
+
+        // Fetch primary user (assuming single user for now, or use first registered)
+        // We need to import getUser or getAllUsers from userStorage
+        // But we can't easily import from inside this function without moving imports up.
+        // Let's modify the file to import getAllUsers at top.
+
+        // For now, I will rewrite the whole file to include the import and logic.
+        // ... Wait, I can't just inject here without the import.
+        // I will use `replace_file_content` to add import at top and logic here.
+
+        // This tool call is purely for the logic part. I will assume I add the import in a separate chunk or same call if possible.
+        // `replace_file_content` supports only contiguous block.
+        // I'll make this TWO chunks. One for import, one for logic. 
+        // Oh wait, `replace_file_content` is single block. `multi_replace_file_content` is what I need.
+
+        // Actually, let's just use `multi_replace_file_content` to adding import and modifying runTick.
+        // Get primary user
+        const users = getAllUsers(); // Returns Object { id: user }
+        const userList = Object.values(users);
+        const user = userList.length > 0 ? userList[0] : null;
+
+        // Call handler to get embed content (can be single embed or array)
+        const result = await handler(discordClient, user);
+
+        if (!result) {
+            return; // Handler returned nothing (e.g., error)
+        }
+
+        // Handle both single embed and array of embeds
+        const embeds = Array.isArray(result) ? result : [result];
+
+        if (message) {
+            // Edit existing message (use all embeds in one message)
+            await message.edit({ embeds: embeds });
+        } else {
+            // Create new message with all embeds
+            const newMessage = await channel.send({ embeds: embeds });
+            setMessageId(runnerKey, newMessage.id);
+            console.log(`✅ Created new message for ${runnerKey} (${embeds.length} embeds)`);
+        }
+
+        // Update state
+        setRunnerState(runnerKey, { lastRun: Date.now() });
+
+    } catch (error) {
+        console.error(`❌ Error in ${runnerKey} tick:`, error.message);
+        // Don't stop scheduler on error - just skip this tick
+    }
+}
+
+/**
+ * Stop a scheduler
+ */
+export function stopScheduler(runnerKey) {
+    const intervalId = activeSchedulers.get(runnerKey);
+    if (intervalId) {
+        clearInterval(intervalId);
+        activeSchedulers.delete(runnerKey);
+        console.log(`⏹️ Stopped scheduler: ${runnerKey}`);
+    }
+}
+
+/**
+ * Stop all schedulers
+ */
+export function stopAllSchedulers() {
+    for (const [key, intervalId] of activeSchedulers) {
+        clearInterval(intervalId);
+        console.log(`⏹️ Stopped scheduler: ${key}`);
+    }
+    activeSchedulers.clear();
+}
+
+/**
+ * Get list of active schedulers
+ */
+export function getActiveSchedulers() {
+    return Array.from(activeSchedulers.keys());
+}
+
+/**
+ * Check if scheduler is running
+ */
+export function isSchedulerRunning(runnerKey) {
+    return activeSchedulers.has(runnerKey);
+}

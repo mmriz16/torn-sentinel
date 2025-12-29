@@ -1,0 +1,76 @@
+{
+  "shoplifting": {
+    "sallys_sweet_shop": [
+      {
+        "title": "One camera",
+        "disabled": false
+      }
+    ],
+    "Bits_n_bobs": [
+      {
+        "title": "Two cameras",
+        "disabled": false
+      }
+    ],
+    "tc_clothing": [
+      {
+        "title": "One camera",
+        "disabled": false
+      },
+      {
+        "title": "Checkpoint",
+        "disabled": false
+      }
+    ],
+    "super_store": [
+      {
+        "title": "Two cameras",
+        "disabled": false
+      },
+      {
+        "title": "Checkpoint",
+        "disabled": false
+      }
+    ],
+    "cyber_force": [
+      {
+        "title": "Two cameras",
+        "disabled": false
+      },
+      {
+        "title": "One guard",
+        "disabled": false
+      }
+    ],
+    "pharmacy": [
+      {
+        "title": "Three cameras",
+        "disabled": false
+      },
+      {
+        "title": "Checkpoint",
+        "disabled": false
+      }
+    ],
+    "big_als": [
+      {
+        "title": "Four cameras",
+        "disabled": false
+      },
+      {
+        "title": "Two guards",
+        "disabled": false
+      }
+    ],
+    "jewelry_store": [
+      {
+        "title": "Three cameras",
+        "disabled": false
+      },
+      {
+        "title": "One guard",
+        "disabled": false
+      }
+    ]
+  }
+}

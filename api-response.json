@@ -1,0 +1,45 @@
+{
+  "profile": {
+    "id": 2381000,
+    "name": "mmriz16",
+    "level": 15,
+    "rank": "Average",
+    "title": "Intimidator",
+    "age": 2299,
+    "signed_up": 1568291736,
+    "faction_id": 51896,
+    "honor_id": 20,
+    "property": {
+      "id": 5819211,
+      "name": "Private Island"
+    },
+    "donator_status": null,
+    "image": "https://profileimages.torn.com/7dc51b28-55c5-4806-8bd4-3d11c7181ff4-2381000.png",
+    "gender": "Male",
+    "revivable": false,
+    "role": "Civilian",
+    "status": {
+      "description": "Returning to Torn from UAE",
+      "details": null,
+      "state": "Traveling",
+      "color": "blue",
+      "until": null,
+      "plane_image_type": "light_aircraft"
+    },
+    "spouse": null,
+    "awards": 41,
+    "friends": 0,
+    "enemies": 0,
+    "forum_posts": 1,
+    "karma": 0,
+    "last_action": {
+      "status": "Idle",
+      "timestamp": 1766974723,
+      "relative": "2 hours ago"
+    },
+    "life": {
+      "current": 625,
+      "maximum": 625
+    }
+  }
+}

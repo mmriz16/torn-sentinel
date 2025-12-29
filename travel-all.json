@@ -1,0 +1,2521 @@
+{
+  "meta": {
+    "source": "tornstats.com/travel",
+    "generated_at": "2025-12-29T09:18:17.313Z",
+    "flight_mode": "airstrip"
+  },
+  "items": [
+    {
+      "item_id": 4,
+      "name": "Knuckle Dusters",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 750,
+      "market_price": 242,
+      "profit": -508,
+      "profit_per_min": -1.22,
+      "you_own": 0
+    },
+    {
+      "item_id": 8,
+      "name": "Axe",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 4200,
+      "market_price": 2097,
+      "profit": -2103,
+      "profit_per_min": -58.42,
+      "you_own": 0
+    },
+    {
+      "item_id": 11,
+      "name": "Samurai Sword",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 75000,
+      "market_price": 52604,
+      "profit": -22396,
+      "profit_per_min": -622.11,
+      "you_own": 0
+    },
+    {
+      "item_id": 20,
+      "name": "Desert Eagle",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 45000,
+      "market_price": 35147,
+      "profit": -9853,
+      "profit_per_min": -273.69,
+      "you_own": 0
+    },
+    {
+      "item_id": 26,
+      "name": "AK-47",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 15000,
+      "market_price": 9541,
+      "profit": -5459,
+      "profit_per_min": -151.64,
+      "you_own": 0
+    },
+    {
+      "item_id": 31,
+      "name": "M249 SAW",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 950000,
+      "market_price": 676069,
+      "profit": -273931,
+      "profit_per_min": -7609.19,
+      "you_own": 0
+    },
+    {
+      "item_id": 50,
+      "name": "Outer Tactical Vest",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 1000000,
+      "market_price": 749110,
+      "profit": -250890,
+      "profit_per_min": -6969.17,
+      "you_own": 0
+    },
+    {
+      "item_id": 63,
+      "name": "Minigun",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 3000000,
+      "market_price": 1327105,
+      "profit": -1672895,
+      "profit_per_min": -46469.31,
+      "you_own": 0
+    },
+    {
+      "item_id": 99,
+      "name": "Springfield 1911",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 430,
+      "market_price": 666,
+      "profit": 236,
+      "profit_per_min": 6.56,
+      "you_own": 0
+    },
+    {
+      "item_id": 107,
+      "name": "Trench Coat",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 500000,
+      "market_price": 322189,
+      "profit": -177811,
+      "profit_per_min": -4939.19,
+      "you_own": 0
+    },
+    {
+      "item_id": 110,
+      "name": "Leather Bullwhip",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 1500,
+      "market_price": 623,
+      "profit": -877,
+      "profit_per_min": -24.36,
+      "you_own": 0
+    },
+    {
+      "item_id": 111,
+      "name": "Ninja Claws",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 8000,
+      "market_price": 4675,
+      "profit": -3325,
+      "profit_per_min": -92.36,
+      "you_own": 0
+    },
+    {
+      "item_id": 159,
+      "name": "Bolt Cutters",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 25,
+      "market_price": 452,
+      "profit": 427,
+      "profit_per_min": 11.86,
+      "you_own": 0
+    },
+    {
+      "item_id": 175,
+      "name": "Taser",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 5500,
+      "market_price": 3519,
+      "profit": -1981,
+      "profit_per_min": -55.03,
+      "you_own": 0
+    },
+    {
+      "item_id": 177,
+      "name": "Cobra Derringer",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 70000,
+      "market_price": 54367,
+      "profit": -15633,
+      "profit_per_min": -434.25,
+      "you_own": 0
+    },
+    {
+      "item_id": 178,
+      "name": "Flak Jacket",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 7500,
+      "market_price": 4410,
+      "profit": -3090,
+      "profit_per_min": -85.83,
+      "you_own": 0
+    },
+    {
+      "item_id": 217,
+      "name": "Claymore Sword",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 100000,
+      "market_price": 73384,
+      "profit": -26616,
+      "profit_per_min": -119.89,
+      "you_own": 0
+    },
+    {
+      "item_id": 218,
+      "name": "Crossbow",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 900,
+      "market_price": 658,
+      "profit": -242,
+      "profit_per_min": -1.09,
+      "you_own": 0
+    },
+    {
+      "item_id": 219,
+      "name": "Enfield SA-80",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 250000,
+      "market_price": 236141,
+      "profit": -13859,
+      "profit_per_min": -62.43,
+      "you_own": 0
+    },
+    {
+      "item_id": 220,
+      "name": "Grenade",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 10000,
+      "market_price": 7001,
+      "profit": -2999,
+      "profit_per_min": -13.51,
+      "you_own": 0
+    },
+    {
+      "item_id": 221,
+      "name": "Stick Grenade",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 8000,
+      "market_price": 11685,
+      "profit": 3685,
+      "profit_per_min": 16.6,
+      "you_own": 0
+    },
+    {
+      "item_id": 222,
+      "name": "Flash Grenade",
+      "country": "Switzerland",
+      "flight_time": {
+        "standard": 175,
+        "airstrip": 123,
+        "private": 88,
+        "business": 53
+      },
+      "buy_price": 12000,
+      "market_price": 18797,
+      "profit": 6797,
+      "profit_per_min": 27.63,
+      "you_own": 0
+    },
+    {
+      "item_id": 223,
+      "name": "Jackhammer",
+      "country": "Switzerland",
+      "flight_time": {
+        "standard": 175,
+        "airstrip": 123,
+        "private": 88,
+        "business": 53
+      },
+      "buy_price": 5000000,
+      "market_price": 4129444,
+      "profit": -870556,
+      "profit_per_min": -3538.85,
+      "you_own": 0
+    },
+    {
+      "item_id": 224,
+      "name": "Swiss Army Knife",
+      "country": "Switzerland",
+      "flight_time": {
+        "standard": 175,
+        "airstrip": 123,
+        "private": 88,
+        "business": 53
+      },
+      "buy_price": 2500,
+      "market_price": 1726,
+      "profit": -774,
+      "profit_per_min": -3.15,
+      "you_own": 0
+    },
+    {
+      "item_id": 225,
+      "name": "Mag 7",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 60000,
+      "market_price": 53581,
+      "profit": -6419,
+      "profit_per_min": -15.43,
+      "you_own": 0
+    },
+    {
+      "item_id": 226,
+      "name": "Smoke Grenade",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 20000,
+      "market_price": 78408,
+      "profit": 58408,
+      "profit_per_min": 140.4,
+      "you_own": 0
+    },
+    {
+      "item_id": 227,
+      "name": "Spear",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 600,
+      "market_price": 327,
+      "profit": -273,
+      "profit_per_min": -0.66,
+      "you_own": 0
+    },
+    {
+      "item_id": 228,
+      "name": "Vektor CR-21",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 7500,
+      "market_price": 6667,
+      "profit": -833,
+      "profit_per_min": -2,
+      "you_own": 0
+    },
+    {
+      "item_id": 229,
+      "name": "Claymore Mine",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 15000,
+      "market_price": 14879,
+      "profit": -121,
+      "profit_per_min": -3.36,
+      "you_own": 0
+    },
+    {
+      "item_id": 230,
+      "name": "Flare Gun",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 300,
+      "market_price": 155,
+      "profit": -145,
+      "profit_per_min": -4.03,
+      "you_own": 0
+    },
+    {
+      "item_id": 231,
+      "name": "Heckler & Koch SL8",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 45000,
+      "market_price": 34308,
+      "profit": -10692,
+      "profit_per_min": -297,
+      "you_own": 0
+    },
+    {
+      "item_id": 232,
+      "name": "SIG 550",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 0,
+      "market_price": 55050,
+      "profit": 55050,
+      "profit_per_min": 1529.17,
+      "you_own": 0
+    },
+    {
+      "item_id": 233,
+      "name": "BT MP9",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 55000,
+      "market_price": 46891,
+      "profit": -8109,
+      "profit_per_min": -25.66,
+      "you_own": 0
+    },
+    {
+      "item_id": 234,
+      "name": "Chain Whip",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 2500,
+      "market_price": 3353,
+      "profit": 853,
+      "profit_per_min": 2.7,
+      "you_own": 0
+    },
+    {
+      "item_id": 235,
+      "name": "Wooden Nunchaku",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 5000,
+      "market_price": 4199,
+      "profit": -801,
+      "profit_per_min": -2.53,
+      "you_own": 0
+    },
+    {
+      "item_id": 236,
+      "name": "Kama",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 50000,
+      "market_price": 39106,
+      "profit": -10894,
+      "profit_per_min": -34.47,
+      "you_own": 0
+    },
+    {
+      "item_id": 237,
+      "name": "Kodachi",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 95000,
+      "market_price": 92442,
+      "profit": -2558,
+      "profit_per_min": -8.09,
+      "you_own": 0
+    },
+    {
+      "item_id": 238,
+      "name": "Sai",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 1000,
+      "market_price": 678,
+      "profit": -322,
+      "profit_per_min": -1.02,
+      "you_own": 0
+    },
+    {
+      "item_id": 239,
+      "name": "Ninja Star",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 500,
+      "market_price": 961,
+      "profit": 461,
+      "profit_per_min": 1.46,
+      "you_own": 0
+    },
+    {
+      "item_id": 240,
+      "name": "Type 98 Anti Tank",
+      "country": "Hawaii",
+      "flight_time": {
+        "standard": 134,
+        "airstrip": 94,
+        "private": 67,
+        "business": 40
+      },
+      "buy_price": 25000000,
+      "market_price": 17190251,
+      "profit": -7809749,
+      "profit_per_min": -41541.22,
+      "you_own": 0
+    },
+    {
+      "item_id": 241,
+      "name": "Bushmaster Carbon 15",
+      "country": "Hawaii",
+      "flight_time": {
+        "standard": 134,
+        "airstrip": 94,
+        "private": 67,
+        "business": 40
+      },
+      "buy_price": 15000,
+      "market_price": 9944,
+      "profit": -5056,
+      "profit_per_min": -26.89,
+      "you_own": 0
+    },
+    {
+      "item_id": 242,
+      "name": "HEG",
+      "country": "Hawaii",
+      "flight_time": {
+        "standard": 134,
+        "airstrip": 94,
+        "private": 67,
+        "business": 40
+      },
+      "buy_price": 20000,
+      "market_price": 15001,
+      "profit": -4999,
+      "profit_per_min": -26.59,
+      "you_own": 0
+    },
+    {
+      "item_id": 243,
+      "name": "Taurus",
+      "country": "Hawaii",
+      "flight_time": {
+        "standard": 134,
+        "airstrip": 94,
+        "private": 67,
+        "business": 40
+      },
+      "buy_price": 650,
+      "market_price": 367,
+      "profit": -283,
+      "profit_per_min": -1.51,
+      "you_own": 0
+    },
+    {
+      "item_id": 244,
+      "name": "Blowgun",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 2500,
+      "market_price": 2001,
+      "profit": -499,
+      "profit_per_min": -1.48,
+      "you_own": 0
+    },
+    {
+      "item_id": 245,
+      "name": "Bo Staff",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 500,
+      "market_price": 271,
+      "profit": -229,
+      "profit_per_min": -0.68,
+      "you_own": 0
+    },
+    {
+      "item_id": 246,
+      "name": "Fireworks",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 500,
+      "market_price": 510,
+      "profit": 10,
+      "profit_per_min": 0.03,
+      "you_own": 0
+    },
+    {
+      "item_id": 247,
+      "name": "Katana",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 16000,
+      "market_price": 12614,
+      "profit": -3386,
+      "profit_per_min": -10.02,
+      "you_own": 0
+    },
+    {
+      "item_id": 248,
+      "name": "Qsz-92",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 90000,
+      "market_price": 69716,
+      "profit": -20284,
+      "profit_per_min": -60.01,
+      "you_own": 0
+    },
+    {
+      "item_id": 249,
+      "name": "SKS Carbine",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 6500,
+      "market_price": 5006,
+      "profit": -1494,
+      "profit_per_min": -4.42,
+      "you_own": 0
+    },
+    {
+      "item_id": 250,
+      "name": "Twin Tiger Hooks",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 50000,
+      "market_price": 76667,
+      "profit": 26667,
+      "profit_per_min": 78.9,
+      "you_own": 0
+    },
+    {
+      "item_id": 251,
+      "name": "Wushu Double Axes",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 75000,
+      "market_price": 85192,
+      "profit": 10192,
+      "profit_per_min": 30.15,
+      "you_own": 0
+    },
+    {
+      "item_id": 252,
+      "name": "Ithaca 37",
+      "country": "Canada",
+      "flight_time": {
+        "standard": 41,
+        "airstrip": 29,
+        "private": 20,
+        "business": 12
+      },
+      "buy_price": 10000,
+      "market_price": 6856,
+      "profit": -3144,
+      "profit_per_min": -54.21,
+      "you_own": 0
+    },
+    {
+      "item_id": 253,
+      "name": "Lorcin 380",
+      "country": "Canada",
+      "flight_time": {
+        "standard": 41,
+        "airstrip": 29,
+        "private": 20,
+        "business": 12
+      },
+      "buy_price": 300,
+      "market_price": 215,
+      "profit": -85,
+      "profit_per_min": -1.47,
+      "you_own": 0
+    },
+    {
+      "item_id": 254,
+      "name": "S&W M29",
+      "country": "Canada",
+      "flight_time": {
+        "standard": 41,
+        "airstrip": 29,
+        "private": 20,
+        "business": 12
+      },
+      "buy_price": 0,
+      "market_price": 244129,
+      "profit": 244129,
+      "profit_per_min": 4209.12,
+      "you_own": 0
+    },
+    {
+      "item_id": 255,
+      "name": "Flamethrower",
+      "country": "Argentina",
+      "flight_time": {
+        "standard": 167,
+        "airstrip": 117,
+        "private": 83,
+        "business": 50
+      },
+      "buy_price": 3000000,
+      "market_price": 2967917,
+      "profit": -32083,
+      "profit_per_min": -137.11,
+      "you_own": 0
+    },
+    {
+      "item_id": 256,
+      "name": "Tear Gas",
+      "country": "Argentina",
+      "flight_time": {
+        "standard": 167,
+        "airstrip": 117,
+        "private": 83,
+        "business": 50
+      },
+      "buy_price": 15000,
+      "market_price": 44272,
+      "profit": 29272,
+      "profit_per_min": 125.09,
+      "you_own": 0
+    },
+    {
+      "item_id": 257,
+      "name": "Throwing Knife",
+      "country": "Argentina",
+      "flight_time": {
+        "standard": 167,
+        "airstrip": 117,
+        "private": 83,
+        "business": 50
+      },
+      "buy_price": 35000,
+      "market_price": 29584,
+      "profit": -5416,
+      "profit_per_min": -23.15,
+      "you_own": 0
+    },
+    {
+      "item_id": 258,
+      "name": "Jaguar Plushie",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 10000,
+      "market_price": 14537,
+      "profit": 4537,
+      "profit_per_min": 126.03,
+      "you_own": 0
+    },
+    {
+      "item_id": 259,
+      "name": "Mayan Statue",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 500,
+      "market_price": 2691,
+      "profit": 2191,
+      "profit_per_min": 60.86,
+      "you_own": 0
+    },
+    {
+      "item_id": 260,
+      "name": "Dahlia",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 300,
+      "market_price": 1414,
+      "profit": 1114,
+      "profit_per_min": 30.94,
+      "you_own": 0
+    },
+    {
+      "item_id": 261,
+      "name": "Wolverine Plushie",
+      "country": "Canada",
+      "flight_time": {
+        "standard": 41,
+        "airstrip": 29,
+        "private": 20,
+        "business": 12
+      },
+      "buy_price": 30,
+      "market_price": 6038,
+      "profit": 6008,
+      "profit_per_min": 103.59,
+      "you_own": 0
+    },
+    {
+      "item_id": 262,
+      "name": "Hockey Stick",
+      "country": "Canada",
+      "flight_time": {
+        "standard": 41,
+        "airstrip": 29,
+        "private": 20,
+        "business": 12
+      },
+      "buy_price": 400,
+      "market_price": 3344,
+      "profit": 2944,
+      "profit_per_min": 50.76,
+      "you_own": 0
+    },
+    {
+      "item_id": 263,
+      "name": "Crocus",
+      "country": "Canada",
+      "flight_time": {
+        "standard": 41,
+        "airstrip": 29,
+        "private": 20,
+        "business": 12
+      },
+      "buy_price": 600,
+      "market_price": 4262,
+      "profit": 3662,
+      "profit_per_min": 63.14,
+      "you_own": 0
+    },
+    {
+      "item_id": 264,
+      "name": "Orchid",
+      "country": "Hawaii",
+      "flight_time": {
+        "standard": 134,
+        "airstrip": 94,
+        "private": 67,
+        "business": 40
+      },
+      "buy_price": 700,
+      "market_price": 13192,
+      "profit": 12492,
+      "profit_per_min": 66.45,
+      "you_own": 0
+    },
+    {
+      "item_id": 265,
+      "name": "Pele Charm",
+      "country": "Hawaii",
+      "flight_time": {
+        "standard": 134,
+        "airstrip": 94,
+        "private": 67,
+        "business": 40
+      },
+      "buy_price": 2000,
+      "market_price": 5673,
+      "profit": 3673,
+      "profit_per_min": 19.54,
+      "you_own": 0
+    },
+    {
+      "item_id": 266,
+      "name": "Nessie Plushie",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 200,
+      "market_price": 31387,
+      "profit": 31187,
+      "profit_per_min": 140.48,
+      "you_own": 0
+    },
+    {
+      "item_id": 267,
+      "name": "Heather",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 5000,
+      "market_price": 37506,
+      "profit": 32506,
+      "profit_per_min": 146.42,
+      "you_own": 0
+    },
+    {
+      "item_id": 268,
+      "name": "Red Fox Plushie",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 1000,
+      "market_price": 32134,
+      "profit": 31134,
+      "profit_per_min": 140.24,
+      "you_own": 0
+    },
+    {
+      "item_id": 269,
+      "name": "Monkey Plushie",
+      "country": "Argentina",
+      "flight_time": {
+        "standard": 167,
+        "airstrip": 117,
+        "private": 83,
+        "business": 50
+      },
+      "buy_price": 400,
+      "market_price": 32701,
+      "profit": 32301,
+      "profit_per_min": 138.04,
+      "you_own": 0
+    },
+    {
+      "item_id": 270,
+      "name": "Soccer Ball",
+      "country": "Argentina",
+      "flight_time": {
+        "standard": 167,
+        "airstrip": 117,
+        "private": 83,
+        "business": 50
+      },
+      "buy_price": 50,
+      "market_price": 945,
+      "profit": 895,
+      "profit_per_min": 3.82,
+      "you_own": 0
+    },
+    {
+      "item_id": 271,
+      "name": "Ceibo Flower",
+      "country": "Argentina",
+      "flight_time": {
+        "standard": 167,
+        "airstrip": 117,
+        "private": 83,
+        "business": 50
+      },
+      "buy_price": 500,
+      "market_price": 29637,
+      "profit": 29137,
+      "profit_per_min": 124.52,
+      "you_own": 0
+    },
+    {
+      "item_id": 272,
+      "name": "Edelweiss",
+      "country": "Switzerland",
+      "flight_time": {
+        "standard": 175,
+        "airstrip": 123,
+        "private": 88,
+        "business": 53
+      },
+      "buy_price": 900,
+      "market_price": 3696,
+      "profit": 2796,
+      "profit_per_min": 11.37,
+      "you_own": 0
+    },
+    {
+      "item_id": 273,
+      "name": "Chamois Plushie",
+      "country": "Switzerland",
+      "flight_time": {
+        "standard": 175,
+        "airstrip": 123,
+        "private": 88,
+        "business": 53
+      },
+      "buy_price": 400,
+      "market_price": 8523,
+      "profit": 8123,
+      "profit_per_min": 33.02,
+      "you_own": 0
+    },
+    {
+      "item_id": 274,
+      "name": "Panda Plushie",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 400,
+      "market_price": 59238,
+      "profit": 58838,
+      "profit_per_min": 174.08,
+      "you_own": 0
+    },
+    {
+      "item_id": 275,
+      "name": "Jade Buddha",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 12000,
+      "market_price": 12566,
+      "profit": 566,
+      "profit_per_min": 1.67,
+      "you_own": 0
+    },
+    {
+      "item_id": 276,
+      "name": "Peony",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 5000,
+      "market_price": 62022,
+      "profit": 57022,
+      "profit_per_min": 168.7,
+      "you_own": 0
+    },
+    {
+      "item_id": 277,
+      "name": "Cherry Blossom",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 500,
+      "market_price": 45025,
+      "profit": 44525,
+      "profit_per_min": 140.9,
+      "you_own": 0
+    },
+    {
+      "item_id": 278,
+      "name": "Kabuki Mask",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 10000,
+      "market_price": 21294,
+      "profit": 11294,
+      "profit_per_min": 35.74,
+      "you_own": 0
+    },
+    {
+      "item_id": 279,
+      "name": "Maneki Neko",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 50000,
+      "market_price": 35028,
+      "profit": -14972,
+      "profit_per_min": -47.38,
+      "you_own": 0
+    },
+    {
+      "item_id": 280,
+      "name": "Elephant Statue",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 500,
+      "market_price": 9882,
+      "profit": 9382,
+      "profit_per_min": 22.55,
+      "you_own": 0
+    },
+    {
+      "item_id": 281,
+      "name": "Lion Plushie",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 400,
+      "market_price": 60015,
+      "profit": 59615,
+      "profit_per_min": 143.31,
+      "you_own": 0
+    },
+    {
+      "item_id": 282,
+      "name": "African Violet",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 2000,
+      "market_price": 60160,
+      "profit": 58160,
+      "profit_per_min": 139.81,
+      "you_own": 0
+    },
+    {
+      "item_id": 294,
+      "name": "Bottle of Sake",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 39,
+      "market_price": 1787,
+      "profit": 1748,
+      "profit_per_min": 5.53,
+      "you_own": 0
+    },
+    {
+      "item_id": 326,
+      "name": "Printing Paper",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 75000,
+      "market_price": 61311,
+      "profit": -13689,
+      "profit_per_min": -40.5,
+      "you_own": 0
+    },
+    {
+      "item_id": 327,
+      "name": "Blank Tokens",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 20000,
+      "market_price": 43026,
+      "profit": 23026,
+      "profit_per_min": 639.61,
+      "you_own": 0
+    },
+    {
+      "item_id": 328,
+      "name": "PVC Cards",
+      "country": "Canada",
+      "flight_time": {
+        "standard": 41,
+        "airstrip": 29,
+        "private": 20,
+        "business": 12
+      },
+      "buy_price": 12500,
+      "market_price": 13265,
+      "profit": 765,
+      "profit_per_min": 13.19,
+      "you_own": 0
+    },
+    {
+      "item_id": 332,
+      "name": "Combat Vest",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 3500000,
+      "market_price": 3510643,
+      "profit": 10643,
+      "profit_per_min": 25.58,
+      "you_own": 0
+    },
+    {
+      "item_id": 333,
+      "name": "Liquid Body Armor",
+      "country": "Argentina",
+      "flight_time": {
+        "standard": 167,
+        "airstrip": 117,
+        "private": 83,
+        "business": 50
+      },
+      "buy_price": 7500000,
+      "market_price": 5632640,
+      "profit": -1867360,
+      "profit_per_min": -7980.17,
+      "you_own": 0
+    },
+    {
+      "item_id": 334,
+      "name": "Flexible Body Armor",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 15000000,
+      "market_price": 9978439,
+      "profit": -5021561,
+      "profit_per_min": -15891.02,
+      "you_own": 0
+    },
+    {
+      "item_id": 335,
+      "name": "Stick of Dynamite",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 50000,
+      "market_price": 31212,
+      "profit": -18788,
+      "profit_per_min": -55.59,
+      "you_own": 0
+    },
+    {
+      "item_id": 361,
+      "name": "Neumune Tablet",
+      "country": "Switzerland",
+      "flight_time": {
+        "standard": 175,
+        "airstrip": 123,
+        "private": 88,
+        "business": 53
+      },
+      "buy_price": 900000,
+      "market_price": 1177196,
+      "profit": 277196,
+      "profit_per_min": 1126.81,
+      "you_own": 0
+    },
+    {
+      "item_id": 381,
+      "name": "Gold Laptop",
+      "country": "UAE",
+      "flight_time": {
+        "standard": 271,
+        "airstrip": 190,
+        "private": 135,
+        "business": 81
+      },
+      "buy_price": 8000000000,
+      "market_price": 0,
+      "profit": -8000000000,
+      "profit_per_min": -21052631.58,
+      "you_own": 0
+    },
+    {
+      "item_id": 382,
+      "name": "Gold Plated AK-47",
+      "country": "UAE",
+      "flight_time": {
+        "standard": 271,
+        "airstrip": 190,
+        "private": 135,
+        "business": 81
+      },
+      "buy_price": 25000000000,
+      "market_price": 0,
+      "profit": -25000000000,
+      "profit_per_min": -65789473.68,
+      "you_own": 0
+    },
+    {
+      "item_id": 383,
+      "name": "Digital Organizer",
+      "country": "UAE",
+      "flight_time": {
+        "standard": 271,
+        "airstrip": 190,
+        "private": 135,
+        "business": 81
+      },
+      "buy_price": 12000000000,
+      "market_price": 0,
+      "profit": -12000000000,
+      "profit_per_min": -31578947.37,
+      "you_own": 0
+    },
+    {
+      "item_id": 384,
+      "name": "Camel Plushie",
+      "country": "UAE",
+      "flight_time": {
+        "standard": 271,
+        "airstrip": 190,
+        "private": 135,
+        "business": 81
+      },
+      "buy_price": 14000,
+      "market_price": 77472,
+      "profit": 63472,
+      "profit_per_min": 167.03,
+      "you_own": 0
+    },
+    {
+      "item_id": 385,
+      "name": "Tribulus Omanense",
+      "country": "UAE",
+      "flight_time": {
+        "standard": 271,
+        "airstrip": 190,
+        "private": 135,
+        "business": 81
+      },
+      "buy_price": 6000,
+      "market_price": 65362,
+      "profit": 59362,
+      "profit_per_min": 156.22,
+      "you_own": 0
+    },
+    {
+      "item_id": 386,
+      "name": "Sports Sneakers",
+      "country": "UAE",
+      "flight_time": {
+        "standard": 271,
+        "airstrip": 190,
+        "private": 135,
+        "business": 81
+      },
+      "buy_price": 14000000000,
+      "market_price": 0,
+      "profit": -14000000000,
+      "profit_per_min": -36842105.26,
+      "you_own": 0
+    },
+    {
+      "item_id": 387,
+      "name": "Handbag",
+      "country": "UAE",
+      "flight_time": {
+        "standard": 271,
+        "airstrip": 190,
+        "private": 135,
+        "business": 81
+      },
+      "buy_price": 16000000000,
+      "market_price": 0,
+      "profit": -16000000000,
+      "profit_per_min": -42105263.16,
+      "you_own": 0
+    },
+    {
+      "item_id": 388,
+      "name": "Pink Mac-10",
+      "country": "UAE",
+      "flight_time": {
+        "standard": 271,
+        "airstrip": 190,
+        "private": 135,
+        "business": 81
+      },
+      "buy_price": 23000000000,
+      "market_price": 0,
+      "profit": -23000000000,
+      "profit_per_min": -60526315.79,
+      "you_own": 0
+    },
+    {
+      "item_id": 391,
+      "name": "Macana",
+      "country": "Argentina",
+      "flight_time": {
+        "standard": 167,
+        "airstrip": 117,
+        "private": 83,
+        "business": 50
+      },
+      "buy_price": 100000,
+      "market_price": 99744,
+      "profit": -256,
+      "profit_per_min": -1.09,
+      "you_own": 0
+    },
+    {
+      "item_id": 395,
+      "name": "Metal Nunchaku",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 400000,
+      "market_price": 348631,
+      "profit": -51369,
+      "profit_per_min": -162.56,
+      "you_own": 0
+    },
+    {
+      "item_id": 397,
+      "name": "Flail",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 8000000,
+      "market_price": 0,
+      "profit": -8000000,
+      "profit_per_min": -36036.04,
+      "you_own": 0
+    },
+    {
+      "item_id": 398,
+      "name": "SIG 552",
+      "country": "Switzerland",
+      "flight_time": {
+        "standard": 175,
+        "airstrip": 123,
+        "private": 88,
+        "business": 53
+      },
+      "buy_price": 7500000,
+      "market_price": 4626666,
+      "profit": -2873334,
+      "profit_per_min": -11680.22,
+      "you_own": 0
+    },
+    {
+      "item_id": 399,
+      "name": "ArmaLite M-15A4",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 20000000,
+      "market_price": 20266296,
+      "profit": 266296,
+      "profit_per_min": 7397.11,
+      "you_own": 0
+    },
+    {
+      "item_id": 400,
+      "name": "Guandao",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 200000,
+      "market_price": 148162,
+      "profit": -51838,
+      "profit_per_min": -153.37,
+      "you_own": 0
+    },
+    {
+      "item_id": 402,
+      "name": "Ice Pick",
+      "country": "Canada",
+      "flight_time": {
+        "standard": 41,
+        "airstrip": 29,
+        "private": 20,
+        "business": 12
+      },
+      "buy_price": 20000,
+      "market_price": 14144,
+      "profit": -5856,
+      "profit_per_min": -100.97,
+      "you_own": 0
+    },
+    {
+      "item_id": 406,
+      "name": "Afro Comb",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 50000,
+      "market_price": 29811,
+      "profit": -20189,
+      "profit_per_min": -48.53,
+      "you_own": 0
+    },
+    {
+      "item_id": 407,
+      "name": "Compass",
+      "country": "Argentina",
+      "flight_time": {
+        "standard": 167,
+        "airstrip": 117,
+        "private": 83,
+        "business": 50
+      },
+      "buy_price": 2500,
+      "market_price": 12054,
+      "profit": 9554,
+      "profit_per_min": 40.83,
+      "you_own": 0
+    },
+    {
+      "item_id": 408,
+      "name": "Sextant",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 25000,
+      "market_price": 19939,
+      "profit": -5061,
+      "profit_per_min": -22.8,
+      "you_own": 0
+    },
+    {
+      "item_id": 409,
+      "name": "Yucca Plant",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 20000,
+      "market_price": 7079,
+      "profit": -12921,
+      "profit_per_min": -358.92,
+      "you_own": 0
+    },
+    {
+      "item_id": 410,
+      "name": "Fire Hydrant",
+      "country": "Canada",
+      "flight_time": {
+        "standard": 41,
+        "airstrip": 29,
+        "private": 20,
+        "business": 12
+      },
+      "buy_price": 20000,
+      "market_price": 16612,
+      "profit": -3388,
+      "profit_per_min": -58.41,
+      "you_own": 0
+    },
+    {
+      "item_id": 411,
+      "name": "Model Space Ship",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 17500,
+      "market_price": 15068,
+      "profit": -2432,
+      "profit_per_min": -10.95,
+      "you_own": 0
+    },
+    {
+      "item_id": 412,
+      "name": "Sports Shades",
+      "country": "UAE",
+      "flight_time": {
+        "standard": 271,
+        "airstrip": 190,
+        "private": 135,
+        "business": 81
+      },
+      "buy_price": 10000,
+      "market_price": 2817,
+      "profit": -7183,
+      "profit_per_min": -18.9,
+      "you_own": 0
+    },
+    {
+      "item_id": 413,
+      "name": "Mountie Hat",
+      "country": "Canada",
+      "flight_time": {
+        "standard": 41,
+        "airstrip": 29,
+        "private": 20,
+        "business": 12
+      },
+      "buy_price": 30000,
+      "market_price": 21763,
+      "profit": -8237,
+      "profit_per_min": -142.02,
+      "you_own": 0
+    },
+    {
+      "item_id": 414,
+      "name": "Proda Sunglasses",
+      "country": "UAE",
+      "flight_time": {
+        "standard": 271,
+        "airstrip": 190,
+        "private": 135,
+        "business": 81
+      },
+      "buy_price": 100000,
+      "market_price": 1833,
+      "profit": -98167,
+      "profit_per_min": -258.33,
+      "you_own": 0
+    },
+    {
+      "item_id": 415,
+      "name": "Ship in a Bottle",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 40000,
+      "market_price": 31195,
+      "profit": -8805,
+      "profit_per_min": -39.66,
+      "you_own": 0
+    },
+    {
+      "item_id": 416,
+      "name": "Paper Weight",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 1500,
+      "market_price": 1562,
+      "profit": 62,
+      "profit_per_min": 0.28,
+      "you_own": 0
+    },
+    {
+      "item_id": 418,
+      "name": "Tailor's Dummy",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 10000,
+      "market_price": 7216,
+      "profit": -2784,
+      "profit_per_min": -12.54,
+      "you_own": 0
+    },
+    {
+      "item_id": 419,
+      "name": "Small Suitcase",
+      "country": "Hawaii",
+      "flight_time": {
+        "standard": 134,
+        "airstrip": 94,
+        "private": 67,
+        "business": 40
+      },
+      "buy_price": 2000000,
+      "market_price": 1051306,
+      "profit": -948694,
+      "profit_per_min": -5046.24,
+      "you_own": 0
+    },
+    {
+      "item_id": 420,
+      "name": "Medium Suitcase",
+      "country": "Hawaii",
+      "flight_time": {
+        "standard": 134,
+        "airstrip": 94,
+        "private": 67,
+        "business": 40
+      },
+      "buy_price": 4000000,
+      "market_price": 4000361,
+      "profit": 361,
+      "profit_per_min": 1.92,
+      "you_own": 0
+    },
+    {
+      "item_id": 421,
+      "name": "Large Suitcase",
+      "country": "Hawaii",
+      "flight_time": {
+        "standard": 134,
+        "airstrip": 94,
+        "private": 67,
+        "business": 40
+      },
+      "buy_price": 10000000,
+      "market_price": 10537145,
+      "profit": 537145,
+      "profit_per_min": 2857.15,
+      "you_own": 0
+    },
+    {
+      "item_id": 426,
+      "name": "Bottle of Tequila",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 85,
+      "market_price": 563,
+      "profit": 478,
+      "profit_per_min": 13.28,
+      "you_own": 0
+    },
+    {
+      "item_id": 427,
+      "name": "Sumo Doll",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 300,
+      "market_price": 17647,
+      "profit": 17347,
+      "profit_per_min": 54.9,
+      "you_own": 0
+    },
+    {
+      "item_id": 429,
+      "name": "Chopsticks",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 25,
+      "market_price": 13675,
+      "profit": 13650,
+      "profit_per_min": 43.2,
+      "you_own": 0
+    },
+    {
+      "item_id": 430,
+      "name": "Coconut Bra",
+      "country": "Hawaii",
+      "flight_time": {
+        "standard": 134,
+        "airstrip": 94,
+        "private": 67,
+        "business": 40
+      },
+      "buy_price": 750000,
+      "market_price": 302056,
+      "profit": -447944,
+      "profit_per_min": -2382.68,
+      "you_own": 0
+    },
+    {
+      "item_id": 431,
+      "name": "Dart Board",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 750,
+      "market_price": 1059,
+      "profit": 309,
+      "profit_per_min": 1.39,
+      "you_own": 0
+    },
+    {
+      "item_id": 432,
+      "name": "Crazy Straw",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 25,
+      "market_price": 775,
+      "profit": 750,
+      "profit_per_min": 20.83,
+      "you_own": 0
+    },
+    {
+      "item_id": 433,
+      "name": "Sensu",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 500,
+      "market_price": 3315,
+      "profit": 2815,
+      "profit_per_min": 8.91,
+      "you_own": 0
+    },
+    {
+      "item_id": 434,
+      "name": "Yakitori Lantern",
+      "country": "Japan",
+      "flight_time": {
+        "standard": 225,
+        "airstrip": 158,
+        "private": 113,
+        "business": 68
+      },
+      "buy_price": 4500,
+      "market_price": 3043,
+      "profit": -1457,
+      "profit_per_min": -4.61,
+      "you_own": 0
+    },
+    {
+      "item_id": 435,
+      "name": "Dozen White Roses",
+      "country": "Switzerland",
+      "flight_time": {
+        "standard": 175,
+        "airstrip": 123,
+        "private": 88,
+        "business": 53
+      },
+      "buy_price": 950000000,
+      "market_price": 0,
+      "profit": -950000000,
+      "profit_per_min": -3861788.62,
+      "you_own": 0
+    },
+    {
+      "item_id": 436,
+      "name": "Snowboard",
+      "country": "Switzerland",
+      "flight_time": {
+        "standard": 175,
+        "airstrip": 123,
+        "private": 88,
+        "business": 53
+      },
+      "buy_price": 6000,
+      "market_price": 3960,
+      "profit": -2040,
+      "profit_per_min": -8.29,
+      "you_own": 0
+    },
+    {
+      "item_id": 438,
+      "name": "Cricket Bat",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 15000,
+      "market_price": 9526,
+      "profit": -5474,
+      "profit_per_min": -24.66,
+      "you_own": 0
+    },
+    {
+      "item_id": 439,
+      "name": "Frying Pan",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 400,
+      "market_price": 254,
+      "profit": -146,
+      "profit_per_min": -0.66,
+      "you_own": 0
+    },
+    {
+      "item_id": 440,
+      "name": "Pillow",
+      "country": "UAE",
+      "flight_time": {
+        "standard": 271,
+        "airstrip": 190,
+        "private": 135,
+        "business": 81
+      },
+      "buy_price": 10000000,
+      "market_price": 864,
+      "profit": -9999136,
+      "profit_per_min": -26313.52,
+      "you_own": 0
+    },
+    {
+      "item_id": 612,
+      "name": "Tavor TAR-21",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 495000,
+      "market_price": 377907,
+      "profit": -117093,
+      "profit_per_min": -2341.86,
+      "you_own": 0
+    },
+    {
+      "item_id": 613,
+      "name": "Harpoon",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 300000,
+      "market_price": 199801,
+      "profit": -100199,
+      "profit_per_min": -2003.98,
+      "you_own": 0
+    },
+    {
+      "item_id": 614,
+      "name": "Diamond Bladed Knife",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 950000,
+      "market_price": 928432,
+      "profit": -21568,
+      "profit_per_min": -431.36,
+      "you_own": 0
+    },
+    {
+      "item_id": 615,
+      "name": "Naval Cutlass",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 50000000,
+      "market_price": 0,
+      "profit": -50000000,
+      "profit_per_min": -1000000,
+      "you_own": 0
+    },
+    {
+      "item_id": 616,
+      "name": "Trout",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 3,
+      "market_price": 8375,
+      "profit": 8372,
+      "profit_per_min": 167.44,
+      "you_own": 0
+    },
+    {
+      "item_id": 617,
+      "name": "Banana Orchid",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 4000,
+      "market_price": 8958,
+      "profit": 4958,
+      "profit_per_min": 99.16,
+      "you_own": 0
+    },
+    {
+      "item_id": 618,
+      "name": "Stingray Plushie",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 400,
+      "market_price": 6552,
+      "profit": 6152,
+      "profit_per_min": 123.04,
+      "you_own": 0
+    },
+    {
+      "item_id": 619,
+      "name": "Steel Drum",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 1500,
+      "market_price": 2694,
+      "profit": 1194,
+      "profit_per_min": 23.88,
+      "you_own": 0
+    },
+    {
+      "item_id": 620,
+      "name": "Nodding Turtle",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 750,
+      "market_price": 3140,
+      "profit": 2390,
+      "profit_per_min": 47.8,
+      "you_own": 0
+    },
+    {
+      "item_id": 621,
+      "name": "Snorkel",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 20000,
+      "market_price": 14304,
+      "profit": -5696,
+      "profit_per_min": -113.92,
+      "you_own": 0
+    },
+    {
+      "item_id": 622,
+      "name": "Flippers",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 10000,
+      "market_price": 7239,
+      "profit": -2761,
+      "profit_per_min": -55.22,
+      "you_own": 0
+    },
+    {
+      "item_id": 623,
+      "name": "Speedo",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 6000,
+      "market_price": 4004,
+      "profit": -1996,
+      "profit_per_min": -39.92,
+      "you_own": 0
+    },
+    {
+      "item_id": 624,
+      "name": "Bikini",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 8000,
+      "market_price": 5109,
+      "profit": -2891,
+      "profit_per_min": -57.82,
+      "you_own": 0
+    },
+    {
+      "item_id": 625,
+      "name": "Wetsuit",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 30000,
+      "market_price": 19509,
+      "profit": -10491,
+      "profit_per_min": -209.82,
+      "you_own": 0
+    },
+    {
+      "item_id": 626,
+      "name": "Diving Gloves",
+      "country": "Cayman Islands",
+      "flight_time": {
+        "standard": 35,
+        "airstrip": 25,
+        "private": 18,
+        "business": 11
+      },
+      "buy_price": 5000,
+      "market_price": 2942,
+      "profit": -2058,
+      "profit_per_min": -41.16,
+      "you_own": 0
+    },
+    {
+      "item_id": 640,
+      "name": "Kevlar Gloves",
+      "country": "Mexico",
+      "flight_time": {
+        "standard": 26,
+        "airstrip": 18,
+        "private": 13,
+        "business": 8
+      },
+      "buy_price": 400000,
+      "market_price": 320088,
+      "profit": -79912,
+      "profit_per_min": -2219.78,
+      "you_own": 0
+    },
+    {
+      "item_id": 641,
+      "name": "WWII Helmet",
+      "country": "United Kingdom",
+      "flight_time": {
+        "standard": 159,
+        "airstrip": 111,
+        "private": 80,
+        "business": 48
+      },
+      "buy_price": 89500,
+      "market_price": 70946,
+      "profit": -18554,
+      "profit_per_min": -83.58,
+      "you_own": 0
+    },
+    {
+      "item_id": 643,
+      "name": "Construction Helmet",
+      "country": "China",
+      "flight_time": {
+        "standard": 242,
+        "airstrip": 169,
+        "private": 121,
+        "business": 72
+      },
+      "buy_price": 14000,
+      "market_price": 11033,
+      "profit": -2967,
+      "profit_per_min": -8.78,
+      "you_own": 0
+    },
+    {
+      "item_id": 645,
+      "name": "Safety Boots",
+      "country": "Canada",
+      "flight_time": {
+        "standard": 41,
+        "airstrip": 29,
+        "private": 20,
+        "business": 12
+      },
+      "buy_price": 77000,
+      "market_price": 56355,
+      "profit": -20645,
+      "profit_per_min": -355.95,
+      "you_own": 0
+    },
+    {
+      "item_id": 651,
+      "name": "Combat Helmet",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 3100000,
+      "market_price": 3211803,
+      "profit": 111803,
+      "profit_per_min": 268.76,
+      "you_own": 0
+    },
+    {
+      "item_id": 652,
+      "name": "Combat Pants",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 2950000,
+      "market_price": 3192394,
+      "profit": 242394,
+      "profit_per_min": 582.68,
+      "you_own": 0
+    },
+    {
+      "item_id": 653,
+      "name": "Combat Boots",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 2400000,
+      "market_price": 2556679,
+      "profit": 156679,
+      "profit_per_min": 376.63,
+      "you_own": 0
+    },
+    {
+      "item_id": 654,
+      "name": "Combat Gloves",
+      "country": "South Africa",
+      "flight_time": {
+        "standard": 297,
+        "airstrip": 208,
+        "private": 149,
+        "business": 89
+      },
+      "buy_price": 2100000,
+      "market_price": 2213204,
+      "profit": 113204,
+      "profit_per_min": 272.13,
+      "you_own": 0
+    }
+  ]
+}

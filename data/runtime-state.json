@@ -1,0 +1,146 @@
+{
+  "wallet": {
+    "enabled": true,
+    "channelId": "1454852371560796180",
+    "messageId": "1455120047440789617",
+    "createdAt": 1766998053635,
+    "updatedAt": 1767004861416,
+    "lastRun": 1767004861416
+  },
+  "personalStats": {
+    "enabled": true,
+    "channelId": "1454852447938936832",
+    "messageId": "1455120049948983511",
+    "createdAt": 1766998054308,
+    "updatedAt": 1767004681603,
+    "lastRun": 1767004681603
+  },
+  "gym": {
+    "enabled": true,
+    "channelId": "1454852547918561340",
+    "messageId": "1455120053434323036",
+    "createdAt": 1766998054915,
+    "updatedAt": 1767004863167,
+    "lastRun": 1767004863167
+  },
+  "work": {
+    "enabled": true,
+    "channelId": "1454852668957786216",
+    "messageId": "1455120056148168889",
+    "createdAt": 1766998055777,
+    "updatedAt": 1767004683464,
+    "lastRun": 1767004683464
+  },
+  "foreignMarket.argentina": {
+    "enabled": true,
+    "channelId": "1454855530181951564",
+    "messageId": "1455120769959989268",
+    "createdAt": 1766998056382,
+    "updatedAt": 1767004865143,
+    "lastRun": 1767004865143
+  },
+  "foreignMarket.canada": {
+    "enabled": true,
+    "channelId": "1454855379488866357",
+    "messageId": "1455120771138457661",
+    "createdAt": 1766998056584,
+    "updatedAt": 1767004865507,
+    "lastRun": 1767004865507
+  },
+  "foreignMarket.cayman": {
+    "enabled": true,
+    "channelId": "1455091732671889512",
+    "messageId": "1455120773063770226",
+    "createdAt": 1766998056787,
+    "updatedAt": 1767004866463,
+    "lastRun": 1767004866463
+  },
+  "foreignMarket.china": {
+    "enabled": true,
+    "channelId": "1455091662890991762",
+    "messageId": "1455120774602952756",
+    "createdAt": 1766998056989,
+    "updatedAt": 1767004867221,
+    "lastRun": 1767004867221
+  },
+  "foreignMarket.hawaii": {
+    "enabled": true,
+    "channelId": "1455091704469131266",
+    "messageId": "1455120776373211180",
+    "createdAt": 1766998057191,
+    "updatedAt": 1767004807962,
+    "lastRun": 1767004807962
+  },
+  "foreignMarket.japan": {
+    "enabled": true,
+    "channelId": "1454855192179769549",
+    "messageId": "1455120778306654258",
+    "createdAt": 1766998057392,
+    "updatedAt": 1767004808581,
+    "lastRun": 1767004808581
+  },
+  "foreignMarket.mexico": {
+    "enabled": true,
+    "channelId": "1454855303660044490",
+    "messageId": "1455120780030640161",
+    "createdAt": 1766998057590,
+    "updatedAt": 1767004809269,
+    "lastRun": 1767004809269
+  },
+  "foreignMarket.southafrica": {
+    "enabled": true,
+    "channelId": "1455091454170103841",
+    "messageId": "1455120781704171684",
+    "createdAt": 1766998057792,
+    "updatedAt": 1767004810094,
+    "lastRun": 1767004810094
+  },
+  "foreignMarket.switzerland": {
+    "enabled": true,
+    "channelId": "1454855598452510891",
+    "messageId": "1455120783469838460",
+    "createdAt": 1766998058000,
+    "updatedAt": 1767004811072,
+    "lastRun": 1767004811072
+  },
+  "foreignMarket.uk": {
+    "enabled": true,
+    "channelId": "1454855463928598741",
+    "messageId": "1455120785202221089",
+    "createdAt": 1766998058201,
+    "updatedAt": 1767004811709,
+    "lastRun": 1767004811709
+  },
+  "foreignMarket.uae": {
+    "enabled": true,
+    "channelId": "1454855653649813566",
+    "messageId": "1455120786808639665",
+    "createdAt": 1766998058401,
+    "updatedAt": 1767004812506,
+    "lastRun": 1767004812506
+  },
+  "bestTravelRoute": {
+    "enabled": true,
+    "channelId": "1454853799532429322",
+    "messageId": "1455140868045672500",
+    "createdAt": 1767003017690,
+    "updatedAt": 1767004693128,
+    "lastRun": 1767004693128
+  },
+  "travelProfitSummary": {
+    "enabled": true,
+    "channelId": "1454853903589048394",
+    "messageId": "1455140870054482044",
+    "createdAt": 1767003018329,
+    "updatedAt": 1767004694257,
+    "lastRun": 1767004694257
+  },
+  "cooldownCheck": {
+    "enabled": true,
+    "channelId": "1454853966079852636",
+    "messageId": "1455140872760070208",
+    "createdAt": 1767003018903,
+    "updatedAt": 1767004816156,
+    "lastRun": 1767004816156
+  }
+}

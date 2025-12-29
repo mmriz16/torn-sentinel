@@ -1,0 +1,35 @@
+{
+  "2025-12-29": {
+    "money": {
+      "wallet": 298367,
+      "bank": 0,
+      "points": 300
+    },
+    "networth": {
+      "total": 14798621,
+      "items": 5759178,
+      "properties": 964875,
+      "itemmarket": 98531,
+      "unpaidfees": -472700
+    },
+    "bars": {
+      "energy": {
+        "current": 0,
+        "max": 100
+      },
+      "nerve": {
+        "current": 2,
+        "max": 22
+      },
+      "happy": 2782
+    },
+    "personalstats": {
+      "energydrinkused": 0,
+      "attackswon": 82,
+      "criminaloffenses": 0,
+      "traveltimes": 14
+    },
+    "date": "2025-12-29",
+    "timestamp": 1766986958
+  }
+}

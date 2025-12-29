@@ -1,0 +1,44 @@
+{
+  "67": {
+    "name": "First Aid Kit",
+    "description": "This comprehensive collection of medical necessities contains everything you need to treat burns, blood loss, and broken bones. Whether you're bleeding out on the battlefield or you've slipped in the bath and sat on a shampoo bottle, you'll be back on your feet in moments.",
+    "effect": "Reduces hospital time by 40 minutes and restores 10% life. Increases medical cooldown by 15 mins.",
+    "requirement": "",
+    "type": "Medical",
+    "weapon_type": null,
+    "buy_price": 15000,
+    "sell_price": 7500,
+    "market_value": 10151,
+    "circulation": 23965503,
+    "image": "https://www.torn.com/images/items/67/large.png",
+    "tradeable": true
+  },
+  "206": {
+    "name": "Xanax",
+    "description": "Xanax in Torn City is very different to your typical pharmacy-bought Alprazolam, with its sedative effects giving way to an explosion of relentless energy. Researchers speculate that this phenomenon is rooted in the drug's ability to boost adenosine triphosphate production within neural cells, supercharging the brain into an overclocked state capable of firing neurons like a machine-gun. However it works, Torn Xanax is the grease that oils the gears of war, elevating a soldier to a state of aggressive frenzy that would make a Nazi Stormtrooper look like a slowpoke sissy.",
+    "effect": "Increases energy by 250 and happiness by 75. Includes side effects.",
+    "requirement": "",
+    "type": "Drug",
+    "weapon_type": null,
+    "buy_price": 0,
+    "sell_price": 0,
+    "market_value": 871858,
+    "circulation": 7406697,
+    "image": "https://www.torn.com/images/items/206/large.png",
+    "tradeable": true
+  },
+  "258": {
+    "name": "Jaguar Plushie",
+    "description": "Modelled after the third largest cat in the world, this small spotted plushie could be easily confused for a leopard.",
+    "effect": "",
+    "requirement": "",
+    "type": "Plushie",
+    "weapon_type": null,
+    "buy_price": 10000,
+    "sell_price": 8000,
+    "market_value": 14537,
+    "circulation": 5750378,
+    "image": "https://www.torn.com/images/items/258/large.png",
+    "tradeable": true
+  }
+}

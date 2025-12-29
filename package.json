@@ -1,0 +1,23 @@
+{
+  "name": "torn-sentinel",
+  "version": "1.0.0",
+  "description": "Discord bot for Torn City — Financial tracking, stats monitoring, and market analysis",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": [
+    "discord",
+    "torn",
+    "bot"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1",
+    "node-cron": "^4.2.1"
+  }
+}

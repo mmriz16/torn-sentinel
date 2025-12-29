@@ -1,0 +1,414 @@
+{
+  "471702596541743105": {
+    "state": {
+      "education_current": 43,
+      "education_timeleft": 485346,
+      "education_completed": [
+        23,
+        52,
+        112,
+        113,
+        114,
+        115,
+        116
+      ],
+      "points": 300,
+      "cayman_bank": 0,
+      "vault_amount": 0,
+      "company_funds": 0,
+      "daily_networth": 13883540,
+      "money_onhand": 4367,
+      "city_bank": {
+        "amount": 0,
+        "time_left": 0
+      },
+      "server_time": 1767004859,
+      "energy": {
+        "current": 100,
+        "maximum": 100,
+        "increment": 5,
+        "interval": 900,
+        "ticktime": 241,
+        "fulltime": 0
+      },
+      "nerve": {
+        "current": 22,
+        "maximum": 22,
+        "increment": 1,
+        "interval": 300,
+        "ticktime": 241,
+        "fulltime": 0
+      },
+      "happy": {
+        "current": 2825,
+        "maximum": 2825,
+        "increment": 5,
+        "interval": 900,
+        "ticktime": 241,
+        "fulltime": 0
+      },
+      "life": {
+        "current": 625,
+        "maximum": 625,
+        "increment": 31,
+        "interval": 300,
+        "ticktime": 241,
+        "fulltime": 0
+      },
+      "chain": {
+        "current": 0,
+        "maximum": 2500,
+        "timeout": 0,
+        "modifier": 1,
+        "cooldown": 0
+      },
+      "cooldowns": {
+        "drug": 0,
+        "medical": 0,
+        "booster": 0
+      },
+      "travel": {
+        "destination": "Torn",
+        "method": "Airstrip",
+        "timestamp": 1767009358,
+        "departed": 1766998198,
+        "time_left": 4558
+      },
+      "rank": "Average Intimidator",
+      "level": 15,
+      "honor": 20,
+      "gender": "Male",
+      "property": "Private Island",
+      "signup": "2019-09-12 12:35:36",
+      "awards": 41,
+      "friends": 0,
+      "enemies": 0,
+      "forum_posts": 1,
+      "karma": 0,
+      "age": 2299,
+      "role": "Civilian",
+      "donator": 0,
+      "player_id": 2381000,
+      "name": "mmriz16",
+      "property_id": 5819211,
+      "revivable": 1,
+      "profile_image": "https://profileimages.torn.com/7dc51b28-55c5-4806-8bd4-3d11c7181ff4-2381000.png",
+      "status": {
+        "description": "Returning to Torn from UAE",
+        "details": "",
+        "state": "Traveling",
+        "color": "blue",
+        "until": 0,
+        "plane_image_type": "light_aircraft"
+      },
+      "job": {
+        "job": "Employee",
+        "position": "Cashier",
+        "company_id": 120121,
+        "company_name": "Sweets, Wine and Taurine",
+        "company_type": 12
+      },
+      "faction": {
+        "position": "Initiate",
+        "faction_id": 51896,
+        "days_in_faction": 3,
+        "faction_name": "We Are Rising II",
+        "faction_tag": "WAR",
+        "faction_tag_image": "51896-99816.png"
+      },
+      "married": {
+        "spouse_id": 0,
+        "spouse_name": "None",
+        "duration": 0
+      },
+      "basicicons": {
+        "icon6": "Male",
+        "icon27": "Company - Cashier of Sweets, Wine and Taurine (Grocery Store)",
+        "icon9": "Faction - Initiate of We Are Rising II",
+        "icon71": "Traveling"
+      },
+      "states": {
+        "hospital_timestamp": 0,
+        "jail_timestamp": 0
+      },
+      "last_action": {
+        "status": "Idle",
+        "timestamp": 1766994887,
+        "relative": "20 minutes ago"
+      },
+      "competition": {
+        "name": "Elimination"
+      },
+      "jobpoints": {
+        "jobs": {
+          "army": 2,
+          "medical": 5,
+          "casino": 2113,
+          "education": 5,
+          "law": 5,
+          "grocer": 1
+        },
+        "companies": {
+          "12": {
+            "name": "Grocery Store",
+            "jobpoints": 28
+          }
+        }
+      },
+      "messages": {
+        "272498948": {
+          "timestamp": 1766343918,
+          "ID": 3787200,
+          "name": "tebski",
+          "type": "User message",
+          "title": "Job Offer",
+          "seen": 1,
+          "read": 1
+        },
+        "272499139": {
+          "timestamp": 1766344210,
+          "ID": 2915891,
+          "name": "Ritteruk",
+          "type": "User message",
+          "title": "Grocery Store position",
+          "seen": 1,
+          "read": 1
+        },
+        "272499758": {
+          "timestamp": 1766345388,
+          "ID": 2915891,
+          "name": "Ritteruk",
+          "type": "User message",
+          "title": "Re: Grocery Store position",
+          "seen": 1,
+          "read": 1
+        },
+        "272501333": {
+          "timestamp": 1766348274,
+          "ID": 3891455,
+          "name": "Lucif-Ignum",
+          "type": "User message",
+          "title": "Saw your post looking for a job.",
+          "seen": 1,
+          "read": 1
+        },
+        "272501430": {
+          "timestamp": 1766348550,
+          "ID": 3893089,
+          "name": "DominixCheese",
+          "type": "User message",
+          "title": "Still looking for a job?",
+          "seen": 1,
+          "read": 1
+        },
+        "272501737": {
+          "timestamp": 1766348902,
+          "ID": 3965712,
+          "name": "Artelion",
+          "type": "User message",
+          "title": "Adult Novelties Work",
+          "seen": 1,
+          "read": 1
+        },
+        "272501862": {
+          "timestamp": 1766349509,
+          "ID": 3265622,
+          "name": "Amplify",
+          "type": "User message",
+          "title": "Company Recruitment if interested",
+          "seen": 1,
+          "read": 1
+        },
+        "272511571": {
+          "timestamp": 1766375313,
+          "ID": 3922682,
+          "name": "ApparentlyAmar",
+          "type": "User message",
+          "title": "Job",
+          "seen": 1,
+          "read": 1
+        },
+        "272514651": {
+          "timestamp": 1766391894,
+          "ID": 3132441,
+          "name": "Buck10",
+          "type": "User message",
+          "title": "Job",
+          "seen": 1,
+          "read": 1
+        },
+        "272515198": {
+          "timestamp": 1766394552,
+          "ID": 3976532,
+          "name": "Pit-Boss",
+          "type": "User message",
+          "title": "No Subject",
+          "seen": 1,
+          "read": 1
+        },
+        "272518110": {
+          "timestamp": 1766403645,
+          "ID": 2955596,
+          "name": "Hitman4747",
+          "type": "User message",
+          "title": "No Subject",
+          "seen": 1,
+          "read": 1
+        },
+        "272574694": {
+          "timestamp": 1766563580,
+          "ID": 3988599,
+          "name": "Weazel6969",
+          "type": "User message",
+          "title": "We Are Rising II (W.A.R.II) Faction ",
+          "seen": 1,
+          "read": 1
+        },
+        "272631615": {
+          "timestamp": 1766726013,
+          "ID": 3557060,
+          "name": "BadHabbbits",
+          "type": "User message",
+          "title": "Faction Application ",
+          "seen": 1,
+          "read": 1
+        },
+        "272632373": {
+          "timestamp": 1766728998,
+          "ID": 3513179,
+          "name": "Baz",
+          "type": "User message",
+          "title": "Welcome to W.A.R",
+          "seen": 1,
+          "read": 1
+        },
+        "272690178": {
+          "timestamp": 1766893456,
+          "ID": 3557060,
+          "name": "BadHabbbits",
+          "type": "Faction newsletter",
+          "title": "Faction Newsletter",
+          "seen": 1,
+          "read": 1
+        }
+      },
+      "events": {
+        "vBGsPmgVu1wraCLfdHYC": {
+          "timestamp": 1766988127,
+          "event": "Your position in <a href = http://www.torn.com/http://www.torn.com/factions.php?step=profile&ID=51896>We Are Rising II</a> changed from Recruit to Initiate."
+        },
+        "rpm78xPne4TaukXott5S": {
+          "timestamp": 1766986732,
+          "event": "You sold 5x Camel Plushie on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=2850901'>--El_Nino</a> for $372,875 after $19,625 in fees."
+        },
+        "DvnDhXxVHJgHTOex9ha8": {
+          "timestamp": 1766986647,
+          "event": "You sold 25x Camel Plushie on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3270330'>2Far</a> for $1,864,375 after $98,125 in fees."
+        },
+        "xdxJdvLAQRPTIKzsYDk4": {
+          "timestamp": 1766948438,
+          "event": "You sold 2x Bag of Tootsie Rolls on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3838077'>llBen</a> for $119,510 after $6,290 in fees."
+        },
+        "EtrzKgOD8Ct5YtCKHTo3": {
+          "timestamp": 1766936427,
+          "event": "You sold 5x Jacket on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=4021166'>Samuel_jacks0n</a> for $3,087 after $163 in fees."
+        },
+        "1jKiqeYzyarmne9GoYR9": {
+          "timestamp": 1766933562,
+          "event": "<a href = http://www.torn.com/http://www.torn.com/education.php>The education course you were taking has ended. Please click here.</a>"
+        },
+        "GSiG2neMiTlbn9rHP2NF": {
+          "timestamp": 1766926454,
+          "event": "You sold 15x Camel Plushie on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3484230'>SkUlLs1</a> for $1,121,475 after $59,025 in fees."
+        },
+        "YqQSrUj4sIFbO0nP2xch": {
+          "timestamp": 1766926295,
+          "event": "Someone mugged you and stole $17,966 [<a href = http://www.torn.com/\"http://www.torn.com/loader.php?sid=attackLog&ID=b6bddb8c3dc284e6d736c02d3783718d\">view</a>]"
+        },
+        "BVgX6Glt0ZzMkjDX1inA": {
+          "timestamp": 1766920206,
+          "event": "You sold 1x Echo Quadrato on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=2810688'>Doctor-Satan</a> for $53,105 after $2,795 in fees."
+        },
+        "gWhlt6nHPEcORAISEh8G": {
+          "timestamp": 1766911415,
+          "event": "You sold 28x Big Box of Chocolate Bars on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=2636703'>Bluemojo</a> for $1,194,340 after $62,860 in fees."
+        },
+        "3U3qESCoSAEDA1EKSZJa": {
+          "timestamp": 1766911387,
+          "event": "You sold 1x Desert Eagle on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3729667'>LeviSP</a> for $35,150 after $1,850 in fees."
+        },
+        "d8JPzjJ8eJAZzSiVqQX2": {
+          "timestamp": 1766902289,
+          "event": "You have reset all of your merit upgrades. 38 merits have been returned."
+        },
+        "xQTUNTKguidIHlS5mGAB": {
+          "timestamp": 1766902129,
+          "event": "You sold 1x Enfield SA-80 on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=1010587'>myshoeshurt</a> for $222,300 after $11,700 in fees."
+        },
+        "5SA8gvVHOsqywxREpgad": {
+          "timestamp": 1766902098,
+          "event": "You sold 5x MP3 Player on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=2692283'>Sgt_Sleezy</a> for $2,850 after $150 in fees."
+        },
+        "5thy8h8KGvRC15z0EHuH": {
+          "timestamp": 1766902086,
+          "event": "You sold 6x Personal Computer on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3450140'>TatoABangGanger</a> for $1,653 after $87 in fees."
+        },
+        "n4GzaTSmH8ObH3295yvf": {
+          "timestamp": 1766901920,
+          "event": "You sold 15x Camel Plushie on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=2121376'>Serviros</a> for $1,125,750 after $59,250 in fees."
+        },
+        "guEFHbESvLQVf5As5zZR": {
+          "timestamp": 1766901455,
+          "event": "You sold 8x Blank DVDs on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=2347227'>NaVrael_Dramora</a> for $5,396 after $284 in fees."
+        },
+        "odpSG3eEBzBMSo0TS93i": {
+          "timestamp": 1766901368,
+          "event": "You sold 3x Bottle of Minty Mayhem on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3156084'>Urfy</a> for $342,000 after $18,000 in fees."
+        },
+        "hYsCVceeLa3bOGVwg905": {
+          "timestamp": 1766901259,
+          "event": "You sold 3x Box of Chocolate Bars on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3937880'>Raksasha</a> for $2,134 after $113 in fees."
+        },
+        "203K8BmQ2zs7mK3ng0dU": {
+          "timestamp": 1766876021,
+          "event": "<a href = http://www.torn.com/\"http://www.torn.com/http://www.torn.com/profiles.php?XID=2915891\">Ritteruk</a>, the director of <a href = http://www.torn.com/\"http://www.torn.com/http://www.torn.com/joblist.php#/p=corpinfo&ID=120121\">Sweets, Wine and Taurine</a>, has trained you from the company. You gained 50 END and 25 MAN. "
+        },
+        "qRCQFbp9ZfYLzCNB3atF": {
+          "timestamp": 1766873211,
+          "event": "Someone attacked you [<a href = http://www.torn.com/\"http://www.torn.com/loader.php?sid=attackLog&ID=7df71e25a62a7cb00c67236a5abe194b\">view</a>]"
+        },
+        "GE5hGlwVKsBhI5X4msTm": {
+          "timestamp": 1766869955,
+          "event": "Someone mugged you and stole $57,228 [<a href = http://www.torn.com/\"http://www.torn.com/loader.php?sid=attackLog&ID=fb6ab0f0cc3e233629ef20da4837882c\">view</a>]"
+        },
+        "GpM0eDgMeuyqLOIcdtlg": {
+          "timestamp": 1766858308,
+          "event": "<a href = http://www.torn.com/http://www.torn.com/profiles.php?XID=2809464>Kleio</a> successfully busted you out of jail."
+        },
+        "ij6t4RD19KWVjy0aQStx": {
+          "timestamp": 1766858308,
+          "event": "<a href = http://www.torn.com/http://www.torn.com/profiles.php?XID=2531768>kqrbnp64</a> failed to bust you out of jail."
+        },
+        "4yYJHOJHD7BHMumZjsnR": {
+          "timestamp": 1766858064,
+          "event": "You sold 15x Camel Plushie on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3776193'>Joris1234</a> for $1,104,375 after $58,125 in fees."
+        }
+      }
+    },
+    "flags": {
+      "NERVE_FULL": true,
+      "NEW_MESSAGE": false,
+      "NEW_EVENT": false,
+      "ENERGY_FULL": true,
+      "ENERGY_GYM_OPTIMAL": true
+    },
+    "lastAlert": {
+      "NERVE_FULL": 1766996036365,
+      "NEW_MESSAGE": 1767003006900,
+      "NEW_EVENT": 1767003007578,
+      "ENERGY_FULL": 1767004227138,
+      "ENERGY_GYM_OPTIMAL": 1767004227615
+    },
+    "updatedAt": 1767004859944
+  }
+}
