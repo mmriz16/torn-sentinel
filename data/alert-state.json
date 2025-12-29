@@ -2,7 +2,7 @@
   "471702596541743105": {
     "state": {
       "education_current": 43,
-      "education_timeleft": 485346,
+      "education_timeleft": 484512,
       "education_completed": [
         23,
         52,
@@ -22,13 +22,13 @@
         "amount": 0,
         "time_left": 0
       },
-      "server_time": 1767004859,
+      "server_time": 1767005633,
       "energy": {
         "current": 100,
         "maximum": 100,
         "increment": 5,
         "interval": 900,
-        "ticktime": 241,
+        "ticktime": 367,
         "fulltime": 0
       },
       "nerve": {
@@ -36,7 +36,7 @@
         "maximum": 22,
         "increment": 1,
         "interval": 300,
-        "ticktime": 241,
+        "ticktime": 67,
         "fulltime": 0
       },
       "happy": {
@@ -44,7 +44,7 @@
         "maximum": 2825,
         "increment": 5,
         "interval": 900,
-        "ticktime": 241,
+        "ticktime": 367,
         "fulltime": 0
       },
       "life": {
@@ -52,13 +52,13 @@
         "maximum": 625,
         "increment": 31,
         "interval": 300,
-        "ticktime": 241,
+        "ticktime": 67,
         "fulltime": 0
       },
       "chain": {
-        "current": 0,
+        "current": 1,
         "maximum": 2500,
-        "timeout": 0,
+        "timeout": 240,
         "modifier": 1,
         "cooldown": 0
       },
@@ -72,7 +72,7 @@
         "method": "Airstrip",
         "timestamp": 1767009358,
         "departed": 1766998198,
-        "time_left": 4558
+        "time_left": 3725
       },
       "rank": "Average Intimidator",
       "level": 15,
@@ -409,6 +409,6 @@
       "ENERGY_FULL": 1767004227138,
       "ENERGY_GYM_OPTIMAL": 1767004227615
     },
-    "updatedAt": 1767004859944
+    "updatedAt": 1767005660408
   }
 }

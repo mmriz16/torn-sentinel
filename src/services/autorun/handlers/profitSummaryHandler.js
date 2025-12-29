@@ -23,10 +23,10 @@ export async function profitSummaryHandler(client, user) {
         const status = getStatus();
         let capacity = status.capacity || 0;
 
-        // 0. Check/Update Capacity (On Startup or if 0)
-        // Only fetch 'perks' if we don't know capacity yet
+        // 0. Check/Update Capacity
+        // Fetch 'perks' if capacity is unknown OR just base (5) - likely incomplete
         let selections = 'travel';
-        if (capacity === 0) {
+        if (capacity <= 5) {
             selections += ',perks';
         }
 
@@ -43,17 +43,67 @@ export async function profitSummaryHandler(client, user) {
         const currentCountry = travel.destination;
 
         // Update Capacity if fetched
-        if (data.travel_items) {
-            capacity = data.travel_items; // API field is 'travel_items' inside perks? 
-            // Wait, getCombinedStats puts 'perks' fields at root if using 'user' endpoint?
-            // No, 'perks' selection usually returns 'perks' object or flattened?
-            // Checking Torn API docs: 'user' -> 'perks' returns object.
-            // But my getCombinedStats might not flatten it.
-            // Let's be safe.
-            if (data.perks && data.perks.travel_items) {
-                capacity = data.perks.travel_items;
-                updateCapacity(capacity);
+        // Check if any perk arrays are present in data
+        const perkKeys = ['job_perks', 'property_perks', 'stock_perks', 'faction_perks', 'education_perks', 'enhancer_perks', 'book_perks'];
+        let hasPerksData = perkKeys.some(key => Array.isArray(data[key]));
+
+        if (hasPerksData) {
+            let calculatedCapacity = 5; // Base capacity
+            const savedLogs = [];
+
+            for (const key of perkKeys) {
+                if (Array.isArray(data[key])) {
+                    for (const perk of data[key]) {
+                        // DEBUG: Print every perk to see what we are missing
+                        console.log(`[PERK-DEBUG] ${key}: "${perk}"`);
+
+                        let matched = false;
+
+                        // Regex 1: "+ X travel item capacity" (Seen in logs)
+                        const match1 = perk.match(/\+\s*(\d+)\s*travel item capacity/i);
+                        if (match1 && match1[1]) {
+                            const val = parseInt(match1[1], 10);
+                            calculatedCapacity += val;
+                            savedLogs.push(`[${key}] +${val}: ${perk}`);
+                            matched = true;
+                        }
+
+                        // Regex 2: "Access to airstrip" (Implies +10 items)
+                        if (!matched && perk.match(/Access to airstrip/i)) {
+                            const val = 10; // Standard Torn Airstrip bonus
+                            calculatedCapacity += val;
+                            savedLogs.push(`[${key}] +${val} (Airstrip): ${perk}`);
+                            matched = true;
+                        }
+
+                        // Regex 3: "Increases maximum traveling items by X" (Legacy/Other)
+                        if (!matched) {
+                            const match3 = perk.match(/Increases maximum traveling items by (\d+)/i);
+                            if (match3 && match3[1]) {
+                                const val = parseInt(match3[1], 10);
+                                calculatedCapacity += val;
+                                savedLogs.push(`[${key}] +${val}: ${perk}`);
+                                matched = true;
+                            }
+                        }
+
+                        // Regex 4: "Allows you to carry X additional items" (Legacy)
+                        if (!matched) {
+                            const match4 = perk.match(/Allows you to carry (\d+) additional items/i);
+                            if (match4 && match4[1]) {
+                                const val = parseInt(match4[1], 10);
+                                calculatedCapacity += val;
+                                savedLogs.push(`[${key}] +${val}: ${perk}`);
+                            }
+                        }
+                    }
+                }
             }
+
+            console.log('🎒 Capacity Calculation Debug:', { base: 5, total: calculatedCapacity, perks: savedLogs });
+
+            capacity = calculatedCapacity;
+            updateCapacity(capacity);
         }
 
         // 2. Update State & Check for Events
