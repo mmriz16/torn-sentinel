@@ -48,6 +48,29 @@ export async function startupBootstrap(client) {
     // Get runners that have channel IDs configured
     const configuredRunners = getConfiguredRunners();
 
+// === START PERSONAL RUNNERS ===
+import { getAllUsers } from '../userStorage.js';
+
+const users = getAllUsers();
+
+for (const user of users) {
+    if (!user.apiKey) continue;
+
+    // personal stats
+    await startScheduler(
+        `stats:${user.discordId}`,
+        user.channels?.personalStats,
+        { user }
+    );
+
+    // work stats
+    await startScheduler(
+        `work:${user.discordId}`,
+        user.channels?.workStats,
+        { user }
+    );
+}
+
     if (configuredRunners.length === 0) {
         console.log('⚠️ No auto-run channels configured. Set channel IDs in .env');
         console.log('   Available: WALLET_CHANNEL_ID, FM_JAPAN_CHANNEL_ID, etc.');
