@@ -5,6 +5,7 @@
 
 import { Client, GatewayIntentBits, Collection, REST, Routes, ActivityType } from 'discord.js';
 import { config } from 'dotenv';
+import express from 'express';
 import { readdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -14,6 +15,18 @@ import { startupBootstrap, stopAllSchedulers, forceSaveRuntimeState } from './se
 
 // Load environment variables
 config();
+
+// HTTP server for Render (required)
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+  res.send('Torn Sentinel is alive');
+});
+
+app.listen(PORT, () => {
+  console.log(`HTTP server listening on port ${PORT}`);
+});
 
 // ES Module directory resolution
 const __filename = fileURLToPath(import.meta.url);
