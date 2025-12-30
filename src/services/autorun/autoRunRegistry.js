@@ -279,6 +279,16 @@ export const AUTO_RUNNERS = {
         handler: 'workPerformanceHandler',
         enabled: true
     },
+
+    bazaarCheck: {
+        key: 'bazaarCheck',
+        name: 'Bazaar Check',
+        emoji: '🛒',
+        interval: 5 * 60 * 1000, // 5m
+        channelEnvKey: 'BAZAAR_CHECK_CHANNEL_ID',
+        handler: 'bazaarHandler',
+        enabled: true
+    },
 };
 
 /**

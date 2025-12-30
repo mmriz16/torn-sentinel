@@ -2,7 +2,7 @@
   "471702596541743105": {
     "state": {
       "education_current": 43,
-      "education_timeleft": 416835,
+      "education_timeleft": 410431,
       "education_completed": [
         23,
         52,
@@ -22,13 +22,13 @@
         "amount": 0,
         "time_left": 0
       },
-      "server_time": 1767074256,
+      "server_time": 1767079714,
       "energy": {
         "current": 100,
         "maximum": 100,
         "increment": 5,
         "interval": 900,
-        "ticktime": 144,
+        "ticktime": 86,
         "fulltime": 0
       },
       "nerve": {
@@ -36,7 +36,7 @@
         "maximum": 22,
         "increment": 1,
         "interval": 300,
-        "ticktime": 144,
+        "ticktime": 86,
         "fulltime": 0
       },
       "happy": {
@@ -44,7 +44,7 @@
         "maximum": 2825,
         "increment": 5,
         "interval": 900,
-        "ticktime": 144,
+        "ticktime": 86,
         "fulltime": 0
       },
       "life": {
@@ -52,7 +52,7 @@
         "maximum": 625,
         "increment": 31,
         "interval": 300,
-        "ticktime": 144,
+        "ticktime": 86,
         "fulltime": 0
       },
       "chain": {
@@ -72,7 +72,7 @@
         "method": "Airstrip",
         "timestamp": 1767081263,
         "departed": 1767069743,
-        "time_left": 7953
+        "time_left": 1609
       },
       "rank": "Average Intimidator",
       "level": 15,
@@ -413,6 +413,6 @@
       "LIFE_FULL": 1767060046902,
       "TRAVEL_COMPLETED": 1767069383766
     },
-    "updatedAt": 1767074256962
+    "updatedAt": 1767079714346
   }
 }

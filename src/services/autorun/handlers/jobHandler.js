@@ -4,7 +4,7 @@
  */
 
 import { EmbedBuilder } from 'discord.js';
-import { getCombinedStats } from '../../tornApi.js';
+import { getV2, getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatNumber } from '../../../utils/formatters.js';
 
@@ -18,41 +18,46 @@ export async function jobHandler(client) {
         const user = users[userId];
         if (!user.apiKey) return null;
 
-        // Fetch Job, JobPoints (sometimes redundant), Perks
-        const data = await getCombinedStats(user.apiKey, 'job,perks');
+        // Fetch Job data (V2 API with selections)
+        const jobData = await getV2(user.apiKey, 'user?selections=job');
 
-        if (!data.job) return null;
+        if (!jobData.job) return null;
 
-        const job = data.job;
-        const jobPerks = data.job_perks || []; // Array of strings? or objects?
-        // API 'perks' selection returns: { job_perks: ["+5% Strength", ...], ... } usually strings.
+        const job = jobData.job;
 
-        // Stats
-        const position = job.position;
-        const companyName = job.company_name;
-        const jobPoints = job.jobpoints || 0;
-        const tenure = job.days_in_company || 0;
+        // Fetch Job Points (V2 API with selections)
+        const jpData = await getV2(user.apiKey, 'user?selections=jobpoints').catch(() => ({ jobpoints: {} }));
+
+        // Calculate total job points from all sources
+        const jobPoints = jpData.jobpoints?.jobs || {};
+        const companyPoints = jpData.jobpoints?.companies || [];
+
+        // Current company JP
+        const currentCompanyJP = companyPoints.find(c => c.company?.id === job.type_id)?.points || 0;
+
+        // Perks from V1 API (still works!)
+        const perksData = await getCombinedStats(user.apiKey, 'perks').catch(() => ({ job_perks: [] }));
+        const jobPerks = perksData.job_perks || [];
 
         // Active Perks List
-        // Limit to 5-10 to avoid huge embed
         const activePerksList = jobPerks.length > 0
             ? jobPerks.slice(0, 8).map(p => `• ${p}`).join('\n')
             : '• None active';
 
-        // Next Perk (Placeholder as we lack the full tree data)
-        // Ideally we'd look up company_type -> position -> next_promotion or next_special
+        // Next Perk (Placeholder)
         const nextPerkText = '• Check Company Panel for next unlock';
 
         const embed = new EmbedBuilder()
             .setColor(0xF1C40F)
             .setTitle('📄 Job Overview')
             .addFields(
-                { name: 'Position', value: `${position}`, inline: true },
-                { name: 'Company', value: `${companyName}`, inline: true },
-                { name: '\u200b', value: '\u200b', inline: false },
+                { name: 'Position', value: `${job.position || 'Unknown'}`, inline: true },
+                { name: 'Company', value: `${job.name || 'Unknown'}`, inline: true },
+                { name: 'Rating', value: `⭐ ${job.rating || 0}`, inline: true },
 
-                { name: 'Job Points', value: `\`\`\`${formatNumber(jobPoints)}\`\`\``, inline: true },
-                { name: 'Tenure', value: `\`\`\`${formatNumber(tenure)} days\`\`\``, inline: true },
+                { name: 'Company JP', value: `\`\`\`${formatNumber(currentCompanyJP)}\`\`\``, inline: true },
+                { name: 'Tenure', value: `\`\`\`${job.days_in_company || 0} days\`\`\``, inline: true },
+                { name: 'JP/Day', value: `\`\`\`${job.rating || 0}\`\`\``, inline: true },
 
                 { name: 'Active Perks', value: activePerksList, inline: false },
 
