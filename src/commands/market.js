@@ -8,6 +8,7 @@ import { get, getV2 } from '../services/tornApi.js';
 import { getUser } from '../services/userStorage.js';
 import { formatMoney, formatNumber } from '../utils/formatters.js';
 import { logTrade } from '../services/analytics/travelAnalyticsService.js';
+import { fetchYataData, COUNTRIES as COUNTRIES_MAP } from '../services/autorun/handlers/foreignMarketHandler.js';
 
 // Cache for items data (24h refresh)
 let itemsCache = null;
@@ -114,8 +115,14 @@ async function handleLookup(interaction, apiKey) {
         }
 
         const item = matches[0];
-        const marketData = await getV2(apiKey, `market/${item.id}/itemmarket`);
-        const embed = buildMarketEmbed(item, marketData);
+
+        // Fetch market data and foreign stock data in parallel
+        const [marketData, foreignStock] = await Promise.all([
+            getV2(apiKey, `market/${item.id}/itemmarket`),
+            getForeignStockInfo(item.id)
+        ]);
+
+        const embed = buildMarketEmbed(item, marketData, foreignStock);
         await interaction.editReply({ embeds: [embed] });
 
     } catch (error) {
@@ -201,7 +208,7 @@ function findItems(items, query) {
     return matches.sort((a, b) => a.name.length - b.name.length);
 }
 
-function buildMarketEmbed(item, marketData) {
+function buildMarketEmbed(item, marketData, foreignStock) {
     const listings = marketData.itemmarket?.listings || [];
     const prices = listings.map(l => l.price);
     const quantities = listings.map(l => l.amount);
@@ -211,8 +218,6 @@ function buildMarketEmbed(item, marketData) {
     const avgPrice = prices.length > 0 ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length) : 0;
     const totalListings = listings.length;
     const totalQuantity = quantities.reduce((a, b) => a + b, 0);
-
-    const foreignStock = getForeignStockInfo(item.id, item.name);
 
     // Calculate Spread
     const spread = highestAsk - lowestAsk;
@@ -299,31 +304,54 @@ function formatCompact(num) {
     return new Intl.NumberFormat('en-US').format(num);
 }
 
-function getForeignStockInfo(itemId, itemName) {
-    // Simplified lookup - reusing existing data
-    // For brevity, just checking if ID exists in a known list or returning null
-    // You can paste the full list back if needed, but for now I'll assume standard lookup
-    // (Actual implementation should ideally use travel-all.json but that's in another file)
-    // I'll keep the function stub or paste the map if you want 100% parity.
-    // Given the task size, I'll paste the map back in a condensed way if valid.
+async function getForeignStockInfo(itemId) {
+    try {
+        const yataData = await fetchYataData();
+        if (!yataData || !yataData.stocks) return null;
 
-    // ... (Your previous map was huge, I will try to read it dynamically or use a truncated version for this edit)
-    // Actually, I can import the full JSON if I want, but let's stick to the previous file's logic.
-    // I will include the map.
+        let bestStock = null;
 
-    const foreignItems = {
-        '4': { location: '🇿🇦 S. Africa', price: 750 },
-        '8': { location: '🇲🇽 Mexico', price: 4200 },
-        // ... (truncated for brevity in this thought trace, but will write full in tool)
-        // Actually, to avoid breaking the lookup, I really should keep the full map or read from JSON.
-    };
-    // Wait, strictly speaking `market.js` was 470 lines mainly due to that map.
-    // I will try to preserve it by not deleting it if I can, but `replace_file_content` replaces the whole file if I select wide range.
-    // I am replacing the whole file. I MUST include the map data back.
-    // I'll assume I can copy-paste the map from the `view_file` output I got earlier.
+        // Iterate over all countries in YATA data
+        for (const [countryCode, data] of Object.entries(yataData.stocks)) {
+            const stocks = data.stocks;
+            if (!stocks) continue;
 
-    // For this Turn, I will assume I need to put the full content back.
-    // OR better: Move `getForeignStockInfo` to a utility file? No, keep it simple.
-    // I will include the full map content I saw.
-    return null; // Placeholder for thought trace
+            const stockItem = stocks.find(s => s.id == itemId);
+            if (stockItem) {
+                // Determine country name (yata returns codes like 'uae', 'mex')
+                // Country names are usually in the YATA data or we map them?
+                // YATA structure: keys are '3', '8', etc (Country IDs) OR codes?
+                // The keys in yataData.stocks are actually COUNTRY IDS strings ("1", "2"...) in some versions
+                // or codes ("arg", "mex") in others. 
+                // Based on foreignMarketHandler.js logic: `yataData.stocks[countryCode]`
+                // And COUNTRIES map has `code`.
+                // Let's assume keys are country codes.
+
+                // We want to find the lowest price.
+                if (!bestStock || stockItem.cost < bestStock.price) {
+                    // Need to map code back to Name/Emoji if possible, or use raw code
+                    // Let's try to map
+                    let locationName = countryCode.toUpperCase();
+                    // Try to map to emoji name
+                    const mapped = Object.values(COUNTRIES_MAP).find(c => c.code === countryCode);
+                    if (mapped) locationName = `${mapped.emoji} ${mapped.name}`;
+
+                    bestStock = {
+                        location: locationName,
+                        price: stockItem.cost
+                    };
+                }
+            }
+        }
+        return bestStock;
+
+    } catch (error) {
+        console.warn('Foreign stock lookup failed:', error);
+        return null;
+    }
 }
+
+// Local map purely for name lookup if we can't import the full one cleanly
+// or relies on foreignMarketHandler export.
+// Actually I should just use the exported COUNTRIES from foreignMarketHandler.
+// End of file
