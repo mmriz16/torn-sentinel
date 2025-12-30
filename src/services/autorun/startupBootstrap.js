@@ -19,6 +19,8 @@ import { profitSummaryHandler } from './handlers/profitSummaryHandler.js';
 import { cooldownHandler } from './handlers/cooldownHandler.js';
 import { tradeHandler } from './handlers/tradeHandler.js';
 import { botStatusHandler } from './handlers/botStatusHandler.js';
+import { jobHandler } from './handlers/jobHandler.js';
+import { workPerformanceHandler } from './handlers/workPerformanceHandler.js';
 import { getAllUsers } from '../userStorage.js';
 import { initLogger, logSystem } from '../system/systemLogger.js';
 
@@ -45,6 +47,8 @@ export async function startupBootstrap(client) {
     registerHandler('cooldownHandler', cooldownHandler);
     registerHandler('tradeHandler', tradeHandler);
     registerHandler('botStatusHandler', botStatusHandler);
+    registerHandler('jobHandler', jobHandler);
+    registerHandler('workPerformanceHandler', workPerformanceHandler);
 
     // Initialize system logger
     initLogger(client);

@@ -245,6 +245,40 @@ export const AUTO_RUNNERS = {
         handler: 'botStatusHandler',
         enabled: true
     },
+
+    // ═══════════════════════════════════════════════════════════════════
+    // 🏢 WORK & COMPANY
+    // ═══════════════════════════════════════════════════════════════════
+
+    companyInfo: {
+        key: 'companyInfo',
+        name: 'Company Info',
+        emoji: '🏢',
+        interval: 30 * 60 * 1000, // 30m
+        channelEnvKey: 'COMPANY_INFO_CHANNEL_ID',
+        handler: 'companyHandler',
+        enabled: true
+    },
+
+    jobOverview: {
+        key: 'jobOverview',
+        name: 'Job Overview',
+        emoji: '📄',
+        interval: 15 * 60 * 1000, // 15m
+        channelEnvKey: 'JOB_OVERVIEW_CHANNEL_ID',
+        handler: 'jobHandler',
+        enabled: true
+    },
+
+    workPerformance: {
+        key: 'workPerformance',
+        name: 'Work Performance',
+        emoji: '📈',
+        interval: 60 * 60 * 1000, // 60m
+        channelEnvKey: 'WORK_PERFORMANCE_CHANNEL_ID',
+        handler: 'workPerformanceHandler',
+        enabled: true
+    },
 };
 
 /**
