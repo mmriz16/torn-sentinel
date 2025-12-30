@@ -235,7 +235,7 @@ function buildMarketEmbed(item, marketData, foreignStock) {
         .setColor(0x2C2F33)
         .setTitle(`📦｜${item.name}`)
         .setDescription('────────────────────────────────────────────────')
-        .setThumbnail(imageUrl)
+        .setImage(imageUrl)
         .setTimestamp()
         .setFooter({ text: 'Torn Sentinel • Item Market' });
 
