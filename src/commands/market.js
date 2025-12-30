@@ -214,22 +214,54 @@ function buildMarketEmbed(item, marketData) {
 
     const foreignStock = getForeignStockInfo(item.id, item.name);
 
+    // Calculate Spread
+    const spread = highestAsk - lowestAsk;
+    const spreadPercent = lowestAsk > 0 ? ((spread / lowestAsk) * 100).toFixed(1) : 0;
+
+    // Calculate Liquidity (Simple heuristic)
+    let liquidity = '🔴 Low';
+    if (totalQuantity > 10000) liquidity = '🟢 High';
+    else if (totalQuantity > 1000) liquidity = '🟡 Medium';
+
+    // Construct image URL directly to ensure high res
+    const imageUrl = `https://www.torn.com/images/items/${item.id}/large.png`;
+
     const embed = new EmbedBuilder()
-        .setColor(0x58ACFF)
+        .setColor(0x2C2F33)
         .setTitle(`📦｜${item.name}`)
-        .setThumbnail(item.image || null)
+        .setDescription('────────────────────────────────────────────────')
+        .setThumbnail(imageUrl)
         .setTimestamp()
         .setFooter({ text: 'Torn Sentinel • Item Market' });
 
-    if (item.type) embed.addFields({ name: '📋｜Type', value: `\`\`\`${item.type}\`\`\``, inline: true });
+    // 1. Top Row: Type | Price | Foreign/Cheapest
+    if (item.type) {
+        embed.addFields({ name: '📋｜Type', value: `\`\`\`${item.type}\`\`\``, inline: true });
+    }
 
     if (foreignStock) {
         embed.addFields(
-            { name: '💰｜Buy Price', value: `\`\`\`${formatMoney(foreignStock.price)}\`\`\``, inline: true },
+            { name: '💰｜Buy Price', value: `\`\`\`$${formatCompact(foreignStock.price)}\`\`\``, inline: true },
             { name: '🌍｜Cheapest', value: `\`\`\`${foreignStock.location}\`\`\``, inline: true }
         );
-    } else if (item.market_value) {
-        embed.addFields({ name: '💵｜Market Value', value: `\`\`\`${formatMoney(item.market_value)}\`\`\``, inline: true });
+    } else {
+        const val = item.market_value || avgPrice;
+        embed.addFields(
+            { name: '💵｜Market Value', value: `\`\`\`$${formatCompact(val)}\`\`\``, inline: true },
+            { name: '\u200b', value: '\u200b', inline: true }
+        );
+    }
+
+    // 2. Description (Wrapped in code block)
+    if (item.description) {
+        // Truncate if too long (Discord limit 1024)
+        const desc = item.description.length > 1000 ? item.description.substring(0, 990) + '...' : item.description;
+        embed.addFields({ name: '📝｜Description', value: `\`\`\`${desc}\`\`\``, inline: false });
+    }
+
+    // 3. Effect (Wrapped in code block)
+    if (item.effect) {
+        embed.addFields({ name: '⚡｜Effect', value: `\`\`\`${item.effect}\`\`\``, inline: false });
     }
 
     if (totalListings === 0) {
@@ -237,15 +269,34 @@ function buildMarketEmbed(item, marketData) {
         return embed;
     }
 
+    // 4. Market Stats Rows
     embed.addFields(
-        { name: '💰｜Lowest Ask', value: `\`\`\`${formatMoney(lowestAsk)}\`\`\``, inline: true },
-        { name: '📈｜Highest Ask', value: `\`\`\`${formatMoney(highestAsk)}\`\`\``, inline: true },
-        { name: '📊｜Average', value: `\`\`\`${formatMoney(avgPrice)}\`\`\``, inline: true },
+        // Row A
+        { name: '💰｜Lowest Ask', value: `\`\`\`$${formatCompact(lowestAsk)}\`\`\``, inline: true },
+        { name: '📈｜Highest Ask', value: `\`\`\`$${formatCompact(highestAsk)}\`\`\``, inline: true },
+        { name: '📊｜Average', value: `\`\`\`$${formatCompact(avgPrice)}\`\`\``, inline: true },
+
+        // Row B
         { name: '📦｜Listings', value: `\`\`\`${formatNumber(totalListings)}\`\`\``, inline: true },
-        { name: '🔢｜Quantity', value: `\`\`\`${formatNumber(totalQuantity)}\`\`\``, inline: true }
+        { name: '🔢｜Quantity', value: `\`\`\`${formatNumber(totalQuantity)}\`\`\``, inline: true },
+        { name: '💧｜Liquidity', value: `\`\`\`${liquidity}\`\`\``, inline: true },
+
+        // Row C (Spread)
+        { name: '📉｜Spread', value: `\`\`\`$${formatCompact(spread)} (+${spreadPercent}%)\`\`\``, inline: false }
     );
 
     return embed;
+}
+
+/**
+ * Format compact number helper (inner usage if not imported, but we imported formatNumber/formatMoney)
+ * We'll use formatNumber for simple ints, and a manual compact for Prices if needed to fit?
+ * User screenshot shows full numbers "$850,000".
+ * So we use formatMoney but maybe without decimals for cleaner look?
+ * Re-mapping formatCompact to formatMoney for consistency with screenshot.
+ */
+function formatCompact(num) {
+    return new Intl.NumberFormat('en-US').format(num);
 }
 
 function getForeignStockInfo(itemId, itemName) {
