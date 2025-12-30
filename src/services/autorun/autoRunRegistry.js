@@ -289,6 +289,40 @@ export const AUTO_RUNNERS = {
         handler: 'bazaarHandler',
         enabled: true
     },
+
+    // ═══════════════════════════════════════════════════════════════════
+    // 📊 MARKET & ECONOMY (NETWORTH ANALYZER)
+    // ═══════════════════════════════════════════════════════════════════
+
+    networthTrend: {
+        key: 'networthTrend',
+        name: 'Networth Trend',
+        emoji: '📈',
+        interval: 24 * 60 * 60 * 1000, // 24h
+        channelEnvKey: 'NETWORTH_TREND_CHANNEL_ID',
+        handler: 'networthTrendHandler',
+        enabled: true
+    },
+
+    networthDelta: {
+        key: 'networthDelta',
+        name: 'Networth Delta',
+        emoji: '📉',
+        interval: 24 * 60 * 60 * 1000, // 24h
+        channelEnvKey: 'NETWORTH_DELTA_CHANNEL_ID',
+        handler: 'networthDeltaHandler',
+        enabled: true
+    },
+
+    assetDistribution: {
+        key: 'assetDistribution',
+        name: 'Asset Distribution',
+        emoji: '📊',
+        interval: 24 * 60 * 60 * 1000, // 24h
+        channelEnvKey: 'ASSET_DISTRIBUTION_CHANNEL_ID',
+        handler: 'assetDistributionHandler',
+        enabled: true
+    },
 };
 
 /**

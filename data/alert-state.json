@@ -2,7 +2,7 @@
   "471702596541743105": {
     "state": {
       "education_current": 43,
-      "education_timeleft": 410431,
+      "education_timeleft": 407865,
       "education_completed": [
         23,
         52,
@@ -12,47 +12,47 @@
         115,
         116
       ],
-      "points": 300,
+      "points": 380,
       "cayman_bank": 0,
       "vault_amount": 0,
       "company_funds": 0,
       "daily_networth": 17677667,
-      "money_onhand": 120180,
+      "money_onhand": 483400,
       "city_bank": {
         "amount": 0,
         "time_left": 0
       },
-      "server_time": 1767079714,
+      "server_time": 1767082220,
       "energy": {
-        "current": 100,
+        "current": 5,
         "maximum": 100,
         "increment": 5,
         "interval": 900,
-        "ticktime": 86,
-        "fulltime": 0
+        "ticktime": 280,
+        "fulltime": 16480
       },
       "nerve": {
-        "current": 22,
+        "current": 5,
         "maximum": 22,
         "increment": 1,
         "interval": 300,
-        "ticktime": 86,
-        "fulltime": 0
+        "ticktime": 280,
+        "fulltime": 5080
       },
       "happy": {
-        "current": 2825,
+        "current": 2774,
         "maximum": 2825,
         "increment": 5,
         "interval": 900,
-        "ticktime": 86,
-        "fulltime": 0
+        "ticktime": 280,
+        "fulltime": 9280
       },
       "life": {
         "current": 625,
         "maximum": 625,
         "increment": 31,
         "interval": 300,
-        "ticktime": 86,
+        "ticktime": 280,
         "fulltime": 0
       },
       "chain": {
@@ -68,11 +68,11 @@
         "booster": 0
       },
       "travel": {
-        "destination": "Torn",
+        "destination": "UAE",
         "method": "Airstrip",
-        "timestamp": 1767081263,
-        "departed": 1767069743,
-        "time_left": 1609
+        "timestamp": 1767093075,
+        "departed": 1767082035,
+        "time_left": 10915
       },
       "rank": "Average Intimidator",
       "level": 15,
@@ -94,7 +94,7 @@
       "revivable": 1,
       "profile_image": "https://profileimages.torn.com/7dc51b28-55c5-4806-8bd4-3d11c7181ff4-2381000.png",
       "status": {
-        "description": "Returning to Torn from UAE",
+        "description": "Traveling to UAE",
         "details": "",
         "state": "Traveling",
         "color": "blue",
@@ -293,6 +293,10 @@
         }
       },
       "events": {
+        "bWmmMUPC5lnpQxFZsDbF": {
+          "timestamp": 1767081948,
+          "event": "You sold 42x Camel Plushie on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=2738097'>Dwell</a> for $3,136,140 after $165,060 in fees."
+        },
         "XVHXdbiFgTZ1uSmWYrfD": {
           "timestamp": 1767038045,
           "event": "<a href = http://www.torn.com/\"http://www.torn.com/http://www.torn.com/profiles.php?XID=2915891\">Ritteruk</a>, the director of <a href = http://www.torn.com/\"http://www.torn.com/http://www.torn.com/joblist.php#/p=corpinfo&ID=120121\">Sweets, Wine and Taurine</a>, has trained you from the company. You gained 50 END and 25 MAN. "
@@ -388,31 +392,33 @@
         "203K8BmQ2zs7mK3ng0dU": {
           "timestamp": 1766876021,
           "event": "<a href = http://www.torn.com/\"http://www.torn.com/http://www.torn.com/profiles.php?XID=2915891\">Ritteruk</a>, the director of <a href = http://www.torn.com/\"http://www.torn.com/http://www.torn.com/joblist.php#/p=corpinfo&ID=120121\">Sweets, Wine and Taurine</a>, has trained you from the company. You gained 50 END and 25 MAN. "
-        },
-        "qRCQFbp9ZfYLzCNB3atF": {
-          "timestamp": 1766873211,
-          "event": "Someone attacked you [<a href = http://www.torn.com/\"http://www.torn.com/loader.php?sid=attackLog&ID=7df71e25a62a7cb00c67236a5abe194b\">view</a>]"
         }
       }
     },
     "flags": {
-      "NERVE_FULL": true,
+      "NERVE_FULL": false,
       "NEW_MESSAGE": false,
       "NEW_EVENT": false,
-      "ENERGY_FULL": true,
-      "ENERGY_GYM_OPTIMAL": true,
+      "ENERGY_FULL": false,
+      "ENERGY_GYM_OPTIMAL": false,
       "LIFE_FULL": true,
-      "TRAVEL_COMPLETED": false
+      "TRAVEL_COMPLETED": false,
+      "TRAVEL_RETURNING": false,
+      "TRAVEL_READY": false,
+      "CASH_DROP": true
     },
     "lastAlert": {
       "NERVE_FULL": 1767063949999,
       "NEW_MESSAGE": 1767003006900,
-      "NEW_EVENT": 1767059622336,
+      "NEW_EVENT": 1767081983114,
       "ENERGY_FULL": 1767070838810,
       "ENERGY_GYM_OPTIMAL": 1767070839494,
       "LIFE_FULL": 1767060046902,
-      "TRAVEL_COMPLETED": 1767069383766
+      "TRAVEL_COMPLETED": 1767069383766,
+      "TRAVEL_RETURNING": 1767081822968,
+      "TRAVEL_READY": 1767081823408,
+      "CASH_DROP": 1767082160924
     },
-    "updatedAt": 1767079714346
+    "updatedAt": 1767082220146
   }
 }

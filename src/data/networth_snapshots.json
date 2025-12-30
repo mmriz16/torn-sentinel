@@ -1,0 +1,28 @@
+{
+  "snapshots": [
+    {
+      "total": 19124205,
+      "breakdown": {
+        "wallet": 120180,
+        "bank": 0,
+        "points": 10383900,
+        "items": 8344310,
+        "bazaar": 0,
+        "displaycase": 0,
+        "properties": 964875,
+        "stockmarket": 0,
+        "itemmarket": 98640,
+        "auctionhouse": 0,
+        "company": 0,
+        "bookie": 0,
+        "loan": 0,
+        "unpaidfees": -787700,
+        "piggybank": 0,
+        "cayman": 0,
+        "vault": 0,
+        "trade": 0
+      },
+      "timestamp": 1767081973618
+    }
+  ]
+}

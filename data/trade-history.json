@@ -1,0 +1,42 @@
+{
+  "471702596541743105": {
+    "buys": [],
+    "sells": [
+      {
+        "id": "sell_1767081966750",
+        "type": "SELL",
+        "itemId": 384,
+        "itemName": "Camel Plushie",
+        "qty": 42,
+        "unitPrice": 78600,
+        "grossRevenue": 3301200,
+        "tax": 165060,
+        "netRevenue": 3136140,
+        "totalBuyCost": 0,
+        "profit": null,
+        "isOrphan": true,
+        "orphanQty": 42,
+        "matchedBuys": [],
+        "timestamp": 1767081966
+      },
+      {
+        "id": "sell_1767081997204",
+        "type": "SELL",
+        "itemId": 384,
+        "itemName": "Camel Plushie",
+        "qty": 42,
+        "unitPrice": 78600,
+        "grossRevenue": 3301200,
+        "tax": 165060,
+        "netRevenue": 3136140,
+        "totalBuyCost": 0,
+        "profit": null,
+        "isOrphan": true,
+        "orphanQty": 42,
+        "matchedBuys": [],
+        "timestamp": 1767081997
+      }
+    ],
+    "completedTrades": []
+  }
+}

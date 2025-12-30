@@ -22,6 +22,9 @@ import { botStatusHandler } from './handlers/botStatusHandler.js';
 import { jobHandler } from './handlers/jobHandler.js';
 import { workPerformanceHandler } from './handlers/workPerformanceHandler.js';
 import { bazaarHandler } from './handlers/bazaarHandler.js';
+import { networthTrendHandler } from './handlers/networthTrendHandler.js';
+import { networthDeltaHandler } from './handlers/networthDeltaHandler.js';
+import { assetDistributionHandler } from './handlers/assetDistributionHandler.js';
 import { getAllUsers } from '../userStorage.js';
 import { initLogger, logSystem } from '../system/systemLogger.js';
 
@@ -51,6 +54,9 @@ export async function startupBootstrap(client) {
     registerHandler('jobHandler', jobHandler);
     registerHandler('workPerformanceHandler', workPerformanceHandler);
     registerHandler('bazaarHandler', bazaarHandler);
+    registerHandler('networthTrendHandler', networthTrendHandler);
+    registerHandler('networthDeltaHandler', networthDeltaHandler);
+    registerHandler('assetDistributionHandler', assetDistributionHandler);
 
     // Initialize system logger
     initLogger(client);
