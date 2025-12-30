@@ -217,6 +217,20 @@ export const AUTO_RUNNERS = {
         handler: 'cooldownHandler',
         enabled: true
     },
+
+    // ═══════════════════════════════════════════════════════════════════
+    // 📦 TRADE DETECTION
+    // ═══════════════════════════════════════════════════════════════════
+
+    tradeDetection: {
+        key: 'tradeDetection',
+        name: 'Trade Detection',
+        emoji: '📦',
+        interval: INTERVALS.FAST, // 60s
+        channelEnvKey: 'TRADE_HISTORY_CHANNEL_ID',
+        handler: 'tradeHandler',
+        enabled: true
+    },
 };
 
 /**

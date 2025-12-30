@@ -17,6 +17,7 @@ import { companyHandler } from './handlers/companyHandler.js';
 import { bestRouteHandler } from './handlers/bestRouteHandler.js';
 import { profitSummaryHandler } from './handlers/profitSummaryHandler.js';
 import { cooldownHandler } from './handlers/cooldownHandler.js';
+import { tradeHandler } from './handlers/tradeHandler.js';
 
 /**
  * Bootstrap all auto-run channels on bot startup
@@ -39,6 +40,7 @@ export async function startupBootstrap(client) {
     registerHandler('bestRouteHandler', bestRouteHandler);
     registerHandler('profitSummaryHandler', profitSummaryHandler);
     registerHandler('cooldownHandler', cooldownHandler);
+    registerHandler('tradeHandler', tradeHandler);
 
     // Register foreign market handlers (per country)
     for (const [countryKey, handler] of Object.entries(foreignMarketHandlers)) {
