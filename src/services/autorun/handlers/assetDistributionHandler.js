@@ -13,17 +13,27 @@ const ASSET_GROUPS = {
     'liquid': {
         label: '💵 Liquid Cash',
         color: '🟢',
-        keys: ['wallet', 'bank', 'piggybank']
+        keys: ['wallet', 'piggybank', 'vault'] // Removed bank/cayman (not instant)
+    },
+    'savings': {
+        label: '🏦 Bank & Savings',
+        color: '🔵', // Blue for bank
+        keys: ['bank', 'cayman']
     },
     'points': {
         label: '💎 Points',
         color: '🟣',
         keys: ['points']
     },
-    'items': {
-        label: '📦 Items',
-        color: '🟦',
-        keys: ['items', 'bazaar', 'displaycase', 'itemmarket', 'auctionhouse', 'trade']
+    'inventory': {
+        label: '🎒 Inventory',
+        color: '🎒',
+        keys: ['items', 'displaycase']
+    },
+    'market_items': {
+        label: '🏪 Market Listings',
+        color: '📦',
+        keys: ['bazaar', 'itemmarket', 'auctionhouse', 'trade']
     },
     'properties': {
         label: '🏠 Properties',
@@ -40,6 +50,15 @@ const ASSET_GROUPS = {
         color: '🔴',
         keys: ['unpaidfees', 'loan']
     }
+};
+
+// Friendly names for individual keys
+const KEY_LABELS = {
+    wallet: 'Wallet', bank: 'Bank', piggybank: 'Piggy Bank', vault: 'Vault', cayman: 'Cayman Islands',
+    points: 'Points', items: 'Inventory Items', displaycase: 'Display Case',
+    bazaar: 'Bazaar', itemmarket: 'Item Market', auctionhouse: 'Auction House', trade: 'Trades',
+    properties: 'Properties', stockmarket: 'Stocks', company: 'Company Funds', bookie: 'Bookie',
+    unpaidfees: 'Unpaid Fees', loan: 'Bank Loan'
 };
 
 export async function assetDistributionHandler(client) {
@@ -59,27 +78,8 @@ export async function assetDistributionHandler(client) {
         const networth = data.networth;
         const total = networth.total || 0;
 
-        // Map API data to our structure (correct field names from API)
-        const assetValues = {
-            wallet: networth.wallet || 0,
-            bank: networth.bank || 0,
-            piggybank: networth.piggybank || 0,
-            cayman: networth.cayman || 0,
-            vault: networth.vault || 0,
-            points: networth.points || 0,
-            items: networth.items || 0,
-            bazaar: networth.bazaar || 0,
-            displaycase: networth.displaycase || 0,
-            itemmarket: networth.itemmarket || 0,
-            auctionhouse: networth.auctionhouse || 0,
-            trade: networth.trade || 0,
-            properties: networth.properties || 0,
-            stockmarket: networth.stockmarket || 0,
-            company: networth.company || 0,
-            bookie: networth.bookie || 0,
-            unpaidfees: networth.unpaidfees || 0,
-            loan: networth.loan || 0
-        };
+        // Map API data to our structure
+        const assetValues = { ...networth };
 
         // Calculate group totals
         const groupTotals = {};
@@ -91,52 +91,119 @@ export async function assetDistributionHandler(client) {
             groupTotals[groupKey] = groupTotal;
         }
 
-        // Calculate percentages and build display
-        const displayLines = [];
-        const sortedGroups = Object.entries(groupTotals)
-            .filter(([key, value]) => value !== 0)
-            .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]));
+        // Separate groups
+        const positiveGroups = [];
+        const negativeGroups = [];
 
-        for (const [groupKey, value] of sortedGroups) {
-            const group = ASSET_GROUPS[groupKey];
-            const percent = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-            const percentStr = `${percent}%`.padStart(6);
-            displayLines.push(`${group.color} ${group.label.padEnd(18)} ${percentStr}  (${formatMoney(value)})`);
+        for (const [groupKey, value] of Object.entries(groupTotals)) {
+            if (value > 0) positiveGroups.push({ key: groupKey, value });
+            else if (value < 0) negativeGroups.push({ key: groupKey, value });
         }
 
-        // Calculate liquidity ratio (liquid assets / total)
+        // Identify Zero Items (Individual keys)
+        const zeroItemLabels = [];
+        const allKeysToCheck = [
+            // Liquid
+            'bank', 'piggybank', 'vault', 'cayman',
+            // Inventory
+            'displaycase',
+            // Market
+            'bazaar', 'auctionhouse', 'trade',
+            // Investments
+            'stockmarket', 'company', 'bookie',
+            // Properties
+            'properties'
+        ];
+
+        for (const key of allKeysToCheck) {
+            if (!assetValues[key] || assetValues[key] === 0) {
+                if (KEY_LABELS[key]) zeroItemLabels.push(KEY_LABELS[key]);
+            }
+        }
+
+        // Calculate Gross/Liability Totals for percentage base
+        const liabilityTotal = groupTotals['liabilities'] || 0;
+        // Total Networth = Assets + Liabilities (where Liabilities is negative)
+        // Gross Assets = Total - Liabilities
+        const grossTotal = total - liabilityTotal;
+
+        // Sort positives by value desc
+        positiveGroups.sort((a, b) => b.value - a.value);
+
+        // Build Positive Assets Display
+        const assetLines = [];
+        for (const { key, value } of positiveGroups) {
+            const group = ASSET_GROUPS[key];
+            // Use grossTotal as base for asset percentage
+            const percent = grossTotal > 0 ? ((value / grossTotal) * 100).toFixed(1) : 0;
+            const percentStr = `${percent}%`.padStart(6);
+            // Label only, no double icon
+            assetLines.push(`${group.label.padEnd(18)} ${percentStr}  (${formatMoney(value)})`);
+        }
+
+        // Build Liabilities Display
+        const liabilityLines = [];
+        for (const { key, value } of negativeGroups) {
+            const group = ASSET_GROUPS[key];
+            // Liability % relative to Gross Assets shows scale of debt
+            const percent = grossTotal > 0 ? ((value / grossTotal) * 100).toFixed(1) : 0;
+            const percentStr = `${percent}%`.padStart(6);
+            liabilityLines.push(`${group.label.padEnd(18)} ${percentStr}  (${formatMoney(value)})`);
+        }
+
+        // Build Zero Assets String
+        const zeroString = zeroItemLabels.join(', ');
+
+        // Calculate liquidity ratio
         const liquidTotal = groupTotals.liquid + groupTotals.points;
         const liquidityRatio = total > 0 ? ((liquidTotal / total) * 100).toFixed(0) : 0;
 
-        // Determine embed color based on diversification
-        let color = 0x3498DB; // Blue - balanced
-        const topGroupPercent = sortedGroups.length > 0
-            ? Math.abs(sortedGroups[0][1] / total) * 100
-            : 0;
-
-        if (topGroupPercent > 80) color = 0xE67E22; // Orange - concentrated
-        if (groupTotals.liabilities < -500000) color = 0xE74C3C; // Red - high liabilities
+        // Embed Color
+        let color = 0x3498DB;
+        if (liabilityTotal < -1000000) color = 0xE74C3C;
 
         const embed = new EmbedBuilder()
             .setColor(color)
             .setTitle('📊 Asset Distribution')
-            .addFields(
-                {
-                    name: 'Breakdown',
-                    value: '```\n' + displayLines.join('\n') + '\n```',
-                    inline: false
-                },
-                {
-                    name: 'Total Networth',
-                    value: `\`\`\`${formatMoney(total)}\`\`\``,
-                    inline: true
-                },
-                {
-                    name: 'Liquidity Ratio',
-                    value: `\`\`\`${liquidityRatio}%\`\`\``,
-                    inline: true
-                }
-            )
+
+            // 1. Assets Block
+            .addFields({
+                name: '📈 Assets',
+                value: '```\n' + (assetLines.length ? assetLines.join('\n') : 'No assets') + '\n```',
+                inline: false
+            });
+
+        // 2. Liabilities Block (if any)
+        if (liabilityLines.length > 0) {
+            embed.addFields({
+                name: '📉 Liabilities',
+                value: '```diff\n' + liabilityLines.join('\n') + '\n```', // diff naming for red text logic if simple formatting used? or just standard code block
+                inline: false
+            });
+        }
+
+        // 3. Zero Assets (if any)
+        if (zeroItemLabels.length > 0) {
+            embed.addFields({
+                name: '🚫 Empty Assets',
+                value: '```' + zeroString + '```',
+                inline: false
+            });
+        }
+
+        // 4. Totals
+        embed.addFields(
+            {
+                name: 'Total Networth',
+                value: `\`\`\`${formatMoney(total)}\`\`\``,
+                inline: true
+            },
+            {
+                name: 'Liquidity Ratio',
+                value: `\`\`\`${liquidityRatio}%\`\`\``,
+                inline: true
+            }
+        )
             .setFooter({ text: 'Torn Sentinel • Updated daily' })
             .setTimestamp();
 

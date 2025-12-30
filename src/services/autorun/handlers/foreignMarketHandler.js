@@ -1,12 +1,13 @@
 /**
- * Foreign Market Handler for Auto-Run (REFACTORED)
+ * Foreign Market Handler for Auto-Run (REFACTORED V2)
  * 
- * NOW: Reads from global YATA cache (no API calls)
- * Returns 4 SEPARATE embeds per category: Flower, Plushie, Drug, Other
+ * Features:
+ * - Reads from global YATA cache (no API calls)
+ * - Returns multiple embeds for clean layout: Header + Category Tables
+ * - Precise table formatting inside code blocks
  */
 
 import { EmbedBuilder } from 'discord.js';
-import { formatCompact } from '../../../utils/formatters.js';
 import { getCountryData } from '../../yataGlobalCache.js';
 
 // Country metadata mapping
@@ -53,116 +54,123 @@ function categorizeItem(itemName) {
 function getCategoryColor(category) {
     switch (category) {
         case 'flower': return 0xFF69B4;  // Pink
-        case 'plushie': return 0x8B4513; // Brown
+        case 'plushie': return 0xC74C00; // Brown/Orange
         case 'drug': return 0x00CED1;    // Cyan
-        default: return 0x808080;        // Gray
+        default: return 0x797D7F;        // Grey
     }
 }
 
 /**
- * Get category emoji
+ * Get category emoji & title
  */
-function getCategoryEmoji(category) {
+function getCategoryHeader(category) {
     switch (category) {
-        case 'flower': return '🌸';
-        case 'plushie': return '🧸';
-        case 'drug': return '💊';
-        default: return '📦';
+        case 'flower': return '🌸｜Flowers';
+        case 'plushie': return '🧸｜Plushies';
+        case 'drug': return '💊｜Drugs';
+        default: return '📦｜Others';
     }
 }
 
 /**
- * Format item line for embed
+ * Format money compact e.g., "$ 14K", "$ 25B"
  */
-function formatItemLine(item) {
-    const name = item.name.length > 18 ? item.name.substring(0, 16) + '..' : item.name;
-    const qty = item.quantity?.toString() || '?';
-    const cost = formatCompact(item.cost);
-    return `\`${name.padEnd(18)} x${qty.padStart(3)} @ $${cost}\``;
+function formatMoneyCompact(num) {
+    if (num >= 1_000_000_000) return `$ ${(num / 1_000_000_000).toFixed(0)}B`; // $ 25B
+    if (num >= 1_000_000) return `$ ${(num / 1_000_000).toFixed(1)}M`;     // $ 1.5M
+    if (num >= 1_000) return `$ ${(num / 1_000).toFixed(1)}K`;          // $ 14.5K
+    return `$ ${num}`;
 }
 
 /**
- * Build embeds for a country from CACHE (no API call)
- * @param {string} countryKey - e.g., 'japan', 'uae'
- * @returns {EmbedBuilder[]} Array of embeds
+ * Format table row
+ */
+function formatTableRow(item) {
+    // Layout: Name (21) | Stock (7) | Price (11)
+
+    let name = item.name;
+    if (name.length > 21) name = name.substring(0, 19) + '..';
+
+    const stock = item.quantity >= 1000 ? (item.quantity / 1000).toFixed(1) + 'k' : item.quantity.toString();
+    const price = formatMoneyCompact(item.cost);
+
+    return `${name.padEnd(21)} ${stock.padStart(7)} ${price.padStart(11)}`;
+}
+
+/**
+ * Build embeds for a country from CACHE
  */
 function buildCountryEmbeds(countryKey) {
     const country = COUNTRIES[countryKey];
     if (!country) return [];
 
-    // READ FROM GLOBAL CACHE (no API call!)
     const cacheData = getCountryData(countryKey);
     const items = cacheData.items;
+    const embeds = [];
+
+    // 1. HEADER EMBED
+    const headerEmbed = new EmbedBuilder()
+        .setTitle(`${country.emoji}｜${country.name}｜Foreign Market`)
+        .setColor(null); // Default/Black
 
     if (!items || items.length === 0) {
-        // No data available
-        const embed = new EmbedBuilder()
-            .setColor(0x95A5A6)
-            .setTitle(`${country.emoji} ${country.name} Foreign Market`)
-            .setDescription('```No market data available```')
-            .setFooter({ text: cacheData.error ? `Error: ${cacheData.error}` : 'Waiting for data...' })
-            .setTimestamp();
-        return [embed];
+        headerEmbed.setDescription('```No market data available```');
+        headerEmbed.setFooter({ text: 'Waiting for data...' });
+        return [headerEmbed];
     }
 
-    // Group items by category
+    embeds.push(headerEmbed);
+
+    // Group items
     const grouped = { flower: [], plushie: [], drug: [], other: [] };
     for (const item of items) {
         const cat = categorizeItem(item.name);
         grouped[cat].push(item);
     }
 
-    // Sort each category by cost (descending)
-    for (const cat of Object.keys(grouped)) {
-        grouped[cat].sort((a, b) => b.cost - a.cost);
-    }
+    // Process categories in order
+    const categoryOrder = ['plushie', 'flower', 'drug', 'other'];
 
-    const embeds = [];
-    const categoryOrder = ['flower', 'plushie', 'drug', 'other'];
-
-    for (let i = 0; i < categoryOrder.length; i++) {
-        const cat = categoryOrder[i];
+    for (const cat of categoryOrder) {
         const catItems = grouped[cat];
         if (catItems.length === 0) continue;
 
+        // Sort by cost descending (usually expensive items first)
+        catItems.sort((a, b) => b.cost - a.cost);
+
+        // Build Table
+        // Header alignment matches formatTableRow: 21 + 1 + 7 + 1 + 11 = 41 chars
+        const headName = "Item Name".padEnd(21);
+        const headStock = "Stock".padStart(7);
+        const headPrice = "Price".padStart(11);
+        const header = `${headName} ${headStock} ${headPrice}`;
+
+        const separator = `──────────────────────────────────────────`;
+        // Limit to 15 items to prevent Field Value overflow (1024 chars)
+        const rows = catItems.slice(0, 15).map(formatTableRow);
+        const table = `\`\`\`\n${header}\n${separator}\n${rows.join('\n')}\`\`\``;
+
         const embed = new EmbedBuilder()
-            .setColor(getCategoryColor(cat));
-
-        // First embed gets header
-        if (embeds.length === 0) {
-            embed.setTitle(`${country.emoji} ${country.name} Foreign Market`);
-        }
-
-        // Category header
-        const categoryTitle = `${getCategoryEmoji(cat)} ${cat.charAt(0).toUpperCase() + cat.slice(1)}s`;
-
-        // Format items (max 8 per category)
-        const lines = catItems.slice(0, 8).map(formatItemLine);
-
-        embed.addFields({
-            name: categoryTitle,
-            value: lines.join('\n') || 'None',
-            inline: false
-        });
+            .setColor(getCategoryColor(cat))
+            .addFields({
+                name: getCategoryHeader(cat),
+                value: table,
+                inline: false // Force full width for table
+            });
 
         embeds.push(embed);
     }
 
-    // Add footer to last embed with cache status
+    // Add Footer to the LAST embed
     if (embeds.length > 0) {
         const lastEmbed = embeds[embeds.length - 1];
-        let footerText = `YATA • Updated`;
 
-        if (cacheData.isStale) {
-            footerText = '⚠️ Cached data (YATA limit/delay)';
-        }
+        // Footer timestamp logic
+        const timestamp = cacheData.updatedAt ? Math.floor(cacheData.updatedAt / 1000) : Math.floor(Date.now() / 1000);
+        let footerText = 'Torn Sentinel • Item Market';
 
-        if (cacheData.updatedAt > 0) {
-            lastEmbed.setFooter({ text: `${footerText} • <t:${Math.floor(cacheData.updatedAt / 1000)}:R>` });
-        } else {
-            lastEmbed.setFooter({ text: footerText });
-        }
-        lastEmbed.setTimestamp(new Date(cacheData.updatedAt || Date.now()));
+        lastEmbed.setFooter({ text: footerText })
+            .setTimestamp(new Date(cacheData.updatedAt || Date.now()));
     }
 
     return embeds;
@@ -170,7 +178,6 @@ function buildCountryEmbeds(countryKey) {
 
 /**
  * Create handler for a specific country
- * These handlers DO NOT call API - they read from cache
  */
 export function createForeignMarketHandler(countryKey) {
     return async function (client) {
