@@ -7,6 +7,7 @@ import { EmbedBuilder } from 'discord.js';
 import { getCombinedStats } from '../../tornApi.js';
 import { formatTime } from '../../../utils/formatters.js';
 import { getAllUsers } from '../../userStorage.js';
+import { getCapacity, updateCapacity, getLastCountry, setLastCountry } from '../../analytics/travelAnalyticsService.js';
 
 export async function cooldownHandler(client) {
     try {
@@ -21,10 +22,8 @@ export async function cooldownHandler(client) {
 
         if (!user.apiKey) return null;
 
-        // Fetch FRESH data: travel, cooldowns
-        // Using 'bars' to get verify energy/nerve too? 
-        // PRD says: User status (travel, cooldown)
-        const stats = await getCombinedStats(user.apiKey, 'travel,cooldowns,basic');
+        // Fetch FRESH data: travel, cooldowns, perks
+        const stats = await getCombinedStats(user.apiKey, 'travel,cooldowns,basic,perks');
 
         if (!stats) return null;
 
@@ -32,6 +31,34 @@ export async function cooldownHandler(client) {
         const travel = stats.travel || {};
         const cooldowns = stats.cooldowns || {};
         const status = stats.status || {};
+
+        // Extract travel capacity from perks
+        let capacity = getCapacity();
+        let hasAirstrip = false;
+
+        // Check perks for travel items and airstrip
+        if (stats.property_perks) {
+            for (const perk of stats.property_perks) {
+                if (perk.match(/Access to airstrip/i)) {
+                    hasAirstrip = true;
+                }
+            }
+        }
+
+        // Calculate capacity from various perks
+        if (stats.faction_perks) {
+            for (const perk of stats.faction_perks) {
+                const match = perk.match(/(\d+)\s*travel item capacity/i);
+                if (match) {
+                    capacity = 5 + parseInt(match[1]) + (hasAirstrip ? 10 : 0);
+                    updateCapacity(capacity);
+                }
+            }
+        }
+
+        // Get transport type from travel data
+        const transportType = travel.method || 'Standard';
+        if (capacity === 0) capacity = 5; // Default base
 
         let state = 'READY';
         let color = 0x00FF00; // Green
@@ -44,51 +71,126 @@ export async function cooldownHandler(client) {
             state = 'TRAVELING';
             color = 0x3498DB; // Blue
             const destination = travel.destination || 'Unknown';
-            const returning = travel.destination === 'Torn'; // Wait, API destination is "Torn" if returning?
-            // Actually usually destination is the target city, need another way to check return?
-            // Usually if method is 'Travel', check detailed status.
-            // For now, simplify: if time_left > 0, we are moving.
 
-            title = `✈️ Traveling to ${destination}`;
-            description = `Arriving in **${formatTime(travel.time_left)}**`;
+            // Get country codes and flags
+            const countryCodes = {
+                'Torn': { code: 'TCN', flag: '🌆', city: 'Torn City' },
+                'Mexico': { code: 'MEX', flag: '🇲🇽', city: 'Mexico City' },
+                'Cayman Islands': { code: 'CYM', flag: '🇰🇾', city: 'Grand Cayman' },
+                'Canada': { code: 'CAN', flag: '🇨🇦', city: 'Toronto' },
+                'Hawaii': { code: 'HNL', flag: '🇺🇸', city: 'Honolulu' },
+                'United Kingdom': { code: 'LHR', flag: '🇬🇧', city: 'London' },
+                'Argentina': { code: 'EZE', flag: '🇦🇷', city: 'Buenos Aires' },
+                'Switzerland': { code: 'ZRH', flag: '🇨🇭', city: 'Zurich' },
+                'Japan': { code: 'NRT', flag: '🇯🇵', city: 'Tokyo' },
+                'China': { code: 'PEK', flag: '🇨🇳', city: 'Beijing' },
+                'UAE': { code: 'DXB', flag: '🇦🇪', city: 'Dubai' },
+                'South Africa': { code: 'JNB', flag: '🇿🇦', city: 'Johannesburg' }
+            };
 
-            // Add ETA timestamp
-            const arrivalTime = Math.floor((Date.now() / 1000) + travel.time_left);
-            description += `\nETA: <t:${arrivalTime}:R>`;
+            // Determine origin and destination based on travel direction
+            // If destination is Torn, we're RETURNING (origin = abroad)
+            // If destination is foreign, we're DEPARTING (origin = Torn)
+            const isReturning = destination === 'Torn';
+
+            let origin, dest;
+            if (isReturning) {
+                // Returning to Torn - use lastCountry as origin
+                const lastCountry = getLastCountry();
+
+                // Handle case where lastCountry wasn't tracked (legacy trips)
+                if (lastCountry === 'Torn' || lastCountry === 'Unknown') {
+                    origin = { code: 'ABR', flag: '✈️', city: 'Abroad' };
+                } else {
+                    origin = countryCodes[lastCountry] || { code: 'ABR', flag: '🌍', city: lastCountry };
+                }
+                dest = countryCodes['Torn'];
+            } else {
+                // Departing to foreign country - save destination for return trip
+                setLastCountry(destination);
+                origin = countryCodes['Torn'];
+                dest = countryCodes[destination] || { code: 'UNK', flag: '🌍', city: destination };
+            }
+
+            // Calculate times - travel.departed is Unix timestamp (seconds)
+            const now = new Date();
+            const departureDate = travel.departed ? new Date(travel.departed * 1000) : now;
+            const arrivalDate = new Date(now.getTime() + travel.time_left * 1000);
+            const arrivalUnix = Math.floor(arrivalDate.getTime() / 1000);
+
+            // Format dates
+            const formatDate = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const formatTimeShort = (d) => d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+            // Calculate remaining time for footer
+            const mins = Math.floor(travel.time_left / 60);
+            const footerText = `Arriving in ${mins} minutes (${formatTimeShort(arrivalDate)})`;
+
+            // Build premium embed
+            const embed = new EmbedBuilder()
+                .setColor(color)
+                .setAuthor({ name: formatDate(now) })
+                .setTitle(`✈️｜Torn Airways — Flight TCN-${Math.floor(Math.random() * 900 + 100)}`)
+                .setDescription('──────────────────────────────────')
+                .addFields(
+                    {
+                        name: `${origin.flag}｜${origin.code}`,
+                        value: `\`\`\`${origin.city}\`\`\`${formatDate(departureDate)} • ${formatTimeShort(departureDate)}`,
+                        inline: true
+                    },
+                    {
+                        name: `${dest.flag}｜${dest.code}`,
+                        value: `\`\`\`${dest.city}\`\`\`${formatDate(arrivalDate)} • ${formatTimeShort(arrivalDate)}`,
+                        inline: true
+                    },
+                    {
+                        name: 'Type',
+                        value: `\`\`\`🎫 ${hasAirstrip ? 'Airstrip' : transportType} • 🎒 ${capacity} Items\`\`\``,
+                        inline: false
+                    }
+                )
+                .setFooter({ text: footerText });
+
+            return embed;
         }
         // 2. Check Hospital/Jail
         else if (status.state === 'Hospital' || status.state === 'Jail') {
-            state = 'BLOCKED';
-            color = 0xE74C3C; // Red
-            title = `⛔ ${status.state}`;
-            description = `${status.details || 'Unable to travel'}`;
-            if (status.until > 0) {
-                description += `\nFree in: <t:${status.until}:R>`;
-            }
-        }
-        // 3. Check Cooldowns (Drug/Medical/Booster doesn't stop travel, but good to know)
-        // Wait, "Travel Cooldown" is not explicit in API unless we track it?
-        // Actually, you can fly immediately after landing if you don't have rehab/mug/etc blocks.
-        // PRD says: "Cooldown active | Remaining cooldown".
-        // This usually refers to "Rehab" or "Mug" cooldowns if relevant?
-        // OR simply "Flight delay" (return trip).
+            const icon = status.state === 'Hospital' ? '🏥' : '⛓️';
+            const healTime = status.until > 0 ? `<t:${status.until}:R>` : 'soon';
 
-        // If we are in foreign country, time_left=0. We are "Abroad".
-        else if (travel.destination !== 'Torn') {
-            state = 'ABROAD';
-            color = 0xF1C40F; // Yellow
-            title = `📍 In ${travel.destination}`;
-            description = 'You are currently abroad.';
-            // Check if flight back is ready? API doesn't give separate "flight cooldown".
-            // Usually you can fly back immediately.
+            const embed = new EmbedBuilder()
+                .setColor(0xE74C3C) // Red
+                .setTitle(`${icon}｜You're in ${status.state}`)
+                .setDescription(`\`\`\`${status.details || 'Unable to travel...'}\`\`\`${status.state === 'Hospital' ? 'Heal' : 'Free'} ${healTime}`)
+                .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}` });
+
+            return embed;
+        }
+        // 3. If we are in foreign country, time_left=0. We are "Abroad".
+        else if (travel.destination && travel.destination !== 'Torn') {
+            const countryCodes = {
+                'Mexico': '🇲🇽', 'Cayman Islands': '🇰🇾', 'Canada': '🇨🇦',
+                'Hawaii': '🇺🇸', 'United Kingdom': '🇬🇧', 'Argentina': '🇦🇷',
+                'Switzerland': '🇨🇭', 'Japan': '🇯🇵', 'China': '🇨🇳',
+                'UAE': '🇦🇪', 'South Africa': '🇿🇦'
+            };
+            const flag = countryCodes[travel.destination] || '🌍';
+
+            const embed = new EmbedBuilder()
+                .setColor(0xF1C40F) // Yellow
+                .setTitle(`📍｜You're in ${travel.destination} ${flag}`)
+                .setDescription('```You are currently abroad.```')
+                .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}` });
+
+            return embed;
         }
 
+        // 4. Default: Ready in Torn
         const embed = new EmbedBuilder()
-            .setColor(color)
-            .setTitle(title)
-            .setDescription(description)
-            .setTimestamp()
-            .setFooter({ text: 'Auto update every 60s' });
+            .setColor(0x2ECC71) // Green
+            .setTitle('✅｜Ready to Travel')
+            .setDescription('```No active cooldowns. You are in Torn.```')
+            .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}` });
 
         return embed;
 

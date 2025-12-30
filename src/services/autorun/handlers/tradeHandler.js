@@ -4,7 +4,7 @@
  */
 
 import { EmbedBuilder } from 'discord.js';
-import { get } from '../../tornApi.js';
+import { get, getV2 } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney } from '../../../utils/formatters.js';
 import {
@@ -40,8 +40,14 @@ export async function tradeHandler(client) {
 
         const user = users[userId];
 
-        // Fetch user data with inventory and money
-        const data = await get(user.apiKey, 'user', 'basic,inventory,money,travel');
+        // Fetch user data with inventory and money (V1 and V2)
+        const [v1Data, v2Data] = await Promise.all([
+            get(user.apiKey, 'user', 'basic,inventory,money,travel'),
+            getV2(user.apiKey, 'user?selections=itemmarket,bazaar')
+        ]);
+
+        // Combine data
+        const data = { ...v1Data, ...v2Data };
 
         // Build current snapshot
         const currentSnapshot = buildSnapshot(data);
@@ -49,8 +55,8 @@ export async function tradeHandler(client) {
         // Get previous snapshot
         const prevSnapshot = getLastSnapshot(userId);
 
-        // Detect trades
-        const trades = detectTrades(userId, prevSnapshot, currentSnapshot);
+        // Detect trades (await for async YATA calls)
+        const trades = await detectTrades(userId, prevSnapshot, currentSnapshot);
 
         // Send notifications for detected trades
         if (trades.length > 0) {

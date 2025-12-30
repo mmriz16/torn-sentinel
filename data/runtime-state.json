@@ -4,144 +4,144 @@
     "channelId": "1454852371560796180",
     "messageId": "1455378119429980200",
     "createdAt": 1766998053635,
-    "updatedAt": 1767059925638,
-    "lastRun": 1767059925638
+    "updatedAt": 1767073372045,
+    "lastRun": 1767073372045
   },
   "personalStats": {
     "enabled": true,
     "channelId": "1454852447938936832",
     "messageId": "1455378123033022569",
     "createdAt": 1766998054308,
-    "updatedAt": 1767059926614,
-    "lastRun": 1767059926614
+    "updatedAt": 1767073192867,
+    "lastRun": 1767073192867
   },
   "gym": {
     "enabled": true,
     "channelId": "1454852547918561340",
     "messageId": "1455120053434323036",
     "createdAt": 1766998054915,
-    "updatedAt": 1767059927584,
-    "lastRun": 1767059927584
+    "updatedAt": 1767073313967,
+    "lastRun": 1767073313967
   },
   "work": {
     "enabled": true,
     "channelId": "1454852668957786216",
     "messageId": "1455120056148168889",
     "createdAt": 1766998055777,
-    "updatedAt": 1767059928552,
-    "lastRun": 1767059928552
+    "updatedAt": 1767073195146,
+    "lastRun": 1767073195146
   },
   "foreignMarket.argentina": {
     "enabled": true,
     "channelId": "1454855530181951564",
     "messageId": "1455120769959989268",
     "createdAt": 1766998056382,
-    "updatedAt": 1767059871385,
-    "lastRun": 1767059871385
+    "updatedAt": 1767073316047,
+    "lastRun": 1767073316047
   },
   "foreignMarket.canada": {
     "enabled": true,
     "channelId": "1454855379488866357",
     "messageId": "1455120771138457661",
     "createdAt": 1766998056584,
-    "updatedAt": 1767059871890,
-    "lastRun": 1767059871890
+    "updatedAt": 1767073316747,
+    "lastRun": 1767073316747
   },
   "foreignMarket.cayman": {
     "enabled": true,
     "channelId": "1455091732671889512",
     "messageId": "1455120773063770226",
     "createdAt": 1766998056787,
-    "updatedAt": 1767059872725,
-    "lastRun": 1767059872725
+    "updatedAt": 1767073318856,
+    "lastRun": 1767073318856
   },
   "foreignMarket.china": {
     "enabled": true,
     "channelId": "1455091662890991762",
     "messageId": "1455120774602952756",
     "createdAt": 1766998056989,
-    "updatedAt": 1767059873279,
-    "lastRun": 1767059873279
+    "updatedAt": 1767073318936,
+    "lastRun": 1767073318936
   },
   "foreignMarket.hawaii": {
     "enabled": true,
     "channelId": "1455091704469131266",
     "messageId": "1455120776373211180",
     "createdAt": 1766998057191,
-    "updatedAt": 1767059873976,
-    "lastRun": 1767059873976
+    "updatedAt": 1767073319060,
+    "lastRun": 1767073319060
   },
   "foreignMarket.japan": {
     "enabled": true,
     "channelId": "1454855192179769549",
     "messageId": "1455120778306654258",
     "createdAt": 1766998057392,
-    "updatedAt": 1767059874642,
-    "lastRun": 1767059874642
+    "updatedAt": 1767073319572,
+    "lastRun": 1767073319572
   },
   "foreignMarket.mexico": {
     "enabled": true,
     "channelId": "1454855303660044490",
     "messageId": "1455120780030640161",
     "createdAt": 1766998057590,
-    "updatedAt": 1767059875322,
-    "lastRun": 1767059875322
+    "updatedAt": 1767073320378,
+    "lastRun": 1767073320378
   },
   "foreignMarket.southafrica": {
     "enabled": true,
     "channelId": "1455091454170103841",
     "messageId": "1455120781704171684",
     "createdAt": 1766998057792,
-    "updatedAt": 1767059876115,
-    "lastRun": 1767059876115
+    "updatedAt": 1767073321154,
+    "lastRun": 1767073321154
   },
   "foreignMarket.switzerland": {
     "enabled": true,
     "channelId": "1454855598452510891",
     "messageId": "1455120783469838460",
     "createdAt": 1766998058000,
-    "updatedAt": 1767059876739,
-    "lastRun": 1767059876739
+    "updatedAt": 1767073321889,
+    "lastRun": 1767073321889
   },
   "foreignMarket.uk": {
     "enabled": true,
     "channelId": "1454855463928598741",
     "messageId": "1455120785202221089",
     "createdAt": 1766998058201,
-    "updatedAt": 1767059877532,
-    "lastRun": 1767059877532
+    "updatedAt": 1767073323902,
+    "lastRun": 1767073323902
   },
   "foreignMarket.uae": {
     "enabled": true,
     "channelId": "1454855653649813566",
     "messageId": "1455120786808639665",
     "createdAt": 1766998058401,
-    "updatedAt": 1767059878205,
-    "lastRun": 1767059878205
+    "updatedAt": 1767073324634,
+    "lastRun": 1767073324634
   },
   "bestTravelRoute": {
     "enabled": true,
     "channelId": "1454853799532429322",
     "messageId": "1455140868045672500",
     "createdAt": 1767003017690,
-    "updatedAt": 1767059818772,
-    "lastRun": 1767059818772
+    "updatedAt": 1767073205940,
+    "lastRun": 1767073205940
   },
   "travelProfitSummary": {
     "enabled": true,
     "channelId": "1454853903589048394",
     "messageId": "1455140870054482044",
     "createdAt": 1767003018329,
-    "updatedAt": 1767059819684,
-    "lastRun": 1767059819684
+    "updatedAt": 1767073206979,
+    "lastRun": 1767073206979
   },
   "cooldownCheck": {
     "enabled": true,
     "channelId": "1454853966079852636",
     "messageId": "1455140872760070208",
     "createdAt": 1767003018903,
-    "updatedAt": 1767059881216,
-    "lastRun": 1767059881216
+    "updatedAt": 1767073328060,
+    "lastRun": 1767073328060
   },
   "tradeDetection": {
     "enabled": true,
@@ -149,5 +149,13 @@
     "messageId": null,
     "createdAt": 1767059597710,
     "updatedAt": 1767059597710
+  },
+  "botStatus": {
+    "enabled": true,
+    "channelId": "1454850868888338659",
+    "messageId": "1455404462125482028",
+    "createdAt": 1767065863705,
+    "updatedAt": 1767073328733,
+    "lastRun": 1767073328733
   }
 }

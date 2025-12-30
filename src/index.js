@@ -21,11 +21,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send('Torn Sentinel is alive');
+    res.send('Torn Sentinel is alive');
 });
 
 app.listen(PORT, () => {
-  console.log(`HTTP server listening on port ${PORT}`);
+    console.log(`HTTP server listening on port ${PORT}`);
 });
 
 // ES Module directory resolution
@@ -148,12 +148,22 @@ client.once('ready', async () => {
 
 /**
  * Update bot Rich Presence with rotating status
+ * Torn-themed presence that rotates every 30s
  */
 const presenceStates = [
-    { text: 'Wallet • Market • Stats', type: ActivityType.Watching },
-    { text: 'Torn Economy', type: ActivityType.Watching },
-    { text: '/wallet for networth', type: ActivityType.Playing },
-    { text: '/stats for bars', type: ActivityType.Playing },
+    // Commands
+    { text: '/stats • /wallet • /travel', type: ActivityType.Listening },
+    { text: '/gym • /work • /market', type: ActivityType.Listening },
+
+    // Torn vibes
+    { text: 'Torn City markets 📈', type: ActivityType.Watching },
+    { text: 'your travel profits 💰', type: ActivityType.Watching },
+    { text: 'foreign stock prices', type: ActivityType.Watching },
+
+    // Tips
+    { text: 'Buy low, sell high 🎯', type: ActivityType.Playing },
+    { text: 'Tracking 11 countries ✈️', type: ActivityType.Playing },
+    { text: 'Real-time alerts 🔔', type: ActivityType.Playing },
 ];
 
 let presenceIndex = 0;

@@ -35,7 +35,7 @@ let yataCache = null;
 let yataCacheTime = 0;
 const CACHE_TTL = 60 * 1000;
 
-async function fetchYataData() {
+export async function fetchYataData() {
     const now = Date.now();
     if (yataCache && (now - yataCacheTime) < CACHE_TTL) return yataCache;
 

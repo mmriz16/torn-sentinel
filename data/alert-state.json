@@ -2,7 +2,7 @@
   "471702596541743105": {
     "state": {
       "education_current": 43,
-      "education_timeleft": 430101,
+      "education_timeleft": 416835,
       "education_completed": [
         23,
         52,
@@ -17,43 +17,43 @@
       "vault_amount": 0,
       "company_funds": 0,
       "daily_networth": 17677667,
-      "money_onhand": 414180,
+      "money_onhand": 120180,
       "city_bank": {
         "amount": 0,
         "time_left": 0
       },
-      "server_time": 1767059865,
+      "server_time": 1767073370,
       "energy": {
-        "current": 35,
+        "current": 100,
         "maximum": 100,
         "increment": 5,
         "interval": 900,
-        "ticktime": 135,
-        "fulltime": 10935
+        "ticktime": 130,
+        "fulltime": 0
       },
       "nerve": {
-        "current": 8,
+        "current": 22,
         "maximum": 22,
         "increment": 1,
         "interval": 300,
-        "ticktime": 135,
-        "fulltime": 4035
+        "ticktime": 130,
+        "fulltime": 0
       },
       "happy": {
         "current": 2825,
         "maximum": 2825,
         "increment": 5,
         "interval": 900,
-        "ticktime": 135,
+        "ticktime": 130,
         "fulltime": 0
       },
       "life": {
-        "current": 605,
+        "current": 625,
         "maximum": 625,
         "increment": 31,
         "interval": 300,
-        "ticktime": 135,
-        "fulltime": 135
+        "ticktime": 130,
+        "fulltime": 0
       },
       "chain": {
         "current": 0,
@@ -68,11 +68,11 @@
         "booster": 0
       },
       "travel": {
-        "destination": "UAE",
+        "destination": "Torn",
         "method": "Airstrip",
-        "timestamp": 1767069362,
-        "departed": 1767058202,
-        "time_left": 9573
+        "timestamp": 1767081263,
+        "departed": 1767069743,
+        "time_left": 7953
       },
       "rank": "Average Intimidator",
       "level": 15,
@@ -94,7 +94,7 @@
       "revivable": 1,
       "profile_image": "https://profileimages.torn.com/7dc51b28-55c5-4806-8bd4-3d11c7181ff4-2381000.png",
       "status": {
-        "description": "Traveling to UAE",
+        "description": "Returning to Torn from UAE",
         "details": "",
         "state": "Traveling",
         "color": "blue",
@@ -396,19 +396,23 @@
       }
     },
     "flags": {
-      "NERVE_FULL": false,
+      "NERVE_FULL": true,
       "NEW_MESSAGE": false,
       "NEW_EVENT": false,
-      "ENERGY_FULL": false,
-      "ENERGY_GYM_OPTIMAL": false
+      "ENERGY_FULL": true,
+      "ENERGY_GYM_OPTIMAL": true,
+      "LIFE_FULL": true,
+      "TRAVEL_COMPLETED": false
     },
     "lastAlert": {
-      "NERVE_FULL": 1766996036365,
+      "NERVE_FULL": 1767063949999,
       "NEW_MESSAGE": 1767003006900,
       "NEW_EVENT": 1767059622336,
-      "ENERGY_FULL": 1767004227138,
-      "ENERGY_GYM_OPTIMAL": 1767004227615
+      "ENERGY_FULL": 1767070838810,
+      "ENERGY_GYM_OPTIMAL": 1767070839494,
+      "LIFE_FULL": 1767060046902,
+      "TRAVEL_COMPLETED": 1767069383766
     },
-    "updatedAt": 1767059924488
+    "updatedAt": 1767073370360
   }
 }

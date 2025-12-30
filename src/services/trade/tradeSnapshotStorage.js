@@ -92,39 +92,88 @@ export function updateSnapshot(userId, newSnapshot) {
 
 /**
  * Build snapshot from API data
- * @param {Object} apiData - Raw API response
+ * @param {Object} apiData - Raw API response (V1 + V2 combined)
  * @returns {Object} Normalized snapshot
  */
 export function buildSnapshot(apiData) {
-    // Build inventory map: itemId -> quantity
+    // Inventory (V1 is broken, but we keep logic just in case)
     const inventory = {};
+    const inventoryData = apiData.inventory || apiData.items || [];
 
-    if (apiData.inventory && Array.isArray(apiData.inventory)) {
-        for (const item of apiData.inventory) {
+    if (Array.isArray(inventoryData)) {
+        for (const item of inventoryData) {
             const itemId = item.ID || item.id;
             const qty = item.quantity || 1;
-
-            if (itemId) {
-                inventory[itemId] = (inventory[itemId] || 0) + qty;
-            }
+            if (itemId) inventory[itemId] = (inventory[itemId] || 0) + qty;
         }
     }
 
-    // Determine location (Torn or abroad)
+    // Listings (V2 itemmarket + bazaar)
+    // We normalize them to { uid, id, name, price, amount }
+    const listings = [];
+
+    if (apiData.itemmarket && Array.isArray(apiData.itemmarket)) {
+        for (const item of apiData.itemmarket) {
+            listings.push({
+                source: 'market',
+                uid: item.item.uid, // V2 structure
+                id: item.item.id,
+                name: item.item.name,
+                price: item.price,
+                amount: item.amount
+            });
+        }
+    }
+
+    if (apiData.bazaar && Array.isArray(apiData.bazaar)) {
+        for (const item of apiData.bazaar) {
+            listings.push({
+                source: 'bazaar',
+                uid: item.uid || item.item?.uid,
+                id: item.id || item.item?.id,
+                name: item.name || item.item?.name,
+                price: item.price,
+                amount: item.quantity || item.amount
+            });
+        }
+    }
+
+    // Determine location
     let location = 'Torn';
-    if (apiData.travel?.destination) {
+    if (apiData.travel?.time_left > 0) {
+        // traveling
+        location = apiData.travel.destination || 'Traveling';
+    } else if (apiData.travel?.destination && apiData.travel.destination !== 'Torn') {
         location = apiData.travel.destination;
     } else if (apiData.status?.state === 'Traveling') {
+        // "Returning to Torn from UAE" -> Extract UAE
+        const match = apiData.status.description.match(/from (.+)$/);
+        if (match) {
+            // If returning, we are effectively still associated with that country for trade logic?
+            // No, if returning, we are detecting potential BUYs that happened right before.
+            // But logic says: Abroad + Cash Drop.
+            // If we are "Returning", we are technically "Abroad" (or in transit).
+            // But `active travel` usually shows destination = Torn.
+        }
         location = apiData.status.description?.match(/to (.+?)$/)?.[1] || 'Abroad';
     } else if (apiData.status?.state === 'Abroad') {
         location = apiData.status.description || 'Abroad';
+    } else if (apiData.status?.description?.includes('Returning to Torn from')) {
+        // Special case: Returning
+        // "Returning to Torn from UAE"
+        const origin = apiData.status.description.split('from ')[1];
+        if (origin) location = origin; // Treat as if we are still 'at' origin for buy detection delay?
     }
+
+    // Cash
+    const cash = apiData.money_onhand || apiData.money?.onhand || apiData.cash || 0;
 
     return {
         timestamp: Math.floor(Date.now() / 1000),
         location,
-        cash: apiData.money_onhand || 0,
-        inventory
+        cash,
+        inventory,
+        listings // New field for SELL detection
     };
 }
 

@@ -168,6 +168,23 @@ export function getCapacity() {
 }
 
 /**
+ * Get last foreign country visited
+ */
+export function getLastCountry() {
+    return travelState.lastCountry || 'Unknown';
+}
+
+/**
+ * Set last foreign country (called when traveling abroad)
+ */
+export function setLastCountry(country) {
+    if (country && country !== 'Torn') {
+        travelState.lastCountry = country;
+        saveTravelState();
+    }
+}
+
+/**
  * Log a trade (Buy or Sell)
  * @param {string} type - 'BUY' or 'SELL'
  * @param {string} item - Item name

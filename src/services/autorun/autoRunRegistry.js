@@ -231,6 +231,20 @@ export const AUTO_RUNNERS = {
         handler: 'tradeHandler',
         enabled: true
     },
+
+    // ═══════════════════════════════════════════════════════════════════
+    // 📟 SYSTEM MONITORING
+    // ═══════════════════════════════════════════════════════════════════
+
+    botStatus: {
+        key: 'botStatus',
+        name: 'Bot Status',
+        emoji: '📟',
+        interval: INTERVALS.FAST, // 60s
+        channelEnvKey: 'BOT_STATUS_CHANNEL_ID',
+        handler: 'botStatusHandler',
+        enabled: true
+    },
 };
 
 /**
