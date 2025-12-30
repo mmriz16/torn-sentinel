@@ -5,7 +5,8 @@
  */
 
 import { recordBuy, recordSell, MARKET_TAX } from './tradeHistoryStorage.js';
-import { fetchYataData, COUNTRIES } from '../autorun/handlers/foreignMarketHandler.js';
+import { COUNTRIES } from '../autorun/handlers/foreignMarketHandler.js';
+import { getCountryData } from '../yataGlobalCache.js';
 
 // Configuration
 const CONFIG = {
@@ -34,17 +35,14 @@ function normalizeCountry(country) {
  * Get YATA items for a specific country
  */
 async function getCountryItems(countryName) {
-    const yataData = await fetchYataData();
-    if (!yataData || !yataData.stocks) return [];
+    // Find country key from name (e.g., 'Argentina' -> 'argentina')
+    const countryKey = Object.keys(COUNTRIES).find(key => COUNTRIES[key].name === countryName);
 
-    // Find country code key in YATA data
-    // YATA keys: 'arg', 'can', 'cay', etc.
-    // We need to map 'Argentina' -> 'arg'
-    const countryEntry = Object.values(COUNTRIES).find(c => c.name === countryName);
-    if (!countryEntry) return [];
+    if (!countryKey) return [];
 
-    const stockData = yataData.stocks[countryEntry.code];
-    return stockData ? stockData.stocks : [];
+    // Get data directly from global cache
+    const data = getCountryData(countryKey);
+    return data.items || [];
 }
 
 /**

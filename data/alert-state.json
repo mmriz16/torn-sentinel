@@ -2,7 +2,7 @@
   "471702596541743105": {
     "state": {
       "education_current": 43,
-      "education_timeleft": 407865,
+      "education_timeleft": 402050,
       "education_completed": [
         23,
         52,
@@ -22,37 +22,37 @@
         "amount": 0,
         "time_left": 0
       },
-      "server_time": 1767082220,
+      "server_time": 1767087956,
       "energy": {
-        "current": 5,
+        "current": 40,
         "maximum": 100,
         "increment": 5,
         "interval": 900,
-        "ticktime": 280,
-        "fulltime": 16480
+        "ticktime": 844,
+        "fulltime": 10744
       },
       "nerve": {
-        "current": 5,
+        "current": 22,
         "maximum": 22,
         "increment": 1,
         "interval": 300,
-        "ticktime": 280,
-        "fulltime": 5080
+        "ticktime": 244,
+        "fulltime": 0
       },
       "happy": {
-        "current": 2774,
+        "current": 2809,
         "maximum": 2825,
         "increment": 5,
         "interval": 900,
-        "ticktime": 280,
-        "fulltime": 9280
+        "ticktime": 844,
+        "fulltime": 3544
       },
       "life": {
         "current": 625,
         "maximum": 625,
         "increment": 31,
         "interval": 300,
-        "ticktime": 280,
+        "ticktime": 244,
         "fulltime": 0
       },
       "chain": {
@@ -72,7 +72,7 @@
         "method": "Airstrip",
         "timestamp": 1767093075,
         "departed": 1767082035,
-        "time_left": 10915
+        "time_left": 5179
       },
       "rank": "Average Intimidator",
       "level": 15,
@@ -396,7 +396,7 @@
       }
     },
     "flags": {
-      "NERVE_FULL": false,
+      "NERVE_FULL": true,
       "NEW_MESSAGE": false,
       "NEW_EVENT": false,
       "ENERGY_FULL": false,
@@ -405,10 +405,10 @@
       "TRAVEL_COMPLETED": false,
       "TRAVEL_RETURNING": false,
       "TRAVEL_READY": false,
-      "CASH_DROP": true
+      "CASH_DROP": false
     },
     "lastAlert": {
-      "NERVE_FULL": 1767063949999,
+      "NERVE_FULL": 1767087595424,
       "NEW_MESSAGE": 1767003006900,
       "NEW_EVENT": 1767081983114,
       "ENERGY_FULL": 1767070838810,
@@ -419,6 +419,6 @@
       "TRAVEL_READY": 1767081823408,
       "CASH_DROP": 1767082160924
     },
-    "updatedAt": 1767082220146
+    "updatedAt": 1767087998116
   }
 }

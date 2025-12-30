@@ -5,6 +5,7 @@
 
 // Runner intervals in milliseconds
 export const INTERVALS = {
+    REALTIME: 30 * 1000,    // 30 seconds
     FAST: 60 * 1000,        // 60 seconds
     MEDIUM: 5 * 60 * 1000,  // 5 minutes
     SLOW: 10 * 60 * 1000,   // 10 minutes
@@ -67,7 +68,7 @@ export const AUTO_RUNNERS = {
         key: 'foreignMarket.argentina',
         name: 'Argentina Market',
         emoji: '🇦🇷',
-        interval: INTERVALS.FAST,
+        interval: INTERVALS.REALTIME,
         channelEnvKey: 'FM_ARGENTINA_CHANNEL_ID',
         handler: 'foreignMarket.argentina',
         countryKey: 'argentina',
@@ -78,7 +79,7 @@ export const AUTO_RUNNERS = {
         key: 'foreignMarket.canada',
         name: 'Canada Market',
         emoji: '🇨🇦',
-        interval: INTERVALS.FAST,
+        interval: INTERVALS.REALTIME,
         channelEnvKey: 'FM_CANADA_CHANNEL_ID',
         handler: 'foreignMarket.canada',
         countryKey: 'canada',
@@ -89,7 +90,7 @@ export const AUTO_RUNNERS = {
         key: 'foreignMarket.cayman',
         name: 'Cayman Islands Market',
         emoji: '🇰🇾',
-        interval: INTERVALS.FAST,
+        interval: INTERVALS.REALTIME,
         channelEnvKey: 'FM_CAYMAN_CHANNEL_ID',
         handler: 'foreignMarket.cayman',
         countryKey: 'cayman',
@@ -100,7 +101,7 @@ export const AUTO_RUNNERS = {
         key: 'foreignMarket.china',
         name: 'China Market',
         emoji: '🇨🇳',
-        interval: INTERVALS.FAST,
+        interval: INTERVALS.REALTIME,
         channelEnvKey: 'FM_CHINA_CHANNEL_ID',
         handler: 'foreignMarket.china',
         countryKey: 'china',
@@ -111,7 +112,7 @@ export const AUTO_RUNNERS = {
         key: 'foreignMarket.hawaii',
         name: 'Hawaii Market',
         emoji: '🇺🇸',
-        interval: INTERVALS.FAST,
+        interval: INTERVALS.REALTIME,
         channelEnvKey: 'FM_HAWAII_CHANNEL_ID',
         handler: 'foreignMarket.hawaii',
         countryKey: 'hawaii',
@@ -122,7 +123,7 @@ export const AUTO_RUNNERS = {
         key: 'foreignMarket.japan',
         name: 'Japan Market',
         emoji: '🇯🇵',
-        interval: INTERVALS.FAST,
+        interval: INTERVALS.REALTIME,
         channelEnvKey: 'FM_JAPAN_CHANNEL_ID',
         handler: 'foreignMarket.japan',
         countryKey: 'japan',
@@ -133,7 +134,7 @@ export const AUTO_RUNNERS = {
         key: 'foreignMarket.mexico',
         name: 'Mexico Market',
         emoji: '🇲🇽',
-        interval: INTERVALS.FAST,
+        interval: INTERVALS.REALTIME,
         channelEnvKey: 'FM_MEXICO_CHANNEL_ID',
         handler: 'foreignMarket.mexico',
         countryKey: 'mexico',
@@ -144,7 +145,7 @@ export const AUTO_RUNNERS = {
         key: 'foreignMarket.southafrica',
         name: 'South Africa Market',
         emoji: '🇿🇦',
-        interval: INTERVALS.FAST,
+        interval: INTERVALS.REALTIME,
         channelEnvKey: 'FM_SOUTHAFRICA_CHANNEL_ID',
         handler: 'foreignMarket.southafrica',
         countryKey: 'southafrica',
@@ -155,7 +156,7 @@ export const AUTO_RUNNERS = {
         key: 'foreignMarket.switzerland',
         name: 'Switzerland Market',
         emoji: '🇨🇭',
-        interval: INTERVALS.FAST,
+        interval: INTERVALS.REALTIME,
         channelEnvKey: 'FM_SWITZERLAND_CHANNEL_ID',
         handler: 'foreignMarket.switzerland',
         countryKey: 'switzerland',
@@ -166,7 +167,7 @@ export const AUTO_RUNNERS = {
         key: 'foreignMarket.uk',
         name: 'UK Market',
         emoji: '🇬🇧',
-        interval: INTERVALS.FAST,
+        interval: INTERVALS.REALTIME,
         channelEnvKey: 'FM_UK_CHANNEL_ID',
         handler: 'foreignMarket.uk',
         countryKey: 'uk',
@@ -177,7 +178,7 @@ export const AUTO_RUNNERS = {
         key: 'foreignMarket.uae',
         name: 'UAE Market',
         emoji: '🇦🇪',
-        interval: INTERVALS.FAST,
+        interval: INTERVALS.REALTIME,
         channelEnvKey: 'FM_UAE_CHANNEL_ID',
         handler: 'foreignMarket.uae',
         countryKey: 'uae',
@@ -192,7 +193,7 @@ export const AUTO_RUNNERS = {
         key: 'bestTravelRoute',
         name: 'Best Travel Route',
         emoji: '🗺️',
-        interval: INTERVALS.MEDIUM, // 5 min
+        interval: INTERVALS.REALTIME, // 30s as requested
         channelEnvKey: 'BEST_ROUTE_CHANNEL_ID',
         handler: 'bestRouteHandler',
         enabled: true
@@ -202,7 +203,7 @@ export const AUTO_RUNNERS = {
         key: 'travelProfitSummary',
         name: 'Travel Profit Summary',
         emoji: '💹',
-        interval: INTERVALS.FAST, // 60s (internal throttle 10m)
+        interval: INTERVALS.REALTIME, // 60s (internal throttle 10m)
         channelEnvKey: 'PROFIT_SUMMARY_CHANNEL_ID',
         handler: 'profitSummaryHandler',
         enabled: true
@@ -212,7 +213,7 @@ export const AUTO_RUNNERS = {
         key: 'cooldownCheck',
         name: 'Travel Cooldown Check',
         emoji: '⏱️',
-        interval: INTERVALS.FAST, // 60s
+        interval: INTERVALS.REALTIME, // 60s
         channelEnvKey: 'COOLDOWN_CHECK_CHANNEL_ID',
         handler: 'cooldownHandler',
         enabled: true
@@ -226,7 +227,7 @@ export const AUTO_RUNNERS = {
         key: 'tradeDetection',
         name: 'Trade Detection',
         emoji: '📦',
-        interval: INTERVALS.FAST, // 60s
+        interval: INTERVALS.REALTIME, // 60s
         channelEnvKey: 'TRADE_HISTORY_CHANNEL_ID',
         handler: 'tradeHandler',
         enabled: true
@@ -240,7 +241,7 @@ export const AUTO_RUNNERS = {
         key: 'botStatus',
         name: 'Bot Status',
         emoji: '📟',
-        interval: INTERVALS.FAST, // 60s
+        interval: INTERVALS.REALTIME, // 60s
         channelEnvKey: 'BOT_STATUS_CHANNEL_ID',
         handler: 'botStatusHandler',
         enabled: true
@@ -321,6 +322,30 @@ export const AUTO_RUNNERS = {
         interval: 24 * 60 * 60 * 1000, // 24h
         channelEnvKey: 'ASSET_DISTRIBUTION_CHANNEL_ID',
         handler: 'assetDistributionHandler',
+        enabled: true
+    },
+
+    // ═══════════════════════════════════════════════════════════════════
+    // 🧠 SYSTEM / INTELLIGENCE
+    // ═══════════════════════════════════════════════════════════════════
+
+    activityLog: {
+        key: 'activityLog',
+        name: 'Activity Log',
+        emoji: '📜',
+        interval: 60 * 1000, // 1m - fast polling for activity detection
+        channelEnvKey: 'ACTIVITY_LOG_CHANNEL_ID',
+        handler: 'activityLogHandler',
+        enabled: true
+    },
+
+    profitEngine: {
+        key: 'profitEngine',
+        name: 'Profit Engine',
+        emoji: '🧮',
+        interval: 5 * 60 * 1000, // 5m - aggregate view
+        channelEnvKey: 'PROFIT_ENGINE_CHANNEL_ID',
+        handler: 'profitEngineHandler',
         enabled: true
     },
 };

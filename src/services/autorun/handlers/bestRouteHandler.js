@@ -1,6 +1,7 @@
 /**
- * Best Travel Route Handler for Auto-Run
+ * Best Travel Route Handler for Auto-Run (REFACTORED)
  * Calculates highest profit efficiency globally based on real-time YATA data
+ * Uses centralized YATA cache (no direct API calls)
  */
 
 import { EmbedBuilder } from 'discord.js';
@@ -8,21 +9,14 @@ import { formatCompact } from '../../../utils/formatters.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { getAllCountriesData } from '../../yataGlobalCache.js';
 
 // Resolve path to travel-all.json
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DATA_PATH = path.resolve(__dirname, '../../../../travel-all.json');
 
-// YATA API
-const YATA_API_URL = 'https://yata.yt/api/v1/travel/export/';
-
-// Cache
-let yataCache = null;
-let yataCacheTime = 0;
-const CACHE_TTL = 60 * 1000; // 1 minute
-
-// Static flight times (backup if not in YATA)
+// Static flight times (backup/base)
 const FLIGHT_TIMES = {
     'Argentina': 208, // Airstrip
     'Canada': 25,
@@ -53,37 +47,19 @@ const COUNTRY_MAP = {
 };
 
 /**
- * Fetch data from YATA API
- */
-async function fetchYataData() {
-    const now = Date.now();
-    if (yataCache && (now - yataCacheTime) < CACHE_TTL) return yataCache;
-
-    try {
-        const response = await fetch(YATA_API_URL, {
-            headers: { 'User-Agent': 'TornSentinel/1.0' }
-        });
-        if (!response.ok) throw new Error(`YATA API error: ${response.status}`);
-        yataCache = await response.json();
-        yataCacheTime = now;
-        return yataCache;
-    } catch (error) {
-        console.error('❌ YATA API error:', error.message);
-        return yataCache;
-    }
-}
-
-/**
  * Load static flight times from travel-all.json as fallback/base
+ * Used getting market prices (if available statically)
  */
 function loadTravelData() {
     try {
-        const raw = fs.readFileSync(DATA_PATH, 'utf8');
-        return JSON.parse(raw);
+        if (fs.existsSync(DATA_PATH)) {
+            const raw = fs.readFileSync(DATA_PATH, 'utf8');
+            return JSON.parse(raw);
+        }
     } catch (error) {
         console.error('❌ Failed to load travel-all.json:', error.message);
-        return { items: [] };
     }
+    return { items: [] };
 }
 
 /**
@@ -91,41 +67,40 @@ function loadTravelData() {
  */
 export async function bestRouteHandler(client) {
     try {
-        // 1. Get Real-time Data
-        const yataData = await fetchYataData();
-        if (!yataData || !yataData.stocks) return null;
+        // 1. Get Real-time Data from Global Cache
+        const { countries, isStale, error } = getAllCountriesData();
+
+        if (!countries || Object.keys(countries).length === 0) {
+            // If cache is empty and error exists, log it
+            if (error) console.error('BestRoute: YATA Cache empty or error:', error);
+            return null; // Don't send empty embed if no data
+        }
 
         // 2. Process all items
         const allItems = [];
         const staticData = loadTravelData();
 
-        for (const [countryCode, countryData] of Object.entries(yataData.stocks)) {
+        for (const [countryCode, items] of Object.entries(countries)) {
             const countryName = COUNTRY_MAP[countryCode] || countryCode;
             // Default to Airstrip time (can be configurable later)
             const flightTime = FLIGHT_TIMES[countryName] || 200;
 
-            if (!countryData.stocks) continue;
+            if (!items || !Array.isArray(items)) continue;
 
-            for (const item of countryData.stocks) {
-                // Skip if no profit or no stock
-                // Note: YATA provides cost (buy price from abroad)
-                // We need market price to calc profit. 
-                // Since YATA export doesn't have market price, 
-                // we'll try to match with staticData or fall back to 0 profit.
+            for (const item of items) {
+                // Skip if no stock
+                if (!item.quantity || item.quantity <= 0) continue;
 
                 // Find matching item in static data for Market Price
+                // Note: cost in YATA data is the "Foreign Cost" (Buy Price)
                 const staticItem = staticData.items.find(i => i.name === item.name);
                 const marketPrice = staticItem ? staticItem.market_price : 0;
 
                 // Calculate Profit: (Market Price - Buy Price)
-                // Assuming market price is 95% to account for quick sell/fees if using trader? 
-                // Or user's PRD says "5% market tax" in previous convos.
-                // Let's us Gross Profit for now or standard formula: Market - Buy
-
                 const profit = marketPrice - item.cost;
 
-                // Filter logic from PRD: profit > 0 && stock > 0
-                if (profit <= 0 || item.quantity <= 0) continue;
+                // Filter logic: profitable items only
+                if (profit <= 0) continue;
 
                 const profitPerMin = profit / flightTime;
 
@@ -137,8 +112,7 @@ export async function bestRouteHandler(client) {
                     cost: item.cost,
                     profit: profit,
                     time: flightTime,
-                    efficiency: profitPerMin,
-                    update: countryData.update
+                    efficiency: profitPerMin
                 });
             }
         }
@@ -155,7 +129,7 @@ export async function bestRouteHandler(client) {
             .setTitle('🗺️ Best Travel Routes (Right Now)')
             .setDescription('Highest profit efficiency based on current market prices & real-time stock.')
             .setTimestamp()
-            .setFooter({ text: 'Auto update every 5 min • YATA API' });
+            .setFooter({ text: isStale ? '⚠️ Cached data (YATA limit)' : 'Auto update every 5 min • YATA API' });
 
         if (topRoutes.length === 0) {
             embed.setDescription('No profitable routes found right now.');

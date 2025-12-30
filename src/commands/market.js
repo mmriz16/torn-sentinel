@@ -8,7 +8,8 @@ import { get, getV2 } from '../services/tornApi.js';
 import { getUser } from '../services/userStorage.js';
 import { formatMoney, formatNumber } from '../utils/formatters.js';
 import { logTrade } from '../services/analytics/travelAnalyticsService.js';
-import { fetchYataData, COUNTRIES as COUNTRIES_MAP } from '../services/autorun/handlers/foreignMarketHandler.js';
+import { COUNTRIES as COUNTRIES_MAP } from '../services/autorun/handlers/foreignMarketHandler.js';
+import { getAllCountriesData } from '../services/yataGlobalCache.js';
 
 // Cache for items data (24h refresh)
 let itemsCache = null;
@@ -306,33 +307,22 @@ function formatCompact(num) {
 
 async function getForeignStockInfo(itemId) {
     try {
-        const yataData = await fetchYataData();
-        if (!yataData || !yataData.stocks) return null;
+        const { countries } = getAllCountriesData();
+        if (!countries || Object.keys(countries).length === 0) return null;
 
         let bestStock = null;
 
-        // Iterate over all countries in YATA data
-        for (const [countryCode, data] of Object.entries(yataData.stocks)) {
-            const stocks = data.stocks;
-            if (!stocks) continue;
+        // Iterate over all countries in Cache
+        for (const [countryCode, items] of Object.entries(countries)) {
+            if (!items) continue;
 
-            const stockItem = stocks.find(s => s.id == itemId);
+            const stockItem = items.find(s => s.id == itemId);
             if (stockItem) {
-                // Determine country name (yata returns codes like 'uae', 'mex')
-                // Country names are usually in the YATA data or we map them?
-                // YATA structure: keys are '3', '8', etc (Country IDs) OR codes?
-                // The keys in yataData.stocks are actually COUNTRY IDS strings ("1", "2"...) in some versions
-                // or codes ("arg", "mex") in others. 
-                // Based on foreignMarketHandler.js logic: `yataData.stocks[countryCode]`
-                // And COUNTRIES map has `code`.
-                // Let's assume keys are country codes.
-
-                // We want to find the lowest price.
+                // Find lowest price
                 if (!bestStock || stockItem.cost < bestStock.price) {
-                    // Need to map code back to Name/Emoji if possible, or use raw code
-                    // Let's try to map
+
                     let locationName = countryCode.toUpperCase();
-                    // Try to map to emoji name
+                    // Map code to Name/Emoji
                     const mapped = Object.values(COUNTRIES_MAP).find(c => c.code === countryCode);
                     if (mapped) locationName = `${mapped.emoji} ${mapped.name}`;
 

@@ -25,14 +25,24 @@ import { bazaarHandler } from './handlers/bazaarHandler.js';
 import { networthTrendHandler } from './handlers/networthTrendHandler.js';
 import { networthDeltaHandler } from './handlers/networthDeltaHandler.js';
 import { assetDistributionHandler } from './handlers/assetDistributionHandler.js';
+import { activityLogHandler } from './handlers/activityLogHandler.js';
+import { profitEngineHandler } from './handlers/profitEngineHandler.js';
 import { getAllUsers } from '../userStorage.js';
 import { initLogger, logSystem } from '../system/systemLogger.js';
+import { initAnalytics } from '../analytics/travelAnalyticsService.js';
+import { startGlobalFetchScheduler } from '../yataGlobalCache.js';
 
 /**
  * Bootstrap all auto-run channels on bot startup
  */
 export async function startupBootstrap(client) {
     console.log('\n🚀 Starting Auto-Run Bootstrap...');
+
+    // Start YATA global fetch scheduler (single API call per minute)
+    startGlobalFetchScheduler();
+
+    // Initialize travel analytics (load data from disk)
+    initAnalytics();
 
     // Initialize runtime state from disk
     initRuntimeState();
@@ -57,6 +67,8 @@ export async function startupBootstrap(client) {
     registerHandler('networthTrendHandler', networthTrendHandler);
     registerHandler('networthDeltaHandler', networthDeltaHandler);
     registerHandler('assetDistributionHandler', assetDistributionHandler);
+    registerHandler('activityLogHandler', activityLogHandler);
+    registerHandler('profitEngineHandler', profitEngineHandler);
 
     // Initialize system logger
     initLogger(client);

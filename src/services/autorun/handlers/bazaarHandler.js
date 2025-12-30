@@ -10,7 +10,7 @@ import { EmbedBuilder } from 'discord.js';
 import { getV2, getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney } from '../../../utils/formatters.js';
-import { fetchYataData } from './foreignMarketHandler.js';
+// unused import removed
 
 // Snapshot storage for delta tracking
 let lastBazaarSnapshot = {

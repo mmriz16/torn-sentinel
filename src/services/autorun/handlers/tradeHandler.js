@@ -13,6 +13,8 @@ import {
     buildSnapshot
 } from '../../trade/tradeSnapshotStorage.js';
 import { detectTrades, getCountryFlag } from '../../trade/tradeDetectionEngine.js';
+import { logTrade } from '../../analytics/travelAnalyticsService.js';
+import { addIncome, addExpense, incrementStat } from '../../analytics/profitEngineStorage.js';
 
 /**
  * Trade handler - fetches data, detects trades, sends notifications
@@ -69,6 +71,27 @@ export async function tradeHandler(client) {
                     embeds: [embed]
                 });
                 console.log(`📦 Trade detected: ${trade.type} ${trade.qty}x ${trade.itemName}`);
+
+                // Log trade to travel analytics for profit tracking
+                logTrade(
+                    trade.type,
+                    trade.itemName,
+                    trade.qty,
+                    trade.unitPrice || 0,
+                    trade.country || 'Torn'
+                );
+
+                // Log to Profit Engine
+                if (trade.type === 'SELL') {
+                    // Sell = income (net after tax)
+                    const netRevenue = trade.netRevenue || (trade.totalCost * 0.95);
+                    addIncome('travel', netRevenue);
+                    addExpense('tax', trade.tax || (trade.totalCost * 0.05));
+                    incrementStat('tripCount');
+                } else if (trade.type === 'BUY') {
+                    // Buy = expense
+                    addExpense('travel_buy', trade.totalCost || 0);
+                }
             }
         }
 

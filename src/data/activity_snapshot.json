@@ -1,0 +1,18 @@
+{
+  "timestamp": 1767088023443,
+  "energy": 40,
+  "energyMax": 100,
+  "nerve": 22,
+  "nerveMax": 22,
+  "happy": 2809,
+  "cash": 483400,
+  "points": 380,
+  "location": "UAE",
+  "isTraveling": true,
+  "jobPoints": 0,
+  "jobPosition": "",
+  "companyId": 0,
+  "inventoryCounts": {},
+  "inventoryTotal": 0,
+  "criminalOffenses": 0
+}

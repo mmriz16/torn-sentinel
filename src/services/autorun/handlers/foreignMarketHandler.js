@@ -1,13 +1,15 @@
 /**
- * Foreign Market Handler for Auto-Run
+ * Foreign Market Handler for Auto-Run (REFACTORED)
+ * 
+ * NOW: Reads from global YATA cache (no API calls)
  * Returns 4 SEPARATE embeds per category: Flower, Plushie, Drug, Other
- * First embed has country header + update time, others just show category
  */
 
 import { EmbedBuilder } from 'discord.js';
 import { formatCompact } from '../../../utils/formatters.js';
+import { getCountryData } from '../../yataGlobalCache.js';
 
-// Country codes mapping
+// Country metadata mapping
 export const COUNTRIES = {
     argentina: { code: 'arg', emoji: '🇦🇷', name: 'Argentina' },
     canada: { code: 'can', emoji: '🇨🇦', name: 'Canada' },
@@ -29,36 +31,9 @@ const CATEGORIES = {
     drug: ['Xanax', 'Cannabis', 'Ecstasy', 'Ketamine', 'Vicodin', 'PCP', 'LSD', 'Opium', 'Shrooms', 'Speed'],
 };
 
-// YATA API
-const YATA_API_URL = 'https://yata.yt/api/v1/travel/export/';
-let yataCache = null;
-let yataCacheTime = 0;
-const CACHE_TTL = 60 * 1000;
-
-export async function fetchYataData() {
-    const now = Date.now();
-    if (yataCache && (now - yataCacheTime) < CACHE_TTL) return yataCache;
-
-    try {
-        const response = await fetch(YATA_API_URL, {
-            headers: { 'User-Agent': 'TornSentinel/1.0' }
-        });
-        if (!response.ok) throw new Error(`YATA API error: ${response.status}`);
-        yataCache = await response.json();
-        yataCacheTime = now;
-        console.log('📡 YATA data refreshed');
-        return yataCache;
-    } catch (error) {
-        console.error('❌ YATA API error:', error.message);
-        return yataCache;
-    }
-}
-
-function getCountryItems(yataData, countryCode) {
-    if (!yataData?.stocks?.[countryCode]) return [];
-    return yataData.stocks[countryCode].stocks || [];
-}
-
+/**
+ * Categorize item by name
+ */
 function categorizeItem(itemName) {
     for (const keyword of CATEGORIES.flower) {
         if (itemName.includes(keyword)) return 'flower';
@@ -72,111 +47,151 @@ function categorizeItem(itemName) {
     return 'other';
 }
 
+/**
+ * Get category color
+ */
 function getCategoryColor(category) {
     switch (category) {
-        case 'flower': return 0xFF69B4;
-        case 'plushie': return 0x8B4513;
-        case 'drug': return 0x00CED1;
-        default: return 0x808080;
+        case 'flower': return 0xFF69B4;  // Pink
+        case 'plushie': return 0x8B4513; // Brown
+        case 'drug': return 0x00CED1;    // Cyan
+        default: return 0x808080;        // Gray
     }
 }
 
 /**
- * Build category embed (simple, no footer/status)
+ * Get category emoji
  */
-function buildCategoryEmbed(categoryEmoji, categoryName, items, color) {
-    const embed = new EmbedBuilder()
-        .setColor(color)
-        .setTitle(`${categoryEmoji} ${categoryName}`);
-
-    // Sort: in-stock first, then by cost
-    const sorted = [...items].sort((a, b) => {
-        if (a.quantity === 0 && b.quantity > 0) return 1;
-        if (b.quantity === 0 && a.quantity > 0) return -1;
-        return b.cost - a.cost;
-    });
-
-    if (sorted.length === 0) {
-        embed.setDescription('No items');
-        return embed;
+function getCategoryEmoji(category) {
+    switch (category) {
+        case 'flower': return '🌸';
+        case 'plushie': return '🧸';
+        case 'drug': return '💊';
+        default: return '📦';
     }
-
-    // Build table
-    let table = '```\n';
-    table += 'Item'.padEnd(20) + 'Stock'.padStart(6) + 'Price'.padStart(10) + '\n';
-    table += '─'.repeat(36) + '\n';
-
-    for (const item of sorted) {
-        const name = item.name.length > 18 ? item.name.substring(0, 17) + '…' : item.name;
-        const stock = item.quantity > 0 ? String(item.quantity) : 'OUT';
-        const price = '$' + formatCompact(item.cost);
-        table += name.padEnd(20) + stock.padStart(6) + price.padStart(10) + '\n';
-    }
-    table += '```';
-
-    embed.setDescription(table);
-    return embed;
 }
 
 /**
- * Create handler that returns MULTIPLE embeds
+ * Format item line for embed
+ */
+function formatItemLine(item) {
+    const name = item.name.length > 18 ? item.name.substring(0, 16) + '..' : item.name;
+    const qty = item.quantity?.toString() || '?';
+    const cost = formatCompact(item.cost);
+    return `\`${name.padEnd(18)} x${qty.padStart(3)} @ $${cost}\``;
+}
+
+/**
+ * Build embeds for a country from CACHE (no API call)
+ * @param {string} countryKey - e.g., 'japan', 'uae'
+ * @returns {EmbedBuilder[]} Array of embeds
+ */
+function buildCountryEmbeds(countryKey) {
+    const country = COUNTRIES[countryKey];
+    if (!country) return [];
+
+    // READ FROM GLOBAL CACHE (no API call!)
+    const cacheData = getCountryData(countryKey);
+    const items = cacheData.items;
+
+    if (!items || items.length === 0) {
+        // No data available
+        const embed = new EmbedBuilder()
+            .setColor(0x95A5A6)
+            .setTitle(`${country.emoji} ${country.name} Foreign Market`)
+            .setDescription('```No market data available```')
+            .setFooter({ text: cacheData.error ? `Error: ${cacheData.error}` : 'Waiting for data...' })
+            .setTimestamp();
+        return [embed];
+    }
+
+    // Group items by category
+    const grouped = { flower: [], plushie: [], drug: [], other: [] };
+    for (const item of items) {
+        const cat = categorizeItem(item.name);
+        grouped[cat].push(item);
+    }
+
+    // Sort each category by cost (descending)
+    for (const cat of Object.keys(grouped)) {
+        grouped[cat].sort((a, b) => b.cost - a.cost);
+    }
+
+    const embeds = [];
+    const categoryOrder = ['flower', 'plushie', 'drug', 'other'];
+
+    for (let i = 0; i < categoryOrder.length; i++) {
+        const cat = categoryOrder[i];
+        const catItems = grouped[cat];
+        if (catItems.length === 0) continue;
+
+        const embed = new EmbedBuilder()
+            .setColor(getCategoryColor(cat));
+
+        // First embed gets header
+        if (embeds.length === 0) {
+            embed.setTitle(`${country.emoji} ${country.name} Foreign Market`);
+        }
+
+        // Category header
+        const categoryTitle = `${getCategoryEmoji(cat)} ${cat.charAt(0).toUpperCase() + cat.slice(1)}s`;
+
+        // Format items (max 8 per category)
+        const lines = catItems.slice(0, 8).map(formatItemLine);
+
+        embed.addFields({
+            name: categoryTitle,
+            value: lines.join('\n') || 'None',
+            inline: false
+        });
+
+        embeds.push(embed);
+    }
+
+    // Add footer to last embed with cache status
+    if (embeds.length > 0) {
+        const lastEmbed = embeds[embeds.length - 1];
+        let footerText = `YATA • Updated`;
+
+        if (cacheData.isStale) {
+            footerText = '⚠️ Cached data (YATA limit/delay)';
+        }
+
+        if (cacheData.updatedAt > 0) {
+            lastEmbed.setFooter({ text: `${footerText} • <t:${Math.floor(cacheData.updatedAt / 1000)}:R>` });
+        } else {
+            lastEmbed.setFooter({ text: footerText });
+        }
+        lastEmbed.setTimestamp(new Date(cacheData.updatedAt || Date.now()));
+    }
+
+    return embeds;
+}
+
+/**
+ * Create handler for a specific country
+ * These handlers DO NOT call API - they read from cache
  */
 export function createForeignMarketHandler(countryKey) {
-    const country = COUNTRIES[countryKey];
-    if (!country) return null;
-
-    return async function foreignMarketHandler(client) {
+    return async function (client) {
         try {
-            const yataData = await fetchYataData();
-            if (!yataData) return null;
-
-            const items = getCountryItems(yataData, country.code);
-            const updateTime = yataData.stocks?.[country.code]?.update || 0;
-
-            // Categorize all items
-            const categories = { flower: [], plushie: [], drug: [], other: [] };
-            for (const item of items) {
-                categories[categorizeItem(item.name)].push(item);
-            }
-
-            // Count in-stock
-            const totalInStock = items.filter(i => i.quantity > 0).length;
-            const minsAgo = updateTime ? Math.floor((Date.now() - updateTime * 1000) / 60000) : '?';
-
-            // Build embeds
-            const embeds = [];
-            const catConfig = [
-                { key: 'flower', emoji: '🌸', name: 'Flowers' },
-                { key: 'plushie', emoji: '🧸', name: 'Plushies' },
-                { key: 'drug', emoji: '💊', name: 'Drugs' },
-                { key: 'other', emoji: '📦', name: 'Other Items' },
-            ];
-
-            // Header embed (first one)
-            const headerEmbed = new EmbedBuilder()
-                .setColor(0x9C27B0)
-                .setTitle(`${country.emoji} ${country.name} — Foreign Market`)
-                .setDescription(`📡 YATA • Updated ${minsAgo}m ago • ✅ ${totalInStock}/${items.length} in stock`);
-            embeds.push(headerEmbed);
-
-            // Category embeds
-            for (const { key, emoji, name } of catConfig) {
-                if (categories[key].length > 0) {
-                    embeds.push(buildCategoryEmbed(emoji, name, categories[key], getCategoryColor(key)));
-                }
-            }
-
-            return embeds.length > 1 ? embeds : null;
-
+            const embeds = buildCountryEmbeds(countryKey);
+            return embeds.length > 0 ? embeds : null;
         } catch (error) {
-            console.error(`❌ Foreign market error (${countryKey}):`, error.message);
+            console.error(`❌ Foreign Market Handler Error (${countryKey}):`, error.message);
             return null;
         }
     };
 }
 
-// Pre-create handlers
+// Pre-create handlers for all countries
 export const foreignMarketHandlers = {};
-for (const key of Object.keys(COUNTRIES)) {
-    foreignMarketHandlers[key] = createForeignMarketHandler(key);
+for (const countryKey of Object.keys(COUNTRIES)) {
+    foreignMarketHandlers[countryKey] = createForeignMarketHandler(countryKey);
 }
+
+export default {
+    COUNTRIES,
+    createForeignMarketHandler,
+    foreignMarketHandlers
+};
