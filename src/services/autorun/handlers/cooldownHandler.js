@@ -118,9 +118,9 @@ export async function cooldownHandler(client) {
             const arrivalDate = new Date(now.getTime() + travel.time_left * 1000);
             const arrivalUnix = Math.floor(arrivalDate.getTime() / 1000);
 
-            // Format dates
-            const formatDate = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-            const formatTimeShort = (d) => d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+            // Format dates (WIB timezone)
+            const formatDate = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'Asia/Jakarta' });
+            const formatTimeShort = (d) => d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Jakarta' });
 
             // Calculate remaining time for footer
             const mins = Math.floor(travel.time_left / 60);
@@ -162,7 +162,7 @@ export async function cooldownHandler(client) {
                 .setColor(0xE74C3C) // Red
                 .setTitle(`${icon}｜You're in ${status.state}`)
                 .setDescription(`\`\`\`${status.details || 'Unable to travel...'}\`\`\`${status.state === 'Hospital' ? 'Heal' : 'Free'} ${healTime}`)
-                .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}` });
+                .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' })}` });
 
             return embed;
         }
@@ -180,7 +180,7 @@ export async function cooldownHandler(client) {
                 .setColor(0xF1C40F) // Yellow
                 .setTitle(`📍｜You're in ${travel.destination} ${flag}`)
                 .setDescription('```You are currently abroad.```')
-                .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}` });
+                .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' })}` });
 
             return embed;
         }
@@ -190,7 +190,7 @@ export async function cooldownHandler(client) {
             .setColor(0x2ECC71) // Green
             .setTitle('✅｜Ready to Travel')
             .setDescription('```No active cooldowns. You are in Torn.```')
-            .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}` });
+            .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' })}` });
 
         return embed;
 

@@ -193,7 +193,7 @@ function buildSummaryEmbed(today, deltas, tornName, isFirstSnapshot) {
     const date = new Date().toLocaleDateString('en-US', {
         day: 'numeric',
         month: 'short',
-        timeZone: 'UTC'
+        timeZone: 'Asia/Jakarta'
     });
 
     const embed = new EmbedBuilder()

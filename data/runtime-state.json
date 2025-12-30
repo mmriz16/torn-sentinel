@@ -52,72 +52,72 @@
     "channelId": "1455091732671889512",
     "messageId": "1455120773063770226",
     "createdAt": 1766998056787,
-    "updatedAt": 1767079662306,
-    "lastRun": 1767079662306
+    "updatedAt": 1767079722376,
+    "lastRun": 1767079722376
   },
   "foreignMarket.china": {
     "enabled": true,
     "channelId": "1455091662890991762",
     "messageId": "1455120774602952756",
     "createdAt": 1766998056989,
-    "updatedAt": 1767079663082,
-    "lastRun": 1767079663082
+    "updatedAt": 1767079723165,
+    "lastRun": 1767079723165
   },
   "foreignMarket.hawaii": {
     "enabled": true,
     "channelId": "1455091704469131266",
     "messageId": "1455120776373211180",
     "createdAt": 1766998057191,
-    "updatedAt": 1767079663821,
-    "lastRun": 1767079663821
+    "updatedAt": 1767079723982,
+    "lastRun": 1767079723982
   },
   "foreignMarket.japan": {
     "enabled": true,
     "channelId": "1454855192179769549",
     "messageId": "1455120778306654258",
     "createdAt": 1766998057392,
-    "updatedAt": 1767079664481,
-    "lastRun": 1767079664481
+    "updatedAt": 1767079724517,
+    "lastRun": 1767079724517
   },
   "foreignMarket.mexico": {
     "enabled": true,
     "channelId": "1454855303660044490",
     "messageId": "1455120780030640161",
     "createdAt": 1766998057590,
-    "updatedAt": 1767079665498,
-    "lastRun": 1767079665498
+    "updatedAt": 1767079725466,
+    "lastRun": 1767079725466
   },
   "foreignMarket.southafrica": {
     "enabled": true,
     "channelId": "1455091454170103841",
     "messageId": "1455120781704171684",
     "createdAt": 1766998057792,
-    "updatedAt": 1767079666275,
-    "lastRun": 1767079666275
+    "updatedAt": 1767079726320,
+    "lastRun": 1767079726320
   },
   "foreignMarket.switzerland": {
     "enabled": true,
     "channelId": "1454855598452510891",
     "messageId": "1455120783469838460",
     "createdAt": 1766998058000,
-    "updatedAt": 1767079666872,
-    "lastRun": 1767079666872
+    "updatedAt": 1767079726946,
+    "lastRun": 1767079726946
   },
   "foreignMarket.uk": {
     "enabled": true,
     "channelId": "1454855463928598741",
     "messageId": "1455120785202221089",
     "createdAt": 1766998058201,
-    "updatedAt": 1767079667646,
-    "lastRun": 1767079667646
+    "updatedAt": 1767079727674,
+    "lastRun": 1767079727674
   },
   "foreignMarket.uae": {
     "enabled": true,
     "channelId": "1454855653649813566",
     "messageId": "1455120786808639665",
     "createdAt": 1766998058401,
-    "updatedAt": 1767079668313,
-    "lastRun": 1767079668313
+    "updatedAt": 1767079728356,
+    "lastRun": 1767079728356
   },
   "bestTravelRoute": {
     "enabled": true,
@@ -140,8 +140,8 @@
     "channelId": "1454853966079852636",
     "messageId": "1455140872760070208",
     "createdAt": 1767003018903,
-    "updatedAt": 1767079673139,
-    "lastRun": 1767079673139
+    "updatedAt": 1767079733124,
+    "lastRun": 1767079733124
   },
   "tradeDetection": {
     "enabled": true,
@@ -155,8 +155,8 @@
     "channelId": "1454850868888338659",
     "messageId": "1455404462125482028",
     "createdAt": 1767065863705,
-    "updatedAt": 1767079673719,
-    "lastRun": 1767079673719
+    "updatedAt": 1767079733750,
+    "lastRun": 1767079733750
   },
   "companyInfo": {
     "enabled": true,
