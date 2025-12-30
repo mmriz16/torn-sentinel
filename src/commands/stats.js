@@ -18,7 +18,7 @@ export async function execute(interaction, client) {
 
     if (!user || !user.apiKey) {
         await interaction.reply({
-            content: `${EMOJI.WARNING} You need to register first! Use \`/register key\` with your Torn API key.`,
+            content: `${EMOJI.WARNING} You need to configure your API Key in \`.env\` file first!`,
             ephemeral: true
         });
         return;

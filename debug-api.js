@@ -12,7 +12,7 @@ async function debugApi() {
     const userId = Object.keys(users)[0];
 
     if (!userId) {
-        console.log('❌ No users registered. Run /register first.');
+        console.log('❌ No users registered. Please set TORN_API_KEY in .env file.');
         return;
     }
 

@@ -29,18 +29,45 @@ function ensureDataFile() {
 
 /**
  * Load all users from storage
+ * Automatically injects/updates owner's API key from environment variable if present
  * @returns {object} All user data
  */
 function loadUsers() {
     ensureDataFile();
 
+    let users = {};
     try {
         const data = readFileSync(USERS_FILE, 'utf8');
-        return JSON.parse(data);
+        users = JSON.parse(data);
     } catch (error) {
         console.error('❌ Error loading users file:', error);
-        return {};
     }
+
+    // Inject Owner API Key from Env if available
+    const ownerId = process.env.OWNER_ID;
+    const apiKey = process.env.TORN_API_KEY;
+
+    if (ownerId && apiKey) {
+        // If owner exists but key is different, or if owner doesn't exist
+        if (!users[ownerId] || users[ownerId].apiKey !== apiKey) {
+            users[ownerId] = {
+                ...users[ownerId],
+                id: ownerId, // Store ID
+                apiKey: apiKey,
+                updatedAt: new Date().toISOString(),
+                source: 'env' // Logic marker
+            };
+            // Persist the injection so other parts of app see consistent file state
+            // (Optional, but good for consistency)
+            try {
+                writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+            } catch (e) {
+                console.error('Failed to sync env key to storage:', e);
+            }
+        }
+    }
+
+    return users;
 }
 
 /**
