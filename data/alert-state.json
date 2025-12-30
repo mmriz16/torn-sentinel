@@ -2,7 +2,7 @@
   "471702596541743105": {
     "state": {
       "education_current": 43,
-      "education_timeleft": 430236,
+      "education_timeleft": 430101,
       "education_completed": [
         23,
         52,
@@ -409,6 +409,6 @@
       "ENERGY_FULL": 1767004227138,
       "ENERGY_GYM_OPTIMAL": 1767004227615
     },
-    "updatedAt": 1767059865149
+    "updatedAt": 1767059924488
   }
 }

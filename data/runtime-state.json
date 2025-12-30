@@ -4,32 +4,32 @@
     "channelId": "1454852371560796180",
     "messageId": "1455378119429980200",
     "createdAt": 1766998053635,
-    "updatedAt": 1767059866471,
-    "lastRun": 1767059866471
+    "updatedAt": 1767059925638,
+    "lastRun": 1767059925638
   },
   "personalStats": {
     "enabled": true,
     "channelId": "1454852447938936832",
     "messageId": "1455378123033022569",
     "createdAt": 1766998054308,
-    "updatedAt": 1767059808067,
-    "lastRun": 1767059808067
+    "updatedAt": 1767059926614,
+    "lastRun": 1767059926614
   },
   "gym": {
     "enabled": true,
     "channelId": "1454852547918561340",
     "messageId": "1455120053434323036",
     "createdAt": 1766998054915,
-    "updatedAt": 1767059869480,
-    "lastRun": 1767059869480
+    "updatedAt": 1767059927584,
+    "lastRun": 1767059927584
   },
   "work": {
     "enabled": true,
     "channelId": "1454852668957786216",
     "messageId": "1455120056148168889",
     "createdAt": 1766998055777,
-    "updatedAt": 1767059809764,
-    "lastRun": 1767059809764
+    "updatedAt": 1767059928552,
+    "lastRun": 1767059928552
   },
   "foreignMarket.argentina": {
     "enabled": true,

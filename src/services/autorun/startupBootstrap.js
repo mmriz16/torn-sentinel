@@ -18,6 +18,7 @@ import { bestRouteHandler } from './handlers/bestRouteHandler.js';
 import { profitSummaryHandler } from './handlers/profitSummaryHandler.js';
 import { cooldownHandler } from './handlers/cooldownHandler.js';
 import { tradeHandler } from './handlers/tradeHandler.js';
+import { getAllUsers } from '../userStorage.js';
 
 /**
  * Bootstrap all auto-run channels on bot startup
@@ -49,6 +50,29 @@ export async function startupBootstrap(client) {
 
     // Get runners that have channel IDs configured
     const configuredRunners = getConfiguredRunners();
+
+    // === START PERSONAL RUNNERS ===
+    const users = getAllUsers();
+
+    for (const user of Object.values(users)) {
+        if (!user.apiKey) continue;
+
+        if (user.channels?.personalStats) {
+            await startScheduler(
+                `stats:${user.discordId}`,
+                user.channels.personalStats,
+                { user }
+            );
+        }
+
+        if (user.channels?.workStats) {
+            await startScheduler(
+                `work:${user.discordId}`,
+                user.channels.workStats,
+                { user }
+            );
+        }
+    }
 
     if (configuredRunners.length === 0) {
         console.log('⚠️ No auto-run channels configured. Set channel IDs in .env');
