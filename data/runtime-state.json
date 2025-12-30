@@ -4,72 +4,72 @@
     "channelId": "1454852371560796180",
     "messageId": "1455378119429980200",
     "createdAt": 1766998053635,
-    "updatedAt": 1767073372045,
-    "lastRun": 1767073372045
+    "updatedAt": 1767074258983,
+    "lastRun": 1767074258983
   },
   "personalStats": {
     "enabled": true,
     "channelId": "1454852447938936832",
     "messageId": "1455378123033022569",
     "createdAt": 1766998054308,
-    "updatedAt": 1767073192867,
-    "lastRun": 1767073192867
+    "updatedAt": 1767074259868,
+    "lastRun": 1767074259868
   },
   "gym": {
     "enabled": true,
     "channelId": "1454852547918561340",
     "messageId": "1455120053434323036",
     "createdAt": 1766998054915,
-    "updatedAt": 1767073313967,
-    "lastRun": 1767073313967
+    "updatedAt": 1767074260788,
+    "lastRun": 1767074260788
   },
   "work": {
     "enabled": true,
     "channelId": "1454852668957786216",
     "messageId": "1455120056148168889",
     "createdAt": 1766998055777,
-    "updatedAt": 1767073195146,
-    "lastRun": 1767073195146
+    "updatedAt": 1767074261748,
+    "lastRun": 1767074261748
   },
   "foreignMarket.argentina": {
     "enabled": true,
     "channelId": "1454855530181951564",
     "messageId": "1455120769959989268",
     "createdAt": 1766998056382,
-    "updatedAt": 1767073316047,
-    "lastRun": 1767073316047
+    "updatedAt": 1767074279301,
+    "lastRun": 1767074279301
   },
   "foreignMarket.canada": {
     "enabled": true,
     "channelId": "1454855379488866357",
     "messageId": "1455120771138457661",
     "createdAt": 1766998056584,
-    "updatedAt": 1767073316747,
-    "lastRun": 1767073316747
+    "updatedAt": 1767074280133,
+    "lastRun": 1767074280133
   },
   "foreignMarket.cayman": {
     "enabled": true,
     "channelId": "1455091732671889512",
     "messageId": "1455120773063770226",
     "createdAt": 1766998056787,
-    "updatedAt": 1767073318856,
-    "lastRun": 1767073318856
+    "updatedAt": 1767074280880,
+    "lastRun": 1767074280880
   },
   "foreignMarket.china": {
     "enabled": true,
     "channelId": "1455091662890991762",
     "messageId": "1455120774602952756",
     "createdAt": 1766998056989,
-    "updatedAt": 1767073318936,
-    "lastRun": 1767073318936
+    "updatedAt": 1767074281543,
+    "lastRun": 1767074281543
   },
   "foreignMarket.hawaii": {
     "enabled": true,
     "channelId": "1455091704469131266",
     "messageId": "1455120776373211180",
     "createdAt": 1766998057191,
-    "updatedAt": 1767073319060,
-    "lastRun": 1767073319060
+    "updatedAt": 1767074282394,
+    "lastRun": 1767074282394
   },
   "foreignMarket.japan": {
     "enabled": true,
