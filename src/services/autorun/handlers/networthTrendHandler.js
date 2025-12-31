@@ -6,8 +6,10 @@
 import { EmbedBuilder } from 'discord.js';
 import { getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
-import { formatMoney } from '../../../utils/formatters.js';
+import { formatMoney, formatTimeShort } from '../../../utils/formatters.js';
 import { getUi } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+
 import {
     saveSnapshot,
     getLatestSnapshot,
@@ -94,7 +96,8 @@ export async function networthTrendHandler(client) {
                 { name: '30d', value: formatDelta(delta30d), inline: true },
                 { name: getUi('trend_label'), value: `\`\`\`${trend.icon} ${trend.label}\`\`\``, inline: false }
             )
-            .setFooter({ text: `Torn Sentinel • ${getUi('updated_daily')}` })
+            .setFooter({ text: `Torn Sentinel • ${getUi('updated_daily')} • Every ${formatTimeShort(AUTO_RUNNERS.networthTrend.interval)}` })
+
             .setTimestamp();
 
         return embed;

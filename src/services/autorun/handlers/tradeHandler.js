@@ -16,6 +16,9 @@ import { detectTrades, getCountryFlag } from '../../trade/tradeDetectionEngine.j
 import { logTrade } from '../../analytics/travelAnalyticsService.js';
 import { addIncome, addExpense, incrementStat } from '../../analytics/profitEngineStorage.js';
 import { getUi } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+import { formatTimeShort } from '../../../utils/formatters.js';
+
 
 /**
  * Trade handler - fetches data, detects trades, sends notifications
@@ -157,7 +160,10 @@ function buildBuyEmbed(trade) {
             inline: true
         })
         .setTimestamp()
-        .setFooter({ text: getUi('detected_via') });
+        .setTimestamp();
+    const interval = formatTimeShort(AUTO_RUNNERS.tradeDetection.interval);
+    embed.setFooter({ text: `${getUi('detected_via')} • Updated every ${interval}` });
+
 
     return embed;
 }
@@ -198,7 +204,10 @@ function buildSellEmbed(trade) {
             inline: true
         })
         .setTimestamp()
-        .setFooter({ text: getUi('detected_via') });
+        .setTimestamp();
+    const interval = formatTimeShort(AUTO_RUNNERS.tradeDetection.interval);
+    embed.setFooter({ text: `${getUi('detected_via')} • Updated every ${interval}` });
+
 
     return embed;
 }

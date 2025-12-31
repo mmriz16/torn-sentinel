@@ -11,9 +11,12 @@ import {
     formatMoney,
     createProgressBar,
     getThresholdColor,
-    discordTimestamp
+    discordTimestamp,
+    formatTimeShort
 } from '../../../utils/formatters.js';
 import { getUi, getStat } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+
 
 // Education name mapping (same as /stats command)
 const EDUCATION_NAMES = {
@@ -74,7 +77,10 @@ function buildStatsEmbed(data) {
         .setTitle(`⚡ ${getUi('player_stats')}`)
         .setDescription('────────────────────────────────────────────────')
         .setTimestamp()
-        .setFooter({ text: 'Torn Sentinel • Auto refresh every 60 seconds' });
+        .setTimestamp();
+    const interval = formatTimeShort(AUTO_RUNNERS.personalStats.interval);
+    embed.setFooter({ text: `Torn Sentinel • Auto refresh every ${interval}` });
+
 
     // Localized labels
     const energyLabel = capitalize(getStat('energy'));

@@ -10,6 +10,9 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { getAllCountriesData } from '../../yataGlobalCache.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+import { formatTimeShort } from '../../../utils/formatters.js';
+
 
 // Resolve path to travel-all.json
 const __filename = fileURLToPath(import.meta.url);
@@ -129,7 +132,10 @@ export async function bestRouteHandler(client) {
             .setTitle('🗺️ Best Travel Routes (Right Now)')
             .setDescription('Highest profit efficiency based on current market prices & real-time stock.')
             .setTimestamp()
-            .setFooter({ text: isStale ? '⚠️ Cached data (YATA limit)' : 'Auto update every 5 min • YATA API' });
+            .setTimestamp();
+        const interval = formatTimeShort(AUTO_RUNNERS.bestTravelRoute.interval);
+        embed.setFooter({ text: isStale ? `⚠️ Cached data (YATA limit) • Updated every ${interval}` : `Auto update every ${interval} • YATA API` });
+
 
         if (topRoutes.length === 0) {
             embed.setDescription('No profitable routes found right now.');

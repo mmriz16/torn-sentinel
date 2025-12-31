@@ -30,6 +30,8 @@ import { activityLogHandler } from './handlers/activityLogHandler.js';
 import { profitEngineHandler } from './handlers/profitEngineHandler.js';
 import { financialLogHandler } from './handlers/financialLogHandler.js';
 import { marketAlertHandler } from './handlers/marketAlertHandler.js';
+import { propertyHandler } from './handlers/propertyHandler.js';
+
 import { getAllUsers } from '../userStorage.js';
 import { initLogger, logSystem } from '../system/systemLogger.js';
 import { initAnalytics } from '../analytics/travelAnalyticsService.js';
@@ -79,6 +81,8 @@ export async function startupBootstrap(client) {
     registerHandler('profitEngineHandler', profitEngineHandler);
     registerHandler('financialLogHandler', financialLogHandler);
     registerHandler('marketAlertHandler', marketAlertHandler);
+    registerHandler('propertyHandler', propertyHandler);
+
 
     // Initialize system logger
     initLogger(client);

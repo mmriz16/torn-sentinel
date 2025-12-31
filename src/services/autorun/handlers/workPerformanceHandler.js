@@ -7,6 +7,9 @@ import { EmbedBuilder } from 'discord.js';
 import { getV2 } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { getUi } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+import { formatTimeShort } from '../../../utils/formatters.js';
+
 
 export async function workPerformanceHandler(client) {
     try {
@@ -61,7 +64,9 @@ export async function workPerformanceHandler(client) {
 
                 { name: getUi('recommendation'), value: `\`\`\`${recommendation}\`\`\``, inline: false }
             )
-            .setFooter({ text: 'Update every 60m' })
+        const interval = formatTimeShort(AUTO_RUNNERS.workPerformance.interval);
+        embed.setFooter({ text: `Update every ${interval}` })
+
             .setTimestamp();
 
         return embed;

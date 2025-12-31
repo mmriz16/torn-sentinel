@@ -11,6 +11,9 @@ import { getV2, getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney } from '../../../utils/formatters.js';
 import { getUi } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+import { formatTimeShort } from '../../../utils/formatters.js';
+
 
 // Snapshot storage for delta tracking
 let lastBazaarSnapshot = {
@@ -122,7 +125,9 @@ async function buildModeAEmbed(apiKey) {
             { name: `💡 ${getUi('recommended_items')}`, value: recommendations, inline: false },
             { name: '📌 Tip', value: getUi('tip_bazaar'), inline: false }
         )
-        .setFooter({ text: 'Torn Sentinel • Auto update every 5 min' })
+    const interval = formatTimeShort(AUTO_RUNNERS.bazaarCheck.interval);
+    embed.setFooter({ text: `Torn Sentinel • Auto update every ${interval}` })
+
         .setTimestamp();
 
     return embed;
@@ -187,7 +192,9 @@ function buildModeBEmbed(bazaarValue, valueDelta, deltaPercent, networth) {
 
             { name: `📈 ${getUi('market_signals')}`, value: signalText, inline: false }
         )
-        .setFooter({ text: getUi('listings_unavailable') })
+    const interval = formatTimeShort(AUTO_RUNNERS.bazaarCheck.interval);
+    embed.setFooter({ text: `${getUi('listings_unavailable')} • Updated every ${interval}` })
+
         .setTimestamp();
 
     return embed;

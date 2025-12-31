@@ -9,6 +9,9 @@ import { getCombinedStats } from '../../tornApi.js';
 import { getStatus, updateTravelState, updateCapacity } from '../../analytics/travelAnalyticsService.js';
 import { formatMoney } from '../../../utils/formatters.js';
 import { getUi, getLocation, formatTimeId } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+import { formatTimeShort } from '../../../utils/formatters.js';
+
 
 let lastEmbedUpdate = 0;
 const UPDATE_INTERVAL = 10 * 60 * 1000; // 10 minutes enforced for non-event updates
@@ -108,7 +111,10 @@ export async function profitSummaryHandler(client, user) {
             .setColor(0x2ECC71) // Green
             .setTitle(`📊 ${getUi('travel_summary')}`)
             .setTimestamp()
-            .setFooter({ text: event ? `Update triggered by: ${event}` : 'Auto-update (10m)' });
+            .setTimestamp();
+        const interval = formatTimeShort(AUTO_RUNNERS.travelProfitSummary.interval);
+        embed.setFooter({ text: event ? `Update triggered by: ${event}` : `Auto-update (${interval})` });
+
 
         // Row 1: Key Stats
         embed.addFields(

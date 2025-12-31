@@ -10,6 +10,9 @@
 import { EmbedBuilder } from 'discord.js';
 import { getCountryData } from '../../yataGlobalCache.js';
 import { getUi } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+import { formatTimeShort } from '../../../utils/formatters.js';
+
 
 // Country metadata mapping
 export const COUNTRIES = {
@@ -168,9 +171,17 @@ function buildCountryEmbeds(countryKey) {
 
         // Footer timestamp logic
         const timestamp = cacheData.updatedAt ? Math.floor(cacheData.updatedAt / 1000) : Math.floor(Date.now() / 1000);
-        let footerText = `Torn Sentinel • ${getUi('market')}`;
+        const runnerKey = `foreignMarket.${country.code === 'arg' ? 'argentina' : country.name.toLowerCase().replace(/ /g, '')}`;
+        // Note: The key construction above is risky. Better to rely on passing context or finding the runner logic properly. 
+        // Actually, buildCountryEmbeds receives `countryKey` which matches the AUTO_RUNNERS key suffix (mostly).
+        // The runners are named `foreignMarket.argentina`, etc.
+        const runner = AUTO_RUNNERS[`foreignMarket.${countryKey}`];
+        const interval = runner ? formatTimeShort(runner.interval) : '30s';
+
+        let footerText = `Torn Sentinel • ${getUi('market')} • Updated every ${interval}`;
 
         lastEmbed.setFooter({ text: footerText })
+
             .setTimestamp(new Date(cacheData.updatedAt || Date.now()));
     }
 

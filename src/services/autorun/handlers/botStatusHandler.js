@@ -9,6 +9,9 @@ import { getAllRunnerStates } from '../runtimeStateManager.js';
 import { getAllUsers } from '../../userStorage.js';
 import { getLogStats } from '../../system/systemLogger.js';
 import { getUi } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+import { formatTimeShort } from '../../../utils/formatters.js';
+
 
 // Track bot start time
 const BOT_START_TIME = Date.now();
@@ -148,8 +151,10 @@ export async function botStatusHandler(client) {
         });
 
         // Footer with last update timestamp
+        const interval = formatTimeShort(AUTO_RUNNERS.botStatus.interval);
         embed.setTimestamp()
-            .setFooter({ text: `Last Update: <t:${now}:R>` });
+            .setFooter({ text: `Last Update: <t:${now}:R> • Refresh every ${interval}` });
+
 
         return embed;
 

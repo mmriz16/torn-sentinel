@@ -6,8 +6,10 @@
 import { EmbedBuilder } from 'discord.js';
 import { get, getV2 } from '../../tornApi.js';
 import { getAllUsers, getUser } from '../../userStorage.js';
-import { formatNumber } from '../../../utils/formatters.js';
+import { formatNumber, formatTimeShort } from '../../../utils/formatters.js';
 import { getUi, getStat, fromDictionary } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+
 
 // Company type names by ID (same as /work command)
 const COMPANY_TYPES = {
@@ -111,7 +113,10 @@ function buildWorkEmbed(companyData, workstatsData, jobpointsData, tornId) {
         .setTitle(`💼｜${capitalize(workingStatsTitle)}`)
         .setDescription('─────────────────────────────────────────────────')
         .setTimestamp()
-        .setFooter({ text: 'Torn Sentinel • Auto refresh every 60 seconds' });
+        .setTimestamp();
+    const interval = formatTimeShort(AUTO_RUNNERS.work.interval);
+    embed.setFooter({ text: `Torn Sentinel • Auto refresh every ${interval}` });
+
 
     // Total Stats
     embed.addFields({

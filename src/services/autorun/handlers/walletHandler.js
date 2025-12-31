@@ -6,8 +6,10 @@
 import { EmbedBuilder } from 'discord.js';
 import { get } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
-import { formatMoney } from '../../../utils/formatters.js';
+import { formatMoney, formatTimeShort } from '../../../utils/formatters.js';
 import { getUi } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+
 
 /**
  * Wallet handler - fetches data and returns embed
@@ -48,7 +50,10 @@ function buildWalletEmbed(data) {
         .setTitle(`💼｜${getUi('financial_overview')}`)
         .setDescription('────────────────────────────────────────────────')
         .setTimestamp()
-        .setFooter({ text: 'Torn Sentinel • Auto-Run' });
+        .setTimestamp();
+    const interval = formatTimeShort(AUTO_RUNNERS.wallet.interval);
+    embed.setFooter({ text: `Torn Sentinel • Auto-Run • Updated every ${interval}` });
+
 
     // Liquidity
     const liquidity = (data.money_onhand || 0) +

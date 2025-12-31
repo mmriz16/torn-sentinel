@@ -362,7 +362,7 @@ export async function getActivityLogPage(client, page = 0) {
         const newestTimestamp = sortedCategories.length > 0 ? sortedCategories[0][1].timestamp : 0;
 
         const lines = [];
-        lines.push('─────────────────────────────────────────────────────────────');
+        lines.push('──────────────────────────────────────────────────────────');
 
         // Add paginated entries
         for (const [cat, entry] of paginatedCategories) {

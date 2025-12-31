@@ -6,8 +6,10 @@
 import { EmbedBuilder } from 'discord.js';
 import { getV2, getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
-import { formatNumber } from '../../../utils/formatters.js';
+import { formatNumber, formatTimeShort } from '../../../utils/formatters.js';
 import { getUi } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+
 
 export async function jobHandler(client) {
     try {
@@ -64,7 +66,9 @@ export async function jobHandler(client) {
 
                 { name: getUi('next_perk'), value: nextPerkText, inline: false }
             )
-            .setFooter({ text: 'Update every 15m' })
+        const interval = formatTimeShort(AUTO_RUNNERS.jobOverview.interval);
+        embed.setFooter({ text: `Update every ${interval}` })
+
             .setTimestamp();
 
         return embed;

@@ -258,8 +258,19 @@ export const AUTO_RUNNERS = {
     },
 
     // ═══════════════════════════════════════════════════════════════════
-    // 🏢 WORK & COMPANY
+    // 🏢 WORK & COMPANY & PROPERTY
     // ═══════════════════════════════════════════════════════════════════
+
+    propertyInfo: {
+        key: 'propertyInfo',
+        name: 'Property Info',
+        emoji: '🏠',
+        interval: 5 * 60 * 1000, // 5m
+        channelEnvKey: 'PROPERTY_INFO_CHANNEL_ID',
+        handler: 'propertyHandler',
+        enabled: true
+    },
+
 
     companyInfo: {
         key: 'companyInfo',

@@ -6,7 +6,9 @@
 import { EmbedBuilder } from 'discord.js';
 import { get } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
-import { formatNumber } from '../../../utils/formatters.js';
+import { formatNumber, formatTimeShort } from '../../../utils/formatters.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+
 import { getEnergyPerClick, updateFromApiLogs, getLastTrainedStat } from '../../analytics/gymTrainingStorage.js';
 import { getUi, getStat, fromDictionary, applyTemplate } from '../../../localization/index.js';
 
@@ -67,7 +69,10 @@ function buildGymEmbed(data) {
         .setTitle(`🏋️｜${getUi('battle_stats')}`)
         .setDescription('─────────────────────────────────────────────────')
         .setTimestamp()
-        .setFooter({ text: 'Torn Sentinel • Auto refresh every 60 seconds' });
+        .setTimestamp();
+    const interval = formatTimeShort(AUTO_RUNNERS.gym.interval);
+    embed.setFooter({ text: `Torn Sentinel • Auto refresh every ${interval}` });
+
 
     // Active Gym
     embed.addFields({

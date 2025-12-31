@@ -6,8 +6,10 @@
 import { EmbedBuilder } from 'discord.js';
 import { getV2 } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
-import { formatMoney } from '../../../utils/formatters.js';
+import { formatMoney, formatTimeShort } from '../../../utils/formatters.js';
 import { getUi, applyTemplate } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+
 
 export async function companyHandler(client) {
     try {
@@ -66,8 +68,10 @@ export async function companyHandler(client) {
                 { name: getUi('weekly_income'), value: `\`\`\`${weeklyIncome}\`\`\``, inline: true },
                 { name: getUi('daily_customers'), value: `\`\`\`${c.daily_customers?.toLocaleString() || 'N/A'}\`\`\``, inline: true }
             )
-            .setFooter({ text: `${applyTemplate('update_every_xm', { m: 30 })} • ID: ${companyId}` })
+        const interval = formatTimeShort(AUTO_RUNNERS.companyInfo.interval);
+        embed.setFooter({ text: `${applyTemplate('update_every_xm', { m: interval })} • ID: ${companyId}` })
             .setTimestamp();
+
 
         return embed;
 

@@ -6,8 +6,10 @@
 import { EmbedBuilder } from 'discord.js';
 import { getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
-import { formatMoney } from '../../../utils/formatters.js';
+import { formatMoney, formatTimeShort } from '../../../utils/formatters.js';
 import { getUi } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+
 import {
     getLatestSnapshot,
     getSnapshotDaysAgo,
@@ -118,7 +120,8 @@ export async function networthDeltaHandler(client) {
                 { name: 'Changes by Source', value: breakdownText, inline: false },
                 { name: 'Net Change', value: `\`\`\`${netChangeSign}${formatMoney(delta.total)} ${netChangeIcon}\`\`\``, inline: false }
             )
-            .setFooter({ text: 'Torn Sentinel • Updated daily' })
+            .setFooter({ text: `Torn Sentinel • Updated daily • Every ${formatTimeShort(AUTO_RUNNERS.networthDelta.interval)}` })
+
             .setTimestamp();
 
         return embed;

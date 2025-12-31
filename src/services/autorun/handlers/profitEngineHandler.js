@@ -19,6 +19,10 @@ import {
 } from '../../analytics/profitEngineStorage.js';
 import { getRecentEvents } from '../../analytics/activityDetectionEngine.js';
 
+
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+import { formatTimeShort } from '../../../utils/formatters.js';
+
 // Track initialization and last update
 let initialized = false;
 let lastProcessedEventTs = 0;
@@ -189,8 +193,9 @@ export async function profitEngineHandler(client) {
             .setColor(profitColor)
             .setTitle(`🧮 ${getUi('profit_engine_title')}`)
             .setDescription(`**💰 ${getUi('net_pnl')}:** ${profitIcon} ${profitSign}${formatMoney(netProfit)}`)
-            .setTimestamp()
-            .setFooter({ text: `Torn Sentinel • ${getUi('real_time_accounting')}` });
+            .setTimestamp();
+        const interval = formatTimeShort(AUTO_RUNNERS.profitEngine.interval);
+        embed.setFooter({ text: `Torn Sentinel • ${getUi('real_time_accounting')} • Updated every ${interval}` });
 
         // Income breakdown
         // Dynamic Income Breakdown

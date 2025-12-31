@@ -6,8 +6,10 @@
 import { EmbedBuilder } from 'discord.js';
 import { getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
-import { formatMoney } from '../../../utils/formatters.js';
+import { formatMoney, formatTimeShort } from '../../../utils/formatters.js';
 import { getUi } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+
 
 // Category groupings for cleaner display
 // Labels updated to use UI keys for localization
@@ -197,8 +199,9 @@ export async function assetDistributionHandler(client) {
                 inline: true
             }
         )
-            .setFooter({ text: 'Torn Sentinel • Updated daily' })
+            .setFooter({ text: `Torn Sentinel • Updated daily • Every ${formatTimeShort(AUTO_RUNNERS.assetDistribution.interval)}` })
             .setTimestamp();
+
 
         return embed;
 

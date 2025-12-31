@@ -6,8 +6,10 @@
 import { EmbedBuilder } from 'discord.js';
 import { get, getV2 } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
-import { formatMoney } from '../../../utils/formatters.js';
+import { formatMoney, formatTimeShort } from '../../../utils/formatters.js';
 import { getUi } from '../../../localization/index.js';
+import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+
 
 // Cache for items data (24h refresh)
 let itemsCache = null;
@@ -44,8 +46,10 @@ export async function itemMarketHandler(client) {
                 .setColor(0x95A5A6)
                 .setTitle('🏪 Item Market Listings')
                 .setDescription('```No active listings```')
-                .setFooter({ text: 'Torn Sentinel • Auto update every 5min' })
+                .setDescription('```No active listings```')
+                .setFooter({ text: `Torn Sentinel • Auto update every ${formatTimeShort(AUTO_RUNNERS.itemMarketListings.interval)}` })
                 .setTimestamp();
+
             return embed;
         }
 
@@ -124,8 +128,9 @@ export async function itemMarketHandler(client) {
                 { name: 'Total Value', value: `\`\`\`${formatMoney(totalValue)}\`\`\``, inline: true },
                 { name: '📦 Items', value: `\`\`\`\n${tableText}\`\`\`${moreItems}`, inline: false }
             )
-            .setFooter({ text: 'Torn Sentinel • Auto update every 5min' })
+            .setFooter({ text: `Torn Sentinel • Auto update every ${formatTimeShort(AUTO_RUNNERS.itemMarketListings.interval)}` })
             .setTimestamp();
+
 
         return embed;
 
