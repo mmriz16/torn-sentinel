@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "lastSaved": 1767155899239,
+  "lastSaved": 1767162571930,
   "stats": {
     "hits": 0,
-    "misses": 5,
-    "aiCalls": 5
+    "misses": 6,
+    "aiCalls": 6
   },
   "entries": {
     "2c0c02ce3248903c": {
@@ -46,6 +46,14 @@
       "confidence": "ai",
       "createdAt": 1767155899239,
       "lastUsed": 1767155899239
+    },
+    "1db8f6da2d4a297d": {
+      "sourceText": "Small plushie of a Mountain Goat.",
+      "translatedText": "Kambing Gunung Mini.",
+      "lang": "id",
+      "confidence": "ai",
+      "createdAt": 1767162571929,
+      "lastUsed": 1767162571929
     }
   }
 }
