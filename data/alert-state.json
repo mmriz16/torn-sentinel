@@ -18,7 +18,7 @@
         }
       },
       "education_current": 43,
-      "education_timeleft": 322482,
+      "education_timeleft": 318663,
       "education_completed": [
         23,
         52,
@@ -33,26 +33,26 @@
       "vault_amount": 0,
       "company_funds": 0,
       "daily_networth": 21720504,
-      "money_onhand": 512109,
+      "money_onhand": 218109,
       "city_bank": {
         "amount": 0,
         "time_left": 0
       },
-      "server_time": 1767167594,
+      "server_time": 1767171627,
       "energy": {
-        "current": 65,
+        "current": 90,
         "maximum": 100,
         "increment": 5,
         "interval": 900,
-        "ticktime": 406,
-        "fulltime": 5806
+        "ticktime": 873,
+        "fulltime": 1773
       },
       "nerve": {
         "current": 22,
         "maximum": 22,
         "increment": 1,
         "interval": 300,
-        "ticktime": 106,
+        "ticktime": 273,
         "fulltime": 0
       },
       "happy": {
@@ -60,7 +60,7 @@
         "maximum": 2825,
         "increment": 5,
         "interval": 900,
-        "ticktime": 406,
+        "ticktime": 873,
         "fulltime": 0
       },
       "life": {
@@ -68,13 +68,13 @@
         "maximum": 625,
         "increment": 31,
         "interval": 300,
-        "ticktime": 106,
+        "ticktime": 273,
         "fulltime": 0
       },
       "chain": {
-        "current": 0,
+        "current": 4,
         "maximum": 2500,
-        "timeout": 0,
+        "timeout": 74,
         "modifier": 1,
         "cooldown": 0
       },
@@ -84,18 +84,18 @@
         "booster": 0
       },
       "travel": {
-        "destination": "UAE",
+        "destination": "Torn",
         "method": "Airstrip",
-        "timestamp": 1767167677,
-        "departed": 1767155977,
-        "time_left": 99
+        "timestamp": 1767179262,
+        "departed": 1767168222,
+        "time_left": 7794
       },
       "level": 15,
       "gender": "Male",
       "player_id": 2381000,
       "name": "mmriz16",
       "status": {
-        "description": "Traveling to UAE",
+        "description": "Returning to Torn from UAE",
         "details": "",
         "state": "Traveling",
         "color": "blue",
@@ -363,7 +363,7 @@
       "LIFE_FULL": 1767166162532,
       "NEW_MESSAGE": 1767167544518
     },
-    "updatedAt": 1767167604265,
+    "updatedAt": 1767171627467,
     "recentAlerts": [
       1767167544518
     ]

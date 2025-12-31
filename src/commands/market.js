@@ -156,41 +156,91 @@ export async function execute(interaction, client) {
  */
 export async function autocomplete(interaction, client) {
     const user = getUser(interaction.user.id);
-    // User might not have API key yet, but we allow autocomplete for generic data if possible
-    // But getItemsCache needs apiKey.
-    const apiKey = user ? user.apiKey : process.env.TORN_API_KEY; // Fallback to bot key if available?
+    const apiKey = user ? user.apiKey : process.env.TORN_API_KEY;
 
     const focusedOption = interaction.options.getFocused(true);
+
+    // Get subcommand safely
+    let subcommand = null;
+    let group = null;
+    try {
+        subcommand = interaction.options.getSubcommand(false);
+        group = interaction.options.getSubcommandGroup(false);
+    } catch (e) {
+        // Not in subcommand context
+    }
 
     if (focusedOption.name === 'item') {
         const query = focusedOption.value.toLowerCase();
 
-        // Use cache logic (needs API key to fill first time)
-        // If no API key, return empty
-        if (!apiKey) return interaction.respond([]);
+        // For alert remove: only show user's active alerts (item names only)
+        if (group === 'alert' && subcommand === 'remove') {
+            try {
+                const alerts = getUserAlerts(interaction.user.id);
+
+                // Get unique item names from user's alerts
+                const uniqueItems = [...new Set(alerts.map(a => a.itemName))];
+
+                // Filter by query
+                const matches = uniqueItems.filter(itemName =>
+                    itemName.toLowerCase().includes(query)
+                );
+
+                const choices = matches.slice(0, 25).map(itemName => ({
+                    name: itemName,
+                    value: itemName
+                }));
+
+                return await interaction.respond(choices);
+            } catch (e) {
+                console.error('Autocomplete alert remove error:', e);
+                return await interaction.respond([]);
+            }
+        }
+
+        // For other commands: show all items
+        if (!apiKey) {
+            return await interaction.respond([]);
+        }
 
         try {
             const items = await getItemsCache(apiKey);
             const matches = findItems(items, query);
 
-            // Map to choices (Max 25)
             const choices = matches.slice(0, 25).map(item => ({
                 name: item.name,
-                value: item.name // Store name as value for easier handling
+                value: item.name
             }));
-            await interaction.respond(choices);
+            return await interaction.respond(choices);
         } catch (e) {
             console.error('Autocomplete item error:', e);
-            await interaction.respond([]);
+            return await interaction.respond([]);
         }
     }
-    else if (focusedOption.name === 'country') {
+
+    if (focusedOption.name === 'country') {
         const query = focusedOption.value.toLowerCase();
-        // Static countries list
+
+        // For alert remove: only show countries with active alerts
+        if (group === 'alert' && subcommand === 'remove') {
+            try {
+                const alerts = getUserAlerts(interaction.user.id);
+                const countries = [...new Set(alerts.map(a => a.country))];
+
+                const matches = countries.filter(c => c.toLowerCase().includes(query));
+                const choices = matches.slice(0, 25).map(c => ({ name: c, value: c }));
+                return await interaction.respond(choices);
+            } catch (e) {
+                console.error('Autocomplete country remove error:', e);
+                return await interaction.respond([]);
+            }
+        }
+
+        // Default: all countries
         const countries = Object.values(COUNTRIES_MAP).map(c => c.name);
         const matches = countries.filter(c => c.toLowerCase().includes(query));
         const choices = matches.slice(0, 25).map(c => ({ name: c, value: c }));
-        await interaction.respond(choices);
+        return await interaction.respond(choices);
     }
 }
 

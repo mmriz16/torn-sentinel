@@ -221,11 +221,37 @@ export function clearHistory(userId) {
     saveHistory(history);
 }
 
+/**
+ * Get recent trades within a time window
+ * @param {string} userId - Discord user ID
+ * @param {number} timeWindowMs - Time window in milliseconds (default 5 min)
+ * @returns {Array} Recent trades (buys and sells)
+ */
+export function getRecentTrades(userId, timeWindowMs = 300000) {
+    const history = loadHistory();
+    if (!history[userId]) return [];
+
+    const cutoff = Date.now() - timeWindowMs;
+    const cutoffSec = Math.floor(cutoff / 1000);
+
+    const recentBuys = (history[userId].buys || [])
+        .filter(t => t.timestamp > cutoffSec)
+        .map(t => ({ ...t, type: 'BUY' }));
+
+    const recentSells = (history[userId].sells || [])
+        .filter(t => t.timestamp > cutoffSec)
+        .map(t => ({ ...t, type: 'SELL' }));
+
+    return [...recentBuys, ...recentSells]
+        .sort((a, b) => b.timestamp - a.timestamp);
+}
+
 export default {
     recordBuy,
     recordSell,
     getUnmatchedBuys,
     getTradeSummary,
     clearHistory,
+    getRecentTrades,
     MARKET_TAX
 };

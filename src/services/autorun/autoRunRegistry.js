@@ -353,7 +353,7 @@ export const AUTO_RUNNERS = {
         key: 'activityLog',
         name: 'Activity Log',
         emoji: '📜',
-        interval: 60 * 1000, // 1m - fast polling for activity detection
+        interval: 30 * 1000, // 30s - real-time activity detection
         channelEnvKey: 'ACTIVITY_LOG_CHANNEL_ID',
         handler: 'activityLogHandler',
         enabled: true

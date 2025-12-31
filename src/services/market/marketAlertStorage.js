@@ -56,11 +56,13 @@ export function addAlert(userId, alert) {
         data[userId] = { alerts: [] };
     }
 
-    // Check formatting
+    // Initialize alert with default fields
     alert.state = 'IDLE';
     alert.lastStock = null;
     alert.lastUpdate = Date.now();
-    alert.cooldownUntil = 0;
+    alert.hasPurchased = false;
+    alert.lastRestockTime = 0;
+    alert.lastLowStockWarning = 0;
 
     data[userId].alerts.push(alert);
     saveAlerts();
