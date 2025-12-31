@@ -11,9 +11,10 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const DATA_DIR = join(__dirname, '../../data');
-const SNAPSHOT_FILE = join(DATA_DIR, 'activity_snapshot.json');
-const EVENTS_FILE = join(DATA_DIR, 'activity_events.json');
+const DATA_DIR = './data';
+const SNAPSHOT_FILE = `${DATA_DIR}/activity_snapshot.json`;
+const EVENTS_FILE = `${DATA_DIR}/activity_events.json`;
+const COOLDOWN_FILE = `${DATA_DIR}/activity_cooldowns.json`;
 
 // Anti-spam cooldowns per event type (ms)
 const EVENT_COOLDOWNS = {
@@ -43,7 +44,7 @@ const THRESHOLDS = {
 // In-memory state
 let lastSnapshot = null;
 let eventLog = [];
-let lastEventTimes = {}; // Track last event time per type
+let lastEventTimes = {}; // Track last event time per type - persisted to file
 
 /**
  * Ensure data directory exists
@@ -99,6 +100,35 @@ export function loadEventLog() {
 }
 
 /**
+ * Load cooldown times from disk
+ */
+export function loadCooldowns() {
+    ensureDataDir();
+    if (existsSync(COOLDOWN_FILE)) {
+        try {
+            lastEventTimes = JSON.parse(readFileSync(COOLDOWN_FILE, 'utf8'));
+            console.log(`⏱️ Activity cooldowns loaded: ${Object.keys(lastEventTimes).length} types`);
+        } catch (e) {
+            console.error('❌ Error loading activity cooldowns:', e.message);
+            lastEventTimes = {};
+        }
+    }
+    return lastEventTimes;
+}
+
+/**
+ * Save cooldown times to disk
+ */
+function saveCooldowns() {
+    ensureDataDir();
+    try {
+        writeFileSync(COOLDOWN_FILE, JSON.stringify(lastEventTimes, null, 2));
+    } catch (e) {
+        console.error('❌ Error saving activity cooldowns:', e.message);
+    }
+}
+
+/**
  * Save event log to disk
  */
 function saveEventLog() {
@@ -127,6 +157,7 @@ function recordEvent(event) {
     eventLog.unshift(event);
     lastEventTimes[event.type] = Date.now();
     saveEventLog();
+    saveCooldowns(); // Persist cooldowns to survive restart
     return event;
 }
 
@@ -357,5 +388,6 @@ export function getRecentEvents(limit = 10) {
 export function initActivityDetection() {
     loadSnapshot();
     loadEventLog();
-    console.log('📜 Activity Detection Engine initialized');
+    loadCooldowns();
+    console.log('📜 Activity Detection Engine initialized (with cooldown persistence)');
 }

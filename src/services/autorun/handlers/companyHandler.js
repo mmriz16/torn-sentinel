@@ -7,6 +7,7 @@ import { EmbedBuilder } from 'discord.js';
 import { getV2 } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney } from '../../../utils/formatters.js';
+import { getUi, applyTemplate } from '../../../localization/index.js';
 
 export async function companyHandler(client) {
     try {
@@ -51,21 +52,21 @@ export async function companyHandler(client) {
 
         const embed = new EmbedBuilder()
             .setColor(0x3498DB)
-            .setTitle('🏢 Company Overview')
+            .setTitle(`🏢 ${getUi('company_overview')}`)
             .addFields(
-                { name: 'Name', value: `${c.name}`, inline: true },
-                { name: 'Type', value: `${companyTypeName}`, inline: true },
-                { name: 'Rating', value: `⭐ ${c.rating || 0}`, inline: true },
+                { name: 'Nama', value: `${c.name}`, inline: true },
+                { name: getUi('type'), value: `${companyTypeName}`, inline: true },
+                { name: getUi('rating'), value: `⭐ ${c.rating || 0}`, inline: true },
 
-                { name: 'Employees', value: `${c.employees_hired} / ${c.employees_capacity}`, inline: true },
-                { name: 'Days Old', value: `${c.days_old} days`, inline: true },
+                { name: getUi('employees'), value: `${c.employees_hired} / ${c.employees_capacity}`, inline: true },
+                { name: getUi('days_old'), value: `${c.days_old} ${getUi('days')}`, inline: true },
                 { name: '\u200b', value: '\u200b', inline: true },
 
-                { name: 'Daily Income', value: `\`\`\`${dailyIncome}\`\`\``, inline: true },
-                { name: 'Weekly Income', value: `\`\`\`${weeklyIncome}\`\`\``, inline: true },
-                { name: 'Daily Customers', value: `\`\`\`${c.daily_customers?.toLocaleString() || 'N/A'}\`\`\``, inline: true }
+                { name: getUi('daily_income'), value: `\`\`\`${dailyIncome}\`\`\``, inline: true },
+                { name: getUi('weekly_income'), value: `\`\`\`${weeklyIncome}\`\`\``, inline: true },
+                { name: getUi('daily_customers'), value: `\`\`\`${c.daily_customers?.toLocaleString() || 'N/A'}\`\`\``, inline: true }
             )
-            .setFooter({ text: `Update every 30m • ID: ${companyId}` })
+            .setFooter({ text: `${applyTemplate('update_every_xm', { m: 30 })} • ID: ${companyId}` })
             .setTimestamp();
 
         return embed;

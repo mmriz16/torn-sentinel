@@ -8,6 +8,7 @@ import { getActiveSchedulers } from '../schedulerEngine.js';
 import { getAllRunnerStates } from '../runtimeStateManager.js';
 import { getAllUsers } from '../../userStorage.js';
 import { getLogStats } from '../../system/systemLogger.js';
+import { getUi } from '../../../localization/index.js';
 
 // Track bot start time
 const BOT_START_TIME = Date.now();
@@ -73,17 +74,17 @@ export async function botStatusHandler(client) {
         // Build embed
         const embed = new EmbedBuilder()
             .setColor(0x2ECC71) // Green = healthy
-            .setTitle('🤖 Torn Sentinel — System Status')
+            .setTitle(`🤖 Torn Sentinel — ${getUi('system_status')}`)
             .setDescription('────────────────────────────────────────────────');
 
         // Bot Status section
         embed.addFields({
-            name: '🟢 Bot Status',
+            name: `🟢 ${getUi('bot_status')}`,
             value: [
-                `• Online since: <t:${Math.floor(BOT_START_TIME / 1000)}:f>`,
-                `• Uptime: \`${uptimeStr}\``,
-                `• Version: \`v1.4.0\``,
-                `• Environment: \`${process.env.RENDER_SERVICE_NAME || 'Local'}\``
+                `• ${getUi('online_since')}: <t:${Math.floor(BOT_START_TIME / 1000)}:f>`,
+                `• ${getUi('uptime')}: \`${uptimeStr}\``,
+                `• ${getUi('version')}: \`v1.4.0\``,
+                `• ${getUi('environment')}: \`${process.env.RENDER_SERVICE_NAME || 'Local'}\``
             ].join('\n'),
             inline: false
         });
@@ -94,7 +95,7 @@ export async function botStatusHandler(client) {
         const tradeStatus = process.env.TRADE_HISTORY_CHANNEL_ID ? '✅ Active' : '⚠️ Not configured';
 
         embed.addFields({
-            name: '⚙️ Core Systems',
+            name: `⚙️ ${getUi('core_systems')}`,
             value: [
                 `• Scheduler Engine: ${schedulerStatus}`,
                 `• Auto-Run Bootstrap: ✅ Loaded`,
@@ -109,11 +110,11 @@ export async function botStatusHandler(client) {
         const avgMs = apiStats.avgResponseTime || 'N/A';
 
         embed.addFields({
-            name: '📡 API Health',
+            name: `📡 ${getUi('api_health')}`,
             value: [
                 `• Torn API: ${apiHealth} (avg ${avgMs}ms)`,
-                `• Requests: \`${apiStats.requestCount}\``,
-                `• Errors: \`${apiStats.errorCount}\``
+                `• ${getUi('requests')}: \`${apiStats.requestCount}\``,
+                `• ${getUi('errors')}: \`${apiStats.errorCount}\``
             ].join('\n'),
             inline: true
         });
@@ -136,7 +137,7 @@ export async function botStatusHandler(client) {
         const lastUpdateAgo = lastRunnerUpdate ? Math.floor((Date.now() - lastRunnerUpdate) / 1000) : 0;
 
         embed.addFields({
-            name: '💾 Storage',
+            name: `💾 ${getUi('storage')}`,
             value: [
                 `• Users loaded: \`${userCount}\``,
                 `• Runners tracked: \`${Object.keys(runnerStates).length}\``,

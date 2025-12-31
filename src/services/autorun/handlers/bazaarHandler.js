@@ -10,7 +10,7 @@ import { EmbedBuilder } from 'discord.js';
 import { getV2, getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney } from '../../../utils/formatters.js';
-// unused import removed
+import { getUi } from '../../../localization/index.js';
 
 // Snapshot storage for delta tracking
 let lastBazaarSnapshot = {
@@ -111,16 +111,16 @@ async function buildModeAEmbed(apiKey) {
             .map(i => `• **${i.name}** — ${formatMoney(i.avgPrice)} | Margin ~${i.margin}%`)
             .join('\n');
     } else {
-        recommendations = '• No market data available';
+        recommendations = `• ${getUi('market_no_data')}`;
     }
 
     const embed = new EmbedBuilder()
         .setColor(0x95A5A6) // Gray - no bazaar
-        .setTitle('🛒 Bazaar Check')
+        .setTitle(`🛒 ${getUi('bazaar_check')}`)
         .addFields(
-            { name: 'Status', value: '```❌ NOT OWNED```', inline: false },
-            { name: '💡 Recommended Items to Flip', value: recommendations, inline: false },
-            { name: '📌 Tip', value: 'Buy a bazaar upgrade from the Points Building to start selling!', inline: false }
+            { name: 'Status', value: `\`\`\`❌ ${getUi('not_owned')}\`\`\``, inline: false },
+            { name: `💡 ${getUi('recommended_items')}`, value: recommendations, inline: false },
+            { name: '📌 Tip', value: getUi('tip_bazaar'), inline: false }
         )
         .setFooter({ text: 'Torn Sentinel • Auto update every 5 min' })
         .setTimestamp();
@@ -146,7 +146,7 @@ function buildModeBEmbed(bazaarValue, valueDelta, deltaPercent, networth) {
     }
 
     // Delta display
-    let deltaText = 'No change';
+    let deltaText = getUi('no_change');
     if (valueDelta !== 0) {
         const sign = valueDelta > 0 ? '+' : '';
         deltaText = `${sign}${formatMoney(valueDelta)} (${sign}${deltaPercent}%)`;
@@ -160,9 +160,9 @@ function buildModeBEmbed(bazaarValue, valueDelta, deltaPercent, networth) {
 
     // Market signals (simplified - would need more complex tracking for real signals)
     const signals = [
-        { item: 'Xanax', trend: '↓', note: 'Slightly oversupplied' },
-        { item: 'FHC', trend: '→', note: 'Stable demand' },
-        { item: 'Plushies', trend: '↑', note: 'Collectors buying' },
+        { item: 'Xanax', trend: '↓', note: getUi('oversupplied') },
+        { item: 'FHC', trend: '→', note: getUi('demand') },
+        { item: 'Plushies', trend: '↑', note: getUi('collectors') },
     ];
 
     const signalText = signals
@@ -171,23 +171,23 @@ function buildModeBEmbed(bazaarValue, valueDelta, deltaPercent, networth) {
 
     const embed = new EmbedBuilder()
         .setColor(trendColor)
-        .setTitle(`🛒 Bazaar Check ${trendIcon}`)
+        .setTitle(`🛒 ${getUi('bazaar_check')} ${trendIcon}`)
         .addFields(
-            { name: 'Status', value: '```✅ ACTIVE```', inline: true },
-            { name: 'Estimated Value', value: `\`\`\`${formatMoney(bazaarValue)}\`\`\``, inline: true },
-            { name: 'Change', value: `\`\`\`${deltaText}\`\`\``, inline: true },
+            { name: 'Status', value: `\`\`\`✅ ${getUi('active').toUpperCase()}\`\`\``, inline: true },
+            { name: getUi('estimated_value'), value: `\`\`\`${formatMoney(bazaarValue)}\`\`\``, inline: true },
+            { name: getUi('change'), value: `\`\`\`${deltaText}\`\`\``, inline: true },
 
             {
-                name: '📊 Estimated Breakdown', value: [
-                    `• Consumables: ~${formatMoney(consumablesEst)}`,
-                    `• Plushies: ~${formatMoney(plushiesEst)}`,
-                    `• Others: ~${formatMoney(othersEst)}`
+                name: `📊 ${getUi('estimated_breakdown')}`, value: [
+                    `• ${getUi('consumables')}: ~${formatMoney(consumablesEst)}`,
+                    `• Plushies: ~${formatMoney(plushiesEst)}`, // Plushies is generic, keep English or "Boneka"? (Plushies is common term) -> "Plushie" is usually kept.
+                    `• ${getUi('others')}: ~${formatMoney(othersEst)}`
                 ].join('\n'), inline: false
             },
 
-            { name: '📈 Market Signals', value: signalText, inline: false }
+            { name: `📈 ${getUi('market_signals')}`, value: signalText, inline: false }
         )
-        .setFooter({ text: '⚠️ Exact listings unavailable (API limitation) • Update every 5 min' })
+        .setFooter({ text: getUi('listings_unavailable') })
         .setTimestamp();
 
     return embed;

@@ -9,6 +9,7 @@
 
 import { EmbedBuilder } from 'discord.js';
 import { getCountryData } from '../../yataGlobalCache.js';
+import { getUi } from '../../../localization/index.js';
 
 // Country metadata mapping
 export const COUNTRIES = {
@@ -65,10 +66,10 @@ function getCategoryColor(category) {
  */
 function getCategoryHeader(category) {
     switch (category) {
-        case 'flower': return '🌸｜Flowers';
-        case 'plushie': return '🧸｜Plushies';
-        case 'drug': return '💊｜Drugs';
-        default: return '📦｜Others';
+        case 'flower': return `🌸｜${getUi('flowers')}`;
+        case 'plushie': return `🧸｜${getUi('plushies')}`;
+        case 'drug': return `💊｜${getUi('drugs')}`;
+        default: return `📦｜${getUi('others')}`;
     }
 }
 
@@ -110,12 +111,12 @@ function buildCountryEmbeds(countryKey) {
 
     // 1. HEADER EMBED
     const headerEmbed = new EmbedBuilder()
-        .setTitle(`${country.emoji}｜${country.name}｜Foreign Market`)
+        .setTitle(`${country.emoji}｜${country.name}｜${getUi('foreign_market')}`)
         .setColor(null); // Default/Black
 
     if (!items || items.length === 0) {
-        headerEmbed.setDescription('```No market data available```');
-        headerEmbed.setFooter({ text: 'Waiting for data...' });
+        headerEmbed.setDescription(`\`\`\`${getUi('market_no_data')}\`\`\``);
+        headerEmbed.setFooter({ text: getUi('waiting_data') });
         return [headerEmbed];
     }
 
@@ -140,9 +141,9 @@ function buildCountryEmbeds(countryKey) {
 
         // Build Table
         // Header alignment matches formatTableRow: 21 + 1 + 7 + 1 + 11 = 41 chars
-        const headName = "Item Name".padEnd(21);
-        const headStock = "Stock".padStart(7);
-        const headPrice = "Price".padStart(11);
+        const headName = getUi('item_name').padEnd(21);
+        const headStock = getUi('stock').padStart(7);
+        const headPrice = getUi('price').padStart(11);
         const header = `${headName} ${headStock} ${headPrice}`;
 
         const separator = `──────────────────────────────────────────`;
@@ -167,7 +168,7 @@ function buildCountryEmbeds(countryKey) {
 
         // Footer timestamp logic
         const timestamp = cacheData.updatedAt ? Math.floor(cacheData.updatedAt / 1000) : Math.floor(Date.now() / 1000);
-        let footerText = 'Torn Sentinel • Item Market';
+        let footerText = `Torn Sentinel • ${getUi('market')}`;
 
         lastEmbed.setFooter({ text: footerText })
             .setTimestamp(new Date(cacheData.updatedAt || Date.now()));

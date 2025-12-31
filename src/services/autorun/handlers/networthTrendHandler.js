@@ -7,6 +7,7 @@ import { EmbedBuilder } from 'discord.js';
 import { getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney } from '../../../utils/formatters.js';
+import { getUi } from '../../../localization/index.js';
 import {
     saveSnapshot,
     getLatestSnapshot,
@@ -77,7 +78,7 @@ export async function networthTrendHandler(client) {
 
         // Format delta display
         const formatDelta = (value) => {
-            if (value === null) return '`No data`';
+            if (value === null) return `\`${getUi('no_data')}\``;
             const sign = value >= 0 ? '+' : '';
             const icon = value >= 0 ? '📈' : '📉';
             return `${sign}${formatMoney(value)} ${icon}`;
@@ -85,15 +86,15 @@ export async function networthTrendHandler(client) {
 
         const embed = new EmbedBuilder()
             .setColor(trend.color)
-            .setTitle('📈 Networth Trend')
+            .setTitle(`📈 ${getUi('networth_trend_title')}`)
             .addFields(
-                { name: 'Current', value: `\`\`\`${formatMoney(currentSnapshot.total)}\`\`\``, inline: false },
+                { name: getUi('current_networth'), value: `\`\`\`${formatMoney(currentSnapshot.total)}\`\`\``, inline: false },
                 { name: '24h', value: formatDelta(delta24h), inline: true },
                 { name: '7d', value: formatDelta(delta7d), inline: true },
                 { name: '30d', value: formatDelta(delta30d), inline: true },
-                { name: 'Trend', value: `\`\`\`${trend.icon} ${trend.label}\`\`\``, inline: false }
+                { name: getUi('trend_label'), value: `\`\`\`${trend.icon} ${trend.label}\`\`\``, inline: false }
             )
-            .setFooter({ text: 'Torn Sentinel • Updated daily' })
+            .setFooter({ text: `Torn Sentinel • ${getUi('updated_daily')}` })
             .setTimestamp();
 
         return embed;

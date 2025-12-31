@@ -15,6 +15,7 @@ import {
 import { detectTrades, getCountryFlag } from '../../trade/tradeDetectionEngine.js';
 import { logTrade } from '../../analytics/travelAnalyticsService.js';
 import { addIncome, addExpense, incrementStat } from '../../analytics/profitEngineStorage.js';
+import { getUi } from '../../../localization/index.js';
 
 /**
  * Trade handler - fetches data, detects trades, sends notifications
@@ -65,47 +66,64 @@ export async function tradeHandler(client) {
             const channel = await client.channels.fetch(tradeChannelId);
 
             for (const trade of trades) {
-                const embed = buildTradeEmbed(trade);
-                await channel.send({
-                    content: `<@${userId}>`,
-                    embeds: [embed]
-                });
-                console.log(`📦 Trade detected: ${trade.type} ${trade.qty}x ${trade.itemName}`);
+                try {
+                    const embed = buildTradeEmbed(trade);
+                    await channel.send({
+                        content: `<@${userId}>`,
+                        embeds: [embed]
+                    });
+                    console.log(`📦 Trade detected: ${trade.type} ${trade.qty}x ${trade.itemName}`);
 
-                // Log trade to travel analytics for profit tracking
-                logTrade(
-                    trade.type,
-                    trade.itemName,
-                    trade.qty,
-                    trade.unitPrice || 0,
-                    trade.country || 'Torn'
-                );
+                    // Log trade to travel analytics for profit tracking
+                    try {
+                        logTrade(
+                            trade.type,
+                            trade.itemName,
+                            trade.qty,
+                            trade.unitPrice || 0,
+                            trade.country || 'Torn'
+                        );
+                    } catch (logErr) {
+                        console.error('❌ Error logging trade to analytics:', logErr);
+                    }
 
-                // Log to Profit Engine
-                if (trade.type === 'SELL') {
-                    // Sell = income (net after tax)
-                    const netRevenue = trade.netRevenue || (trade.totalCost * 0.95);
-                    addIncome('travel', netRevenue);
-                    addExpense('tax', trade.tax || (trade.totalCost * 0.05));
-                    incrementStat('tripCount');
-                } else if (trade.type === 'BUY') {
-                    // Buy = expense
-                    addExpense('travel_buy', trade.totalCost || 0);
+                    // Log to Profit Engine
+                    /* 
+                    // PROFIT LOGGING HANDLED BY financialLogHandler NOW
+                    // Preserving logic for reference or fallback if needed
+                    try {
+                        if (trade.type === 'SELL') {
+                            const netRevenue = trade.netRevenue || (trade.totalCost * 0.95);
+                            addIncome('travel', netRevenue);
+                            addExpense('tax', trade.tax || (trade.totalCost * 0.05));
+                            incrementStat('tripCount');
+                        } else if (trade.type === 'BUY') {
+                            addExpense('travel_buy', trade.totalCost || 0);
+                        }
+                    } catch (profitErr) {
+                        console.error('❌ Error updating profit engine:', profitErr);
+                    }
+                    */
+
+                } catch (sendErr) {
+                    console.error('❌ Error sending trade notification:', sendErr);
                 }
             }
         }
 
-        // Update snapshot for next cycle
+        // Update snapshot for next cycle (CRITICAL: Must run to prevent duplicates)
         updateSnapshot(userId, currentSnapshot);
-
-        // Return null - we handle notifications directly
-        return null;
-
     } catch (error) {
-        console.error('❌ Trade handler error:', error.message);
-        return null;
-    }
+        console.error('❌ Trade Handler Fatal Error:', error);
+    } // No finally needed for updateSnapshot because it's inside the try block now, but we want it to run if `detectTrades` succeeds. 
+    // Wait, if detectTrades fails, we probably shouldn't update snapshot?
+    // Correct. But if processing trades fails, we MUST update.
+    // The previous structure had updateSnapshot at the end of try block.
+    // If the loop throws, it skips updateSnapshot.
+    // My new structure catches errors INSIDE the loop. So the loop continues and updateSnapshot is reached!
 }
+
+
 
 /**
  * Build trade notification embed
@@ -126,7 +144,7 @@ function buildTradeEmbed(trade) {
 function buildBuyEmbed(trade) {
     const embed = new EmbedBuilder()
         .setColor(0x3498DB) // Blue
-        .setTitle('📦 Trade Logged: BUY')
+        .setTitle(`📦 ${getUi('trade_logged')}: BUY`)
         .setDescription([
             `**${trade.itemName}** ×${trade.qty}`,
             `@ ${formatMoney(trade.unitPrice)} each`,
@@ -134,12 +152,12 @@ function buildBuyEmbed(trade) {
             `**Total:** ${formatMoney(trade.totalCost)}`
         ].join('\n'))
         .addFields({
-            name: 'Country',
+            name: getUi('country'),
             value: `${trade.countryFlag} ${trade.country}`,
             inline: true
         })
         .setTimestamp()
-        .setFooter({ text: 'Detected via inventory & wallet delta' });
+        .setFooter({ text: getUi('detected_via') });
 
     return embed;
 }
@@ -156,7 +174,7 @@ function buildSellEmbed(trade) {
         `**${trade.itemName}** ×${trade.qty}`,
         `@ ${formatMoney(trade.unitPrice)} each`,
         '',
-        `**Gross:** ${formatMoney(trade.grossRevenue)}`,
+        `**Gross:** ${formatMoney(trade.grossRevenue)}`, // Gross/Net/Tax difficult to localize short. Prefer keeping technical terms or simple translation.
         `**Tax (5%):** -${formatMoney(trade.tax)}`,
         `**Net:** ${formatMoney(trade.netRevenue)}`
     ];
@@ -164,23 +182,23 @@ function buildSellEmbed(trade) {
     // Add profit line if not orphan
     if (!trade.isOrphan && trade.profit !== null) {
         descriptionLines.push('');
-        descriptionLines.push(`**Profit:** ${profitEmoji} ${profitPrefix}${formatMoney(trade.profit)}`);
+        descriptionLines.push(`**${getUi('profit')}:** ${profitEmoji} ${profitPrefix}${formatMoney(trade.profit)}`);
     } else if (trade.isOrphan) {
         descriptionLines.push('');
-        descriptionLines.push('⚠️ *Orphan sell - no matching BUY found*');
+        descriptionLines.push(`⚠️ *${getUi('orphan_sell')}*`);
     }
 
     const embed = new EmbedBuilder()
         .setColor(trade.isOrphan ? 0xF39C12 : profitColor) // Orange for orphan
-        .setTitle('💰 Trade Logged: SELL')
+        .setTitle(`💰 ${getUi('trade_logged')}: SELL`)
         .setDescription(descriptionLines.join('\n'))
         .addFields({
-            name: 'Location',
+            name: getUi('location'),
             value: `${trade.countryFlag} ${trade.country}`,
             inline: true
         })
         .setTimestamp()
-        .setFooter({ text: 'Detected via inventory & wallet delta' });
+        .setFooter({ text: getUi('detected_via') });
 
     return embed;
 }

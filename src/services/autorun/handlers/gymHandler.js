@@ -7,8 +7,10 @@ import { EmbedBuilder } from 'discord.js';
 import { get } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatNumber } from '../../../utils/formatters.js';
+import { getEnergyPerClick, updateFromApiLogs, getLastTrainedStat } from '../../analytics/gymTrainingStorage.js';
+import { getUi, getStat, fromDictionary, applyTemplate } from '../../../localization/index.js';
 
-// Gym names by ID (same as /gym command)
+// Gym names by ID (English names are fine as they are proper nouns)
 const GYM_NAMES = {
     1: 'Premier Fitness', 2: 'Average Joes', 3: 'Woody\'s Workout', 4: 'Beach Bods',
     5: 'Silver Gym', 6: 'Pour Femme', 7: 'Davies Den', 8: 'Global Gym',
@@ -30,13 +32,27 @@ export async function gymHandler(client) {
         if (!userId) return null;
 
         const user = users[userId];
-        const data = await get(user.apiKey, 'user', 'gym,battlestats,bars');
+
+        // Fetch gym data AND logs to learn energy per click
+        const data = await get(user.apiKey, 'user', 'gym,battlestats,bars,log');
+
+        // Try to learn energy per click from logs
+        if (data.log) {
+            updateFromApiLogs(data.log);
+        }
 
         return buildGymEmbed(data);
     } catch (error) {
         console.error('❌ Gym handler error:', error.message);
         return null;
     }
+}
+
+/**
+ * Helper to capitalize first letter
+ */
+function capitalize(str) {
+    return str.replace(/\b\w/g, c => c.toUpperCase());
 }
 
 /**
@@ -48,14 +64,14 @@ function buildGymEmbed(data) {
 
     const embed = new EmbedBuilder()
         .setColor(0x58ACFF)
-        .setTitle('🏋️｜Battle Stats')
+        .setTitle(`🏋️｜${getUi('battle_stats')}`)
         .setDescription('─────────────────────────────────────────────────')
         .setTimestamp()
         .setFooter({ text: 'Torn Sentinel • Auto refresh every 60 seconds' });
 
     // Active Gym
     embed.addFields({
-        name: '🏢｜Active Gym',
+        name: `🏢｜${getUi('activity_log').replace('Log Aktivitas', 'Gym')}`, // Fallback or use specific key if added
         value: `\`\`\`${gymName}\`\`\``,
         inline: false
     });
@@ -69,15 +85,22 @@ function buildGymEmbed(data) {
         return text;
     };
 
+    // Statically map UI keys to localized names (capitalized)
+    const strName = capitalize(getStat('strength'));
+    const defName = capitalize(getStat('defense'));
+    const spdName = capitalize(getStat('speed'));
+    const dexName = capitalize(getStat('dexterity'));
+    const totalName = capitalize(fromDictionary('stats', 'total') || 'Total Stats');
+
     // Row 1: Strength | Defense
     embed.addFields({
-        name: '💪｜Strength',
+        name: `💪｜${strName}`,
         value: `\`\`\`${formatStat(data.strength, data.strength_modifier)}\`\`\``,
         inline: true
     });
 
     embed.addFields({
-        name: '🛡️｜Defense',
+        name: `🛡️｜${defName}`,
         value: `\`\`\`${formatStat(data.defense, data.defense_modifier)}\`\`\``,
         inline: true
     });
@@ -87,45 +110,73 @@ function buildGymEmbed(data) {
 
     // Row 2: Speed | Dexterity
     embed.addFields({
-        name: '⚡｜Speed',
+        name: `⚡｜${spdName}`,
         value: `\`\`\`${formatStat(data.speed, data.speed_modifier)}\`\`\``,
         inline: true
     });
 
     embed.addFields({
-        name: '🎯｜Dexterity',
+        name: `🎯｜${dexName}`,
         value: `\`\`\`${formatStat(data.dexterity, data.dexterity_modifier)}\`\`\``,
         inline: true
     });
 
     // Total Stats
     embed.addFields({
-        name: '📊｜Total Stats',
+        name: `📊｜${totalName}`,
         value: `\`\`\`${formatNumber(total)}\`\`\``,
         inline: false
     });
 
-    // Training Estimate
+    // Training Estimate - Now using learned energy-per-click!
     const currentEnergy = data.energy?.current || 0;
-    const totalClicks = Math.floor(currentEnergy / 5);
+    const gymId = data.active_gym || 1;
 
-    const porsi = { str: 0.70, def: 0.20, spd: 0.10, dex: 0.00 };
+    // Get energy per click from storage (learned or default)
+    const { energyPerClick, confidence, source } = getEnergyPerClick(gymId);
+    const totalClicks = Math.floor(currentEnergy / energyPerClick);
+
+    // Confidence indicators localized
+    const confidenceIcon = confidence === 'confirmed' ? '🟢' :
+        confidence === 'manual' ? '🔵' :
+            confidence === 'inferred' ? '🟡' : '⚪';
+
+    const confidenceLabel = capitalize(fromDictionary('confidence', confidence) || confidence);
+    const energyLabel = capitalize(fromDictionary('stats', 'energy') || 'Energy');
+
+    // Determine distribution based on last gym action
+    const lastStat = getLastTrainedStat(); // str, def, spd, dex
+    let porsi = { str: 0.70, def: 0.20, spd: 0.10, dex: 0.00 }; // Default
+
+    if (lastStat) {
+        // Set 100% to last trained stat
+        porsi = { str: 0.00, def: 0.00, spd: 0.00, dex: 0.00 };
+        if (porsi.hasOwnProperty(lastStat)) {
+            porsi[lastStat] = 1.00;
+        } else {
+            // Fallback if stat key invalid
+            porsi = { str: 0.70, def: 0.20, spd: 0.10, dex: 0.00 };
+        }
+    }
+
     const strClicks = Math.floor(totalClicks * porsi.str);
     const defClicks = Math.floor(totalClicks * porsi.def);
     const spdClicks = Math.floor(totalClicks * porsi.spd);
     const dexClicks = Math.floor(totalClicks * porsi.dex);
 
+    // Using some hardcoded structure but localized terms
     const trainingEstimate = [
-        `⚡ Energy: ${currentEnergy}E → ${totalClicks} clicks`,
+        `⚡ ${energyLabel}: ${currentEnergy}E → ${totalClicks} clicks`,
+        `💡 Cost: ${energyPerClick}E/click ${confidenceIcon} ${confidenceLabel}`,
         '─────────────────────────────────',
-        `💪 Strength  : ${strClicks} clicks (70%)`,
-        `🛡️ Defense   : ${defClicks} clicks (20%)`,
-        `⚡ Speed     : ${spdClicks} clicks (10%)`,
-        `🎯 Dexterity : ${dexClicks} clicks (0%)`
+        `💪 ${strName.padEnd(9)} : ${strClicks} clicks (70%)`,
+        `🛡️ ${defName.padEnd(9)} : ${defClicks} clicks (20%)`,
+        `⚡ ${spdName.padEnd(9)} : ${spdClicks} clicks (10%)`,
+        `🎯 ${dexName.padEnd(9)} : ${dexClicks} clicks (0%)`
     ].join('\n');
 
     embed.addFields({
-        name: '🏋️｜Training Estimate',
+        name: `🏋️｜${getUi('training_estimate')}`,
         value: `\`\`\`${trainingEstimate}\`\`\``,
         inline: false
     });

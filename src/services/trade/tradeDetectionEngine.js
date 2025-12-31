@@ -50,6 +50,36 @@ async function getCountryItems(countryName) {
  * Logic: User Abroad + Cash Dropped
  * Method: Find item in that country where (Price * Qty) ≈ CashDrop
  */
+
+
+/**
+ * Check if a trade was detected recently
+ */
+export function wasDetectedRecently(type, uniqueId, thresholdMs = 60000) {
+    const now = Date.now();
+    // Unique key: TYPE:ID
+    const key = `${type}:${uniqueId}`;
+
+    if (detectionHistory.has(key)) {
+        const lastTs = detectionHistory.get(key);
+        if (now - lastTs < thresholdMs) return true;
+    }
+
+    detectionHistory.set(key, now);
+
+    // Cleanup old keys
+    for (const [k, ts] of detectionHistory.entries()) {
+        if (now - ts > thresholdMs * 2) detectionHistory.delete(k);
+    }
+
+    return false;
+}
+
+/**
+ * Detect BUY Trades
+ * Logic: User Abroad + Cash Dropped
+ * Method: Find item in that country where (Price * Qty) ≈ CashDrop
+ */
 async function detectBuyTrades(userId, prevSnapshot, currentSnapshot) {
     const trades = [];
 
@@ -103,6 +133,18 @@ async function detectBuyTrades(userId, prevSnapshot, currentSnapshot) {
     if (bestMatch) {
         // Check total cost match again
         if (Math.abs(bestMatch.totalCost - cashDiff) < 500) { // allow small variance?
+            // Deduplicate: Use UserId + ItemId + Qty as unique signature (approx)
+            // Or better: Use currentSnapshot.timestamp if available?
+            // Using "Buy:ItemId:Qty" is risky if user buys same amount twice quickly.
+            // But detection runs every 30s. User can't buy same amount instantly twice unless fast hands.
+            // Safer: include currentSnapshot cash in key?
+            const signature = `${userId}:${bestMatch.itemId}:${bestMatch.qty}:${Math.floor(currentSnapshot.cash / 1000)}`;
+
+            if (wasDetectedRecently('BUY', signature, CONFIG.COOLDOWN_MS)) {
+                console.log(`Duplicate BUY suppressed: ${bestMatch.itemName}`);
+                return [];
+            }
+
             const trade = {
                 type: 'BUY',
                 itemId: bestMatch.itemId,
@@ -114,17 +156,9 @@ async function detectBuyTrades(userId, prevSnapshot, currentSnapshot) {
                 countryFlag: COUNTRIES[Object.keys(COUNTRIES).find(k => COUNTRIES[k].name === currentSnapshot.location)]?.emoji || '🌍'
             };
 
-            // Prevent duplicates (simple timestamp check)
-            const key = `BUY:${userId}:${bestMatch.itemId}:${currentSnapshot.timestamp}`;
-            if (!detectionHistory.has(key)) {
-                const record = recordBuy(userId, trade);
-                trade.record = record;
-                trades.push(trade);
-                detectionHistory.set(key, true);
-
-                // Clean up history
-                if (detectionHistory.size > 50) detectionHistory.clear();
-            }
+            const record = recordBuy(userId, trade);
+            trade.record = record;
+            trades.push(trade);
         }
     }
 

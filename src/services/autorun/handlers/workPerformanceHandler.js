@@ -6,6 +6,7 @@
 import { EmbedBuilder } from 'discord.js';
 import { getV2 } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
+import { getUi } from '../../../localization/index.js';
 
 export async function workPerformanceHandler(client) {
     try {
@@ -35,30 +36,30 @@ export async function workPerformanceHandler(client) {
         // Recommendations based on rating
         let recommendation = '';
         if (jpRate === 0) {
-            recommendation = '❌ You are not earning Job Points. Find a job!';
+            recommendation = getUi('rec_no_jp');
         } else if (jpRate < 3) {
-            recommendation = '⚠️ Low JP income. Consider finding a higher rated company.';
+            recommendation = getUi('rec_low_jp');
         } else if (jpRate < 7) {
-            recommendation = '✔ Decent income. Look for 7*+ companies for better perks.';
+            recommendation = getUi('rec_decent_jp');
         } else if (jpRate < 10) {
-            recommendation = '🚀 Excellent JP income. Stay and farm points!';
+            recommendation = getUi('rec_high_jp');
         } else {
-            recommendation = '🏆 Maximum JP rate! Perfect company!';
+            recommendation = getUi('rec_max_jp');
         }
 
         const embed = new EmbedBuilder()
             .setColor(isOptimal ? 0x2ECC71 : 0xE67E22)
-            .setTitle('📈 Work Performance')
+            .setTitle(`📈 ${getUi('work_performance')}`)
             .addFields(
-                { name: 'Job Points Rate', value: `${jpRate} / day`, inline: true },
-                { name: 'Company Rating', value: `${companyRating} ⭐`, inline: true },
-                { name: 'Position', value: `${job.position || 'Unknown'}`, inline: true },
+                { name: 'Job Points Rate', value: `${jpRate} / ${getUi('days')}`, inline: true },
+                { name: getUi('rating'), value: `${companyRating} ⭐`, inline: true },
+                { name: getUi('position'), value: `${job.position || 'Unknown'}`, inline: true },
 
-                { name: 'Company', value: `${job.name}`, inline: true },
-                { name: 'Tenure', value: `${job.days_in_company || 0} days`, inline: true },
-                { name: 'Promotion Ready', value: '❓ Check Panel', inline: true },
+                { name: getUi('company'), value: `${job.name}`, inline: true },
+                { name: getUi('tenure'), value: `${job.days_in_company || 0} ${getUi('days')}`, inline: true },
+                { name: getUi('promotion_ready'), value: `❓ ${getUi('check_panel')}`, inline: true },
 
-                { name: 'Recommendation', value: `\`\`\`${recommendation}\`\`\``, inline: false }
+                { name: getUi('recommendation'), value: `\`\`\`${recommendation}\`\`\``, inline: false }
             )
             .setFooter({ text: 'Update every 60m' })
             .setTimestamp();

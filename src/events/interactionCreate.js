@@ -18,6 +18,28 @@ export async function execute(interaction, client) {
         await handleButton(interaction, client);
         return;
     }
+
+    // Handle autocomplete interactions
+    if (interaction.isAutocomplete()) {
+        await handleAutocomplete(interaction, client);
+        return;
+    }
+}
+
+/**
+ * Handle autocomplete interactions
+ */
+async function handleAutocomplete(interaction, client) {
+    const command = client.commands.get(interaction.commandName);
+    if (!command) return;
+
+    try {
+        if (command.autocomplete) {
+            await command.autocomplete(interaction, client);
+        }
+    } catch (error) {
+        console.error(`❌ Autocomplete error in /${interaction.commandName}:`, error);
+    }
 }
 
 /**

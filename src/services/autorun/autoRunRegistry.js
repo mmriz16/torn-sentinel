@@ -233,6 +233,16 @@ export const AUTO_RUNNERS = {
         enabled: true
     },
 
+    marketAlerts: {
+        key: 'marketAlerts', // Matches autoRunRegistry key
+        name: 'Market Alerts',
+        emoji: '🔔',
+        interval: 30 * 1000, // 30s (match cache update)
+        channelEnvKey: null, // User specific channels, logic handled in engine
+        handler: 'marketAlertHandler',
+        enabled: true
+    },
+
     // ═══════════════════════════════════════════════════════════════════
     // 📟 SYSTEM MONITORING
     // ═══════════════════════════════════════════════════════════════════
@@ -346,6 +356,16 @@ export const AUTO_RUNNERS = {
         interval: 5 * 60 * 1000, // 5m - aggregate view
         channelEnvKey: 'PROFIT_ENGINE_CHANNEL_ID',
         handler: 'profitEngineHandler',
+        enabled: true
+    },
+
+    financialLogs: {
+        key: 'financialLogs',
+        name: 'Financial Logs',
+        emoji: '🧾',
+        interval: 60 * 1000, // 1m - fast polling
+        channelEnvKey: null, // No specific channel needed
+        handler: 'financialLogHandler',
         enabled: true
     },
 };

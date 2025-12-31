@@ -7,6 +7,7 @@ import { EmbedBuilder } from 'discord.js';
 import { get } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney } from '../../../utils/formatters.js';
+import { getUi } from '../../../localization/index.js';
 
 /**
  * Wallet handler - fetches data and returns embed
@@ -44,7 +45,7 @@ function buildWalletEmbed(data) {
 
     const embed = new EmbedBuilder()
         .setColor(0x58ACFF)
-        .setTitle('💼｜Financial Overview')
+        .setTitle(`💼｜${getUi('financial_overview')}`)
         .setDescription('────────────────────────────────────────────────')
         .setTimestamp()
         .setFooter({ text: 'Torn Sentinel • Auto-Run' });
@@ -73,7 +74,7 @@ function buildWalletEmbed(data) {
 
     // Total Networth
     embed.addFields({
-        name: '💰｜Total Networth',
+        name: `💰｜${getUi('networth')}`,
         value: `\`\`\`${formatMoney(totalNetworth)}\`\`\``,
         inline: true
     });
@@ -81,7 +82,7 @@ function buildWalletEmbed(data) {
     // Liquidity
     if (liquidity > 0) {
         embed.addFields({
-            name: '💵｜Liquidity',
+            name: `💵｜${getUi('liquidity')}`,
             value: `\`\`\`${formatMoney(liquidity)}\`\`\``,
             inline: true
         });
@@ -90,7 +91,7 @@ function buildWalletEmbed(data) {
     // Points
     if (networth.points > 0) {
         embed.addFields({
-            name: '⭐｜Points',
+            name: `⭐｜${getUi('points')}`,
             value: `\`\`\`${formatMoney(networth.points)}\`\`\``,
             inline: true
         });
@@ -99,7 +100,7 @@ function buildWalletEmbed(data) {
     // Items
     if (networth.items > 0) {
         embed.addFields({
-            name: '🎒｜Items',
+            name: `🎒｜${getUi('items')}`,
             value: `\`\`\`${formatMoney(networth.items)}\`\`\``,
             inline: true
         });
@@ -108,7 +109,7 @@ function buildWalletEmbed(data) {
     // Properties
     if (networth.properties > 0) {
         embed.addFields({
-            name: '🏠｜Properties',
+            name: `🏠｜${getUi('properties')}`,
             value: `\`\`\`${formatMoney(networth.properties)}\`\`\``,
             inline: true
         });
@@ -117,7 +118,7 @@ function buildWalletEmbed(data) {
     // Market Assets
     if (marketAssets > 0) {
         embed.addFields({
-            name: '🏪｜Market Assets',
+            name: `🏪｜${getUi('market_assets')}`,
             value: `\`\`\`${formatMoney(marketAssets)}\`\`\``,
             inline: true
         });
@@ -129,7 +130,7 @@ function buildWalletEmbed(data) {
             ? `🔻 ${formatMoney(miscTotal)}`
             : formatMoney(miscTotal);
         embed.addFields({
-            name: '📦｜Misc',
+            name: `📦｜${getUi('misc')}`,
             value: `\`\`\`${miscValue}\`\`\``,
             inline: true
         });

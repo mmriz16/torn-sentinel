@@ -10,11 +10,15 @@ import {
     setMessageId,
     isRunnerEnabled
 } from './runtimeStateManager.js';
-import { getRunner } from './autoRunRegistry.js';
+import { getRunner, INTERVALS } from './autoRunRegistry.js';
 import { getAllUsers } from '../userStorage.js';
+import { hasReportedToday, markReportSent } from './dailyReportStateManager.js';
 
 // Active schedulers (key -> intervalId)
 const activeSchedulers = new Map();
+
+// Daily interval threshold (anything >= 12 hours is considered daily)
+const DAILY_INTERVAL_THRESHOLD = 12 * 60 * 60 * 1000;
 
 // Handler functions (loaded dynamically)
 const handlers = new Map();
@@ -91,6 +95,13 @@ async function runTick(runnerKey, runner, handler, channelId) {
             return;
         }
 
+        // Check if this is a daily runner that has already reported today
+        const isDailyRunner = runner.interval >= DAILY_INTERVAL_THRESHOLD;
+        if (isDailyRunner && hasReportedToday(runnerKey)) {
+            // Skip - already reported today
+            return;
+        }
+
         // Get existing message ID
         let messageId = getMessageId(runnerKey);
         let message = null;
@@ -149,6 +160,11 @@ async function runTick(runnerKey, runner, handler, channelId) {
 
         // Update state
         setRunnerState(runnerKey, { lastRun: Date.now() });
+
+        // Mark daily reports as sent to prevent duplicates on restart
+        if (isDailyRunner) {
+            markReportSent(runnerKey);
+        }
 
     } catch (error) {
         console.error(`❌ Error in ${runnerKey} tick:`, error.message);

@@ -7,6 +7,7 @@ import { EmbedBuilder } from 'discord.js';
 import { getV2, getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatNumber } from '../../../utils/formatters.js';
+import { getUi } from '../../../localization/index.js';
 
 export async function jobHandler(client) {
     try {
@@ -42,26 +43,26 @@ export async function jobHandler(client) {
         // Active Perks List
         const activePerksList = jobPerks.length > 0
             ? jobPerks.slice(0, 8).map(p => `• ${p}`).join('\n')
-            : '• None active';
+            : `• ${getUi('none_active')}`;
 
         // Next Perk (Placeholder)
-        const nextPerkText = '• Check Company Panel for next unlock';
+        const nextPerkText = `• ${getUi('check_panel')}`;
 
         const embed = new EmbedBuilder()
             .setColor(0xF1C40F)
-            .setTitle('📄 Job Overview')
+            .setTitle(`📄 ${getUi('job_overview')}`)
             .addFields(
-                { name: 'Position', value: `${job.position || 'Unknown'}`, inline: true },
-                { name: 'Company', value: `${job.name || 'Unknown'}`, inline: true },
-                { name: 'Rating', value: `⭐ ${job.rating || 0}`, inline: true },
+                { name: getUi('position'), value: `${job.position || 'Unknown'}`, inline: true },
+                { name: getUi('company'), value: `${job.name || 'Unknown'}`, inline: true },
+                { name: getUi('rating'), value: `⭐ ${job.rating || 0}`, inline: true },
 
-                { name: 'Company JP', value: `\`\`\`${formatNumber(currentCompanyJP)}\`\`\``, inline: true },
-                { name: 'Tenure', value: `\`\`\`${job.days_in_company || 0} days\`\`\``, inline: true },
-                { name: 'JP/Day', value: `\`\`\`${job.rating || 0}\`\`\``, inline: true },
+                { name: getUi('company_jp'), value: `\`\`\`${formatNumber(currentCompanyJP)}\`\`\``, inline: true },
+                { name: getUi('tenure'), value: `\`\`\`${job.days_in_company || 0} ${getUi('days')}\`\`\``, inline: true },
+                { name: getUi('jp_per_day'), value: `\`\`\`${job.rating || 0}\`\`\``, inline: true },
 
-                { name: 'Active Perks', value: activePerksList, inline: false },
+                { name: getUi('active_perks'), value: activePerksList, inline: false },
 
-                { name: 'Next Perk', value: nextPerkText, inline: false }
+                { name: getUi('next_perk'), value: nextPerkText, inline: false }
             )
             .setFooter({ text: 'Update every 15m' })
             .setTimestamp();

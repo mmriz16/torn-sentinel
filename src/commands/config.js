@@ -5,6 +5,7 @@
 
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { getUser } from '../services/userStorage.js';
+import { getUi } from '../localization/index.js';
 
 export const data = new SlashCommandBuilder()
     .setName('config')
@@ -21,7 +22,7 @@ export async function execute(interaction) {
     const ownerId = process.env.OWNER_ID;
     if (ownerId && interaction.user.id !== ownerId) {
         await interaction.reply({
-            content: '❌ This command is only available for the bot owner.',
+            content: getUi('only_owner'),
             ephemeral: true
         });
         return;
@@ -49,32 +50,32 @@ export async function execute(interaction) {
 
     const embed = new EmbedBuilder()
         .setColor(0x58ACFF)
-        .setTitle('🔐｜API Config')
+        .setTitle(`🔐｜${getUi('api_config')}`)
         .addFields(
             {
-                name: 'API Key',
+                name: getUi('api_key'),
                 value: `\`\`\`${displayApiKey}\`\`\``,
                 inline: false
             },
             {
-                name: 'User ID',
+                name: getUi('user_id'),
                 value: `\`\`\`${interaction.user.id}\`\`\``,
                 inline: true
             },
             {
-                name: 'Server ID',
+                name: getUi('server_id'),
                 value: `\`\`\`${interaction.guild?.id || 'DM'}\`\`\``,
                 inline: true
             },
             {
-                name: 'Discord Token',
+                name: getUi('discord_token'),
                 value: `\`\`\`${displayToken}\`\`\``,
                 inline: false
             }
         );
 
     if (showFull) {
-        embed.setFooter({ text: '⚠️ Full credentials shown - do not share!' });
+        embed.setFooter({ text: getUi('warning_credentials') });
     }
 
     await interaction.reply({ embeds: [embed], ephemeral: true });

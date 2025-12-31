@@ -213,8 +213,9 @@ export function getRemainingCooldown(userId, alertKey, cooldownSeconds) {
 // ANTI-SPAM: Rate Limiting
 // ═══════════════════════════════════════════════════════════════════
 
-// Track alerts in last 10 minutes per user
-const recentAlerts = new Map(); // userId -> [timestamps]
+// Track alerts in last 10 minutes per user - now persisted via stateCache
+// Previously was: const recentAlerts = new Map();
+// Now stored in stateCache[userId].recentAlerts = [timestamps]
 
 /**
  * Check if user has exceeded alert rate limit
@@ -226,25 +227,34 @@ export function isRateLimited(userId, maxAlerts = 3) {
     const now = Date.now();
     const windowMs = 10 * 60 * 1000; // 10 minutes
 
-    // Get recent alerts for user
-    let alerts = recentAlerts.get(userId) || [];
+    const entry = getUserEntry(userId);
+
+    // Initialize if not exists
+    if (!entry.recentAlerts) {
+        entry.recentAlerts = [];
+    }
 
     // Filter to only last 10 minutes
-    alerts = alerts.filter(t => now - t < windowMs);
+    entry.recentAlerts = entry.recentAlerts.filter(t => now - t < windowMs);
 
-    // Update cache
-    recentAlerts.set(userId, alerts);
+    // Save updated state
+    saveState();
 
-    return alerts.length >= maxAlerts;
+    return entry.recentAlerts.length >= maxAlerts;
 }
 
 /**
  * Record that an alert was sent (for rate limiting)
  */
 export function recordAlertSent(userId) {
-    const alerts = recentAlerts.get(userId) || [];
-    alerts.push(Date.now());
-    recentAlerts.set(userId, alerts);
+    const entry = getUserEntry(userId);
+
+    if (!entry.recentAlerts) {
+        entry.recentAlerts = [];
+    }
+
+    entry.recentAlerts.push(Date.now());
+    saveState();
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -263,7 +273,6 @@ export function getTrackedUsers() {
  */
 export function removeUser(userId) {
     delete stateCache[userId];
-    recentAlerts.delete(userId);
     saveState();
 }
 
@@ -272,6 +281,5 @@ export function removeUser(userId) {
  */
 export function clearAllState() {
     stateCache = {};
-    recentAlerts.clear();
     saveState(true);
 }

@@ -6,6 +6,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { getUi } from '../../localization/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -149,7 +150,7 @@ export function calculateDelta(current, previous) {
  */
 export function calculateTrend(delta24h, delta7d) {
     let icon = '▬';
-    let label = 'Stable';
+    let label = getUi('trend_stable');
     let color = 0x95A5A6; // Gray
 
     const daily = delta24h || 0;
@@ -157,19 +158,19 @@ export function calculateTrend(delta24h, delta7d) {
 
     if (weekly > 1000000) {
         icon = '▲▲';
-        label = 'Strong Growth';
+        label = getUi('trend_strong_growth');
         color = 0x2ECC71;
     } else if (weekly > 100000) {
         icon = '▲';
-        label = 'Mild Growth';
+        label = getUi('trend_mild_growth');
         color = 0x27AE60;
     } else if (weekly < -1000000) {
         icon = '▼▼';
-        label = 'Sharp Decline';
+        label = getUi('trend_sharp_decline');
         color = 0xE74C3C;
     } else if (weekly < -100000) {
         icon = '▼';
-        label = 'Mild Decline';
+        label = getUi('trend_mild_decline');
         color = 0xE67E22;
     }
 

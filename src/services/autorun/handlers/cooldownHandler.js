@@ -5,14 +5,14 @@
 
 import { EmbedBuilder } from 'discord.js';
 import { getCombinedStats } from '../../tornApi.js';
-import { formatTime } from '../../../utils/formatters.js';
+import { formatTime } from '../../../utils/formatters.js'; // Can be removed if fully replaced, but kept for safety if used elsewhere or keep removing
 import { getAllUsers } from '../../userStorage.js';
 import { getCapacity, updateCapacity, getLastCountry, setLastCountry } from '../../analytics/travelAnalyticsService.js';
+import { getLocation, getUi, formatTimeId, getAction } from '../../../localization/index.js';
 
 export async function cooldownHandler(client) {
     try {
         // Get the first configured user (usually owner)
-        // Since auto-run is global for the bot instance, we target the primary user
         const users = getAllUsers();
         const userIds = Object.keys(users);
         if (userIds.length === 0) return null;
@@ -60,11 +60,11 @@ export async function cooldownHandler(client) {
         const transportType = travel.method || 'Standard';
         if (capacity === 0) capacity = 5; // Default base
 
+        // Default state
         let state = 'READY';
         let color = 0x00FF00; // Green
-        let title = '✅ Ready to Travel';
-        let description = 'No active cooldowns. You are in Torn.';
-        let fields = [];
+        let title = `✅ ${getUi('travel_status')} - Siap Berangkat`; // "Ready to Travel"
+        let description = 'Tidak ada cooldown aktif. Kamu di Torn.';
 
         // 1. Check if Traveling
         if (travel.time_left > 0) {
@@ -89,8 +89,6 @@ export async function cooldownHandler(client) {
             };
 
             // Determine origin and destination based on travel direction
-            // If destination is Torn, we're RETURNING (origin = abroad)
-            // If destination is foreign, we're DEPARTING (origin = Torn)
             const isReturning = destination === 'Torn';
 
             let origin, dest;
@@ -100,37 +98,42 @@ export async function cooldownHandler(client) {
 
                 // Handle case where lastCountry wasn't tracked (legacy trips)
                 if (lastCountry === 'Torn' || lastCountry === 'Unknown') {
-                    origin = { code: 'ABR', flag: '✈️', city: 'Abroad' };
+                    origin = { code: 'ABR', flag: '✈️', city: 'Luar Negeri' };
                 } else {
-                    origin = countryCodes[lastCountry] || { code: 'ABR', flag: '🌍', city: lastCountry };
+                    origin = countryCodes[lastCountry] || { code: 'ABR', flag: '🌍', city: getLocation(lastCountry) };
                 }
                 dest = countryCodes['Torn'];
             } else {
                 // Departing to foreign country - save destination for return trip
                 setLastCountry(destination);
                 origin = countryCodes['Torn'];
-                dest = countryCodes[destination] || { code: 'UNK', flag: '🌍', city: destination };
+                const destCity = getLocation(destination); // Localized name
+                dest = countryCodes[destination] || { code: 'UNK', flag: '🌍', city: destCity };
+                // Override city name with localized one if it exists in countryCodes (it doesn't, so we do it manually or assume countryCodes has English)
+                // Actually countryCodes has 'city' property which is proper name (e.g. Mexico City).
+                // Let's rely on countryCodes for consistency but maybe translate 'city' if needed.
+                // For now, keeping city names as is (Proper Nouns) is usually fine.
             }
 
             // Calculate times - travel.departed is Unix timestamp (seconds)
             const now = new Date();
             const departureDate = travel.departed ? new Date(travel.departed * 1000) : now;
             const arrivalDate = new Date(now.getTime() + travel.time_left * 1000);
-            const arrivalUnix = Math.floor(arrivalDate.getTime() / 1000);
 
-            // Format dates (WIB timezone)
-            const formatDate = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'Asia/Jakarta' });
-            const formatTimeShort = (d) => d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Jakarta' });
+            // Format dates (WIB timezone, ID locale)
+            const formatDate = (d) => d.toLocaleDateString('id-ID', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'Asia/Jakarta' });
+            const formatTimeShort = (d) => d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' }).replace('.', ':');
 
             // Calculate remaining time for footer
             const mins = Math.floor(travel.time_left / 60);
-            const footerText = `Arriving in ${mins} minutes (${formatTimeShort(arrivalDate)})`;
+            const timeLeftStr = formatTimeId(travel.time_left);
+            const footerText = `Tiba dalam ${timeLeftStr} (${formatTimeShort(arrivalDate)})`;
 
             // Build premium embed
             const embed = new EmbedBuilder()
                 .setColor(color)
                 .setAuthor({ name: formatDate(now) })
-                .setTitle(`✈️｜Torn Airways — Flight TCN-${Math.floor(Math.random() * 900 + 100)}`)
+                .setTitle(`✈️｜Torn Airways — Penerbangan TCN-${Math.floor(Math.random() * 900 + 100)}`)
                 .setDescription('──────────────────────────────────')
                 .addFields(
                     {
@@ -144,8 +147,8 @@ export async function cooldownHandler(client) {
                         inline: true
                     },
                     {
-                        name: 'Type',
-                        value: `\`\`\`🎫 ${hasAirstrip ? 'Airstrip' : transportType} • 🎒 ${capacity} Items\`\`\``,
+                        name: 'Tipe',
+                        value: `\`\`\`🎫 ${hasAirstrip ? 'Airstrip' : transportType} • 🎒 ${capacity} Item\`\`\``,
                         inline: false
                     }
                 )
@@ -156,13 +159,16 @@ export async function cooldownHandler(client) {
         // 2. Check Hospital/Jail
         else if (status.state === 'Hospital' || status.state === 'Jail') {
             const icon = status.state === 'Hospital' ? '🏥' : '⛓️';
-            const healTime = status.until > 0 ? `<t:${status.until}:R>` : 'soon';
+            const healTime = status.until > 0 ? `<t:${status.until}:R>` : 'segera';
+
+            const stateName = status.state === 'Hospital' ? 'Rumah Sakit' : 'Penjara';
+            const actionText = status.state === 'Hospital' ? 'Sembuh' : 'Bebas';
 
             const embed = new EmbedBuilder()
                 .setColor(0xE74C3C) // Red
-                .setTitle(`${icon}｜You're in ${status.state}`)
-                .setDescription(`\`\`\`${status.details || 'Unable to travel...'}\`\`\`${status.state === 'Hospital' ? 'Heal' : 'Free'} ${healTime}`)
-                .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' })}` });
+                .setTitle(`${icon}｜Kamu di ${stateName}`)
+                .setDescription(`\`\`\`${status.details || 'Tidak bisa bepergian...'}\`\`\`${actionText} ${healTime}`)
+                .setFooter({ text: `Auto update setiap 60s • Hari ini jam ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' }).replace('.', ':')}` });
 
             return embed;
         }
@@ -175,12 +181,13 @@ export async function cooldownHandler(client) {
                 'UAE': '🇦🇪', 'South Africa': '🇿🇦'
             };
             const flag = countryCodes[travel.destination] || '🌍';
+            const locationName = getLocation(travel.destination);
 
             const embed = new EmbedBuilder()
                 .setColor(0xF1C40F) // Yellow
-                .setTitle(`📍｜You're in ${travel.destination} ${flag}`)
-                .setDescription('```You are currently abroad.```')
-                .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' })}` });
+                .setTitle(`📍｜Kamu di ${locationName} ${flag}`)
+                .setDescription('```Kamu sedang berada di luar negeri.```')
+                .setFooter({ text: `Auto update setiap 60s • Hari ini jam ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' }).replace('.', ':')}` });
 
             return embed;
         }
@@ -188,9 +195,9 @@ export async function cooldownHandler(client) {
         // 4. Default: Ready in Torn
         const embed = new EmbedBuilder()
             .setColor(0x2ECC71) // Green
-            .setTitle('✅｜Ready to Travel')
-            .setDescription('```No active cooldowns. You are in Torn.```')
-            .setFooter({ text: `Auto update every 60s • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' })}` });
+            .setTitle(title)
+            .setDescription(`\`\`\`${description}\`\`\``)
+            .setFooter({ text: `Auto update setiap 60s • Hari ini jam ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' }).replace('.', ':')}` });
 
         return embed;
 

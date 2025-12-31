@@ -1,0 +1,831 @@
+{
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-31",
+    "baseUrl": "https://api.torn.com",
+    "rateLimit": {
+        "requestsPerMinute": 100,
+        "recommendedDelayMs": 600
+    },
+    "accessLevels": {
+        "public": {
+            "color": "green",
+            "level": 1,
+            "description": "Anyone can access"
+        },
+        "minimal": {
+            "color": "yellow",
+            "level": 2,
+            "description": "Basic user data"
+        },
+        "limited": {
+            "color": "orange",
+            "level": 3,
+            "description": "Private-ish data"
+        },
+        "full": {
+            "color": "red",
+            "level": 4,
+            "description": "Requires permission check"
+        }
+    },
+    "endpoints": {
+        "user": {
+            "url": "/user/{id}",
+            "selections": {
+                "ammo": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "bars": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "basic": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "battlestats": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "bazaar": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "cooldowns": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "crimes": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "discord": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "display": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "education": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "equipment": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "events": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "gym": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "honors": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "inventory": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "jobpoints": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "log": {
+                    "access": "limited",
+                    "version": "both"
+                },
+                "medals": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "merits": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "messages": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "missions": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "money": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "networth": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "newevents": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "newmessages": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "notifications": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "perks": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "personalstats": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "profile": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "properties": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "refills": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "reports": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "revives": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "revivesfull": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "skills": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "stocks": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "travel": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "weaponexp": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "workstats": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "hof": {
+                    "access": "public",
+                    "version": "v1"
+                },
+                "competition": {
+                    "access": "public",
+                    "version": "v2"
+                },
+                "faction": {
+                    "access": "public",
+                    "version": "v2"
+                },
+                "forumposts": {
+                    "access": "public",
+                    "version": "v2"
+                },
+                "forumthreads": {
+                    "access": "public",
+                    "version": "v2"
+                },
+                "job": {
+                    "access": "minimal",
+                    "version": "v2"
+                },
+                "timestamp": {
+                    "access": "public",
+                    "version": "both"
+                }
+            }
+        },
+        "faction": {
+            "url": "/faction/{id}",
+            "selections": {
+                "basic": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "chain": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "chains": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "contributors": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "lookup": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "timestamp": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "attacks": {
+                    "access": "minimal",
+                    "version": "both"
+                },
+                "attacksfull": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "armor": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "boosters": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "caches": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "cesium": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "crimeexp": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "crimes": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "drugs": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "medical": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "positions": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "revives": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "revivesfull": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "stats": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "temporary": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "upgrades": {
+                    "access": "full",
+                    "version": "both"
+                },
+                "weapons": {
+                    "access": "full",
+                    "version": "both"
+                }
+            }
+        },
+        "company": {
+            "url": "/company/{id}",
+            "selections": {
+                "companies": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "lookup": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "profile": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "timestamp": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "applications": {
+                    "access": "limited",
+                    "version": "both"
+                },
+                "detailed": {
+                    "access": "limited",
+                    "version": "both"
+                },
+                "employees": {
+                    "access": "limited",
+                    "version": "both"
+                },
+                "news": {
+                    "access": "limited",
+                    "version": "both"
+                },
+                "stock": {
+                    "access": "limited",
+                    "version": "both"
+                }
+            }
+        },
+        "market": {
+            "url": "/market/{id}",
+            "selections": {
+                "bazaar": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "itemmarket": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "lookup": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "pointsmarket": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "properties": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "rentals": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "timestamp": {
+                    "access": "public",
+                    "version": "both"
+                }
+            }
+        },
+        "torn": {
+            "url": "/torn/{id}",
+            "selections": {
+                "attacklog": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "bank": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "bounties": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "calendar": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "cards": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "cityshops": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "companies": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "competition": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "crimes": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "dirtybombs": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "education": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "factiontree": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "gyms": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "honors": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "items": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "itemstats": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "logcategories": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "logtypes": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "lookup": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "medals": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "organisedcrimes": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "pawnshop": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "pokertables": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "properties": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "rackets": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "raids": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "stats": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "stocks": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "territory": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "territorynames": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "territorywars": {
+                    "access": "public",
+                    "version": "both"
+                },
+                "timestamp": {
+                    "access": "public",
+                    "version": "both"
+                }
+            }
+        }
+    },
+    "logTypes": {
+        "gym": {
+            "id": 5300,
+            "category": "Gym",
+            "title": "Gym train {stat}",
+            "dataFields": [
+                "trains",
+                "energy_used",
+                "gym",
+                "{stat}_before",
+                "{stat}_after",
+                "{stat}_increased",
+                "happy_used"
+            ]
+        },
+        "travelInitiate": {
+            "id": 6000,
+            "category": "Travel",
+            "title": "Travel initiate",
+            "dataFields": [
+                "origin",
+                "destination",
+                "travel_method",
+                "duration"
+            ]
+        },
+        "travelBuy": {
+            "id": 4201,
+            "category": "Travel",
+            "title": "Item abroad buy",
+            "dataFields": [
+                "item",
+                "quantity",
+                "cost_each",
+                "cost_total",
+                "area"
+            ]
+        },
+        "crimeSuccess": {
+            "id": 5725,
+            "category": "Crimes",
+            "title": "Crime success item gain",
+            "dataFields": [
+                "crime",
+                "nerve",
+                "item_gained"
+            ]
+        },
+        "crimeFail": {
+            "id": 5705,
+            "category": "Crimes",
+            "title": "Crime fail jail",
+            "dataFields": [
+                "crime",
+                "nerve",
+                "jail_time_increased"
+            ]
+        },
+        "marketAdd": {
+            "id": 1110,
+            "category": "Item market",
+            "title": "Item market add",
+            "dataFields": [
+                "items",
+                "price",
+                "anonymous"
+            ]
+        },
+        "marketBuy": {
+            "id": 1112,
+            "category": "Item market",
+            "title": "Item market buy",
+            "dataFields": [
+                "items",
+                "cost_total",
+                "cost_each",
+                "seller",
+                "anonymous"
+            ]
+        },
+        "marketSell": {
+            "id": 1113,
+            "category": "Item market",
+            "title": "Item market sell",
+            "dataFields": [
+                "items",
+                "cost_total",
+                "fee",
+                "buyer"
+            ]
+        },
+        "hospital": {
+            "id": 5400,
+            "category": "Hospital",
+            "title": "Hospital",
+            "dataFields": [
+                "time",
+                "reason"
+            ]
+        },
+        "attackReceive": {
+            "id": 8151,
+            "category": "Attacking",
+            "title": "Attack leave receive",
+            "dataFields": [
+                "attacker",
+                "anonymous",
+                "attackers",
+                "hospital_time_increased"
+            ]
+        },
+        "jail": {
+            "id": 5350,
+            "category": "Jail",
+            "title": "Jail",
+            "dataFields": [
+                "time",
+                "reason"
+            ]
+        },
+        "bustSuccess": {
+            "id": 5361,
+            "category": "Jail",
+            "title": "Bust receive success",
+            "dataFields": [
+                "buster"
+            ]
+        },
+        "companyPay": {
+            "id": 6221,
+            "category": "Company",
+            "title": "Company employee pay",
+            "dataFields": [
+                "pay",
+                "job_points",
+                "working_stats_received",
+                "company"
+            ]
+        },
+        "missionAccept": {
+            "id": 7800,
+            "category": "Missions",
+            "title": "Missions accept",
+            "dataFields": [
+                "type",
+                "agent",
+                "mission",
+                "difficulty"
+            ]
+        },
+        "medalAwarded": {
+            "id": 5120,
+            "category": "Merits",
+            "title": "Medal awarded",
+            "dataFields": [
+                "medal"
+            ]
+        },
+        "login": {
+            "id": 101,
+            "category": "Authentication",
+            "title": "Successful login",
+            "dataFields": [
+                "ip_address"
+            ]
+        }
+    },
+    "errorCodes": {
+        "0": {
+            "name": "Unknown error",
+            "action": "retry"
+        },
+        "1": {
+            "name": "Key empty",
+            "action": "stop"
+        },
+        "2": {
+            "name": "Incorrect Key",
+            "action": "stop"
+        },
+        "3": {
+            "name": "Wrong type",
+            "action": "fix_endpoint"
+        },
+        "4": {
+            "name": "Wrong fields",
+            "action": "fix_selection"
+        },
+        "5": {
+            "name": "Too many requests",
+            "action": "backoff"
+        },
+        "6": {
+            "name": "Incorrect ID",
+            "action": "fix_id"
+        },
+        "7": {
+            "name": "Private selection",
+            "action": "cannot_access"
+        },
+        "8": {
+            "name": "IP block",
+            "action": "wait"
+        },
+        "9": {
+            "name": "API disabled",
+            "action": "wait"
+        },
+        "10": {
+            "name": "Key owner in fed jail",
+            "action": "wait"
+        },
+        "11": {
+            "name": "Key change error",
+            "action": "wait"
+        },
+        "12": {
+            "name": "Key read error",
+            "action": "retry"
+        },
+        "13": {
+            "name": "Key inactive",
+            "action": "cannot_use"
+        },
+        "14": {
+            "name": "Daily limit",
+            "action": "wait_reset"
+        },
+        "15": {
+            "name": "Temporary error",
+            "action": "retry"
+        },
+        "16": {
+            "name": "Access denied",
+            "action": "stop"
+        },
+        "17": {
+            "name": "Backend error",
+            "action": "retry"
+        },
+        "18": {
+            "name": "Key paused",
+            "action": "cannot_use"
+        },
+        "19": {
+            "name": "Crimes 2.0",
+            "action": "update_code"
+        },
+        "20": {
+            "name": "Race not finished",
+            "action": "wait"
+        },
+        "21": {
+            "name": "Wrong category",
+            "action": "fix_parameter"
+        },
+        "22": {
+            "name": "v1 only",
+            "action": "use_v1"
+        },
+        "23": {
+            "name": "v2 only",
+            "action": "use_v2"
+        },
+        "24": {
+            "name": "Closed temporarily",
+            "action": "wait"
+        }
+    },
+    "forbiddenAssumptions": [
+        "gym_energy_cost_from_api",
+        "training_click_history",
+        "exact_smuggling_percentage",
+        "exact_crime_success_rate",
+        "realtime_attack_updates",
+        "other_user_battlestats",
+        "other_user_inventory",
+        "other_user_money"
+    ],
+    "validInferenceSources": {
+        "energyPerClick": {
+            "method": "Parse log: energy_used / trains",
+            "logType": 5300,
+            "confidence": "confirmed",
+            "source": "api-log"
+        },
+        "gymTraining": {
+            "method": "Check log category 'Gym'",
+            "logType": 5300,
+            "confidence": "confirmed",
+            "source": "api-log"
+        },
+        "itemPrices": {
+            "method": "Check market/bazaar selection",
+            "endpoint": "market",
+            "confidence": "realtime",
+            "source": "market-api"
+        },
+        "travelTime": {
+            "method": "Parse log data.duration",
+            "logType": 6000,
+            "confidence": "confirmed",
+            "source": "api-log"
+        }
+    }
+}

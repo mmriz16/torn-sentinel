@@ -1,0 +1,24 @@
+{
+  "888": {
+    "energyPerClick": 5,
+    "confidence": "confirmed",
+    "source": "api-log",
+    "lastUpdated": 1767151895800,
+    "lastTraining": {
+      "energyUsed": 10,
+      "trains": 2,
+      "timestamp": 1700000100
+    }
+  },
+  "999": {
+    "energyPerClick": 10,
+    "confidence": "confirmed",
+    "source": "api-log",
+    "lastUpdated": 1767151895798,
+    "lastTraining": {
+      "energyUsed": 100,
+      "trains": 10,
+      "timestamp": 1700000000
+    }
+  }
+}

@@ -7,6 +7,7 @@ import { EmbedBuilder } from 'discord.js';
 import { get, getV2 } from '../../tornApi.js';
 import { getAllUsers, getUser } from '../../userStorage.js';
 import { formatNumber } from '../../../utils/formatters.js';
+import { getUi, getStat, fromDictionary } from '../../../localization/index.js';
 
 // Company type names by ID (same as /work command)
 const COMPANY_TYPES = {
@@ -21,6 +22,14 @@ const COMPANY_TYPES = {
     33: 'Farm', 34: 'Software Corporation', 35: 'Ladies Strip Club', 36: 'Private Security Firm',
     37: 'Mining Corporation', 38: 'Detective Agency', 39: 'Logistics Management', 40: 'Resort'
 };
+
+/**
+ * Helper to capitalize first letter
+ */
+function capitalize(str) {
+    if (!str) return '';
+    return str.replace(/\b\w/g, c => c.toUpperCase());
+}
 
 /**
  * Create star rating display (out of 5 stars)
@@ -87,80 +96,90 @@ function buildWorkEmbed(companyData, workstatsData, jobpointsData, tornId) {
     const endurance = workstats.endurance || 0;
     const totalStats = workstats.total || 0;
 
+    // Localized Headers (Dictionary lookup)
+    const workingStatsTitle = fromDictionary('company', 'working_stats') || 'Working Stats'; // "Statistik Kerja"
+    const jobPointsLabel = fromDictionary('company', 'job_points') || 'Job Points'; // "Poin Kerja"
+
+    // Localized Stats names
+    const intName = capitalize(getStat('intelligence'));
+    const endName = capitalize(getStat('endurance'));
+    const manName = capitalize(getStat('manual_labor'));
+    const totName = capitalize(getUi('total_stats'));
+
     const embed = new EmbedBuilder()
         .setColor(0x58ACFF)
-        .setTitle('💼｜Working Stats')
+        .setTitle(`💼｜${capitalize(workingStatsTitle)}`)
         .setDescription('─────────────────────────────────────────────────')
         .setTimestamp()
         .setFooter({ text: 'Torn Sentinel • Auto refresh every 60 seconds' });
 
     // Total Stats
     embed.addFields({
-        name: '📊｜Total Stats',
+        name: `📊｜${totName}`,
         value: `\`\`\`${formatNumber(totalStats)}\`\`\``,
         inline: false
     });
 
     // Row 1: Intelligence | Endurance | Manual Labor
     embed.addFields({
-        name: '🧠｜Intelligence',
+        name: `🧠｜${intName}`,
         value: `\`\`\`${formatNumber(intelligence)}\`\`\``,
         inline: true
     });
 
     embed.addFields({
-        name: '💪｜Endurance',
+        name: `💪｜${endName}`,
         value: `\`\`\`${formatNumber(endurance)}\`\`\``,
         inline: true
     });
 
     embed.addFields({
-        name: '🔧｜Manual Labor',
+        name: `🔧｜${manName}`,
         value: `\`\`\`${formatNumber(manualLabor)}\`\`\``,
         inline: true
     });
 
     // Company
     embed.addFields({
-        name: '🏢｜Company',
+        name: `🏢｜${getUi('company')}`,
         value: `\`\`\`${companyName}\`\`\``,
         inline: false
     });
 
     // Row 2: Type | Position | Days
     embed.addFields({
-        name: '🏭｜Type',
+        name: `🏭｜${getUi('company_type')}`,
         value: `\`\`\`${companyType}\`\`\``,
         inline: true
     });
 
     embed.addFields({
-        name: '👷｜Position',
+        name: `👷｜${getUi('position')}`,
         value: `\`\`\`${position}\`\`\``,
         inline: true
     });
 
     embed.addFields({
-        name: '📅｜Days',
+        name: `📅｜${getUi('days')}`,
         value: `\`\`\`${daysInCompany}\`\`\``,
         inline: true
     });
 
     // Row 3: Wage | Rating | Job Points
     embed.addFields({
-        name: '💵｜Wage',
-        value: `\`\`\`$${formatNumber(wage)}/day\`\`\``,
+        name: `💵｜${getUi('wage')}`,
+        value: `\`\`\`$${formatNumber(wage)}/${getUi('days').toLowerCase().replace(/s$/, '')}\`\`\``, // simplistic day logic
         inline: true
     });
 
     embed.addFields({
-        name: '⭐｜Rating',
+        name: `⭐｜${getUi('rating')}`,
         value: `\`\`\`${createStarRating(companyRating)}\`\`\``,
         inline: true
     });
 
     embed.addFields({
-        name: '💰｜Job Points',
+        name: `💰｜${capitalize(jobPointsLabel)}`,
         value: `\`\`\`${formatNumber(companyPoints)}\`\`\``,
         inline: true
     });

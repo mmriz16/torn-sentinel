@@ -6,6 +6,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { getStatus, resetDailyStatsManual } from '../services/analytics/travelAnalyticsService.js';
 import { formatMoney, formatTime } from '../utils/formatters.js';
+import { getUi } from '../localization/index.js';
 
 export const data = new SlashCommandBuilder()
     .setName('travel')
@@ -50,21 +51,21 @@ async function handleSummary(interaction) {
 
     const embed = new EmbedBuilder()
         .setColor(0x3498DB)
-        .setTitle('📊 Travel Summary — Today')
-        .setDescription(`Date: **${daily.date}**`)
+        .setTitle(`📊 ${getUi('travel_summary')} — Today`)
+        .setDescription(`**${getUi('date')}:** **${daily.date}**`)
         .addFields(
-            { name: '✈️ Trips', value: daily.trips.toString(), inline: true },
-            { name: '💰 Total Profit', value: formatMoney(daily.totalProfit), inline: true },
-            { name: '📈 Avg / Trip', value: formatMoney(daily.trips > 0 ? daily.totalProfit / daily.trips : 0), inline: true }
+            { name: `✈️ ${getUi('trips')}`, value: daily.trips.toString(), inline: true },
+            { name: `💰 ${getUi('profit')}`, value: formatMoney(daily.totalProfit), inline: true },
+            { name: `📈 ${getUi('avg_per_trip')}`, value: formatMoney(daily.trips > 0 ? daily.totalProfit / daily.trips : 0), inline: true }
         )
         .setTimestamp()
         .setFooter({ text: 'Personal Travel Analytics' });
 
     if (daily.bestItem) {
-        embed.addFields({ name: '🌟 Best Item', value: daily.bestItem, inline: true });
+        embed.addFields({ name: `🌟 ${getUi('best_item')}`, value: daily.bestItem, inline: true });
     }
     if (daily.bestCountry) {
-        embed.addFields({ name: '🌍 Best Country', value: daily.bestCountry, inline: true });
+        embed.addFields({ name: `🌍 ${getUi('best_country')}`, value: daily.bestCountry, inline: true });
     }
 
     await interaction.reply({ embeds: [embed] });
@@ -82,13 +83,15 @@ async function handleHistory(interaction) {
 
     const embed = new EmbedBuilder()
         .setColor(0x9B59B6)
-        .setTitle(`📦 Recent Trade History (Last ${history.length})`)
+        .setTitle(`📦 ${getUi('history')} (Last ${history.length})`)
         .setTimestamp();
 
     const fields = history.map(entry => {
         const typeEmoji = entry.type === 'BUY' ? '💸' : '💰';
-        const profitStr = entry.profit ? `\n📈 Profit: **${formatMoney(entry.profit)}**` : '';
+        const profitStr = entry.profit ? `\n📈 ${getUi('profit')}: **${formatMoney(entry.profit)}**` : '';
         const timeStr = `<t:${entry.ts}:R>`;
+        // Note: entry.type "BUY"/"SELL" needs localization if displayed?
+        // It's usually internal enum, but displayed in title.
 
         return {
             name: `${typeEmoji} ${entry.type} ${entry.item}`,

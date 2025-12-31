@@ -7,58 +7,51 @@ import { EmbedBuilder } from 'discord.js';
 import { getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney } from '../../../utils/formatters.js';
+import { getUi } from '../../../localization/index.js';
 
 // Category groupings for cleaner display
+// Labels updated to use UI keys for localization
 const ASSET_GROUPS = {
     'liquid': {
-        label: '💵 Liquid Cash',
+        uiKey: 'liquidity', // maps to "Likuiditas"
         color: '🟢',
-        keys: ['wallet', 'piggybank', 'vault'] // Removed bank/cayman (not instant)
+        keys: ['wallet', 'piggybank', 'vault']
     },
     'savings': {
-        label: '🏦 Bank & Savings',
-        color: '🔵', // Blue for bank
+        uiKey: 'bank_investment', // maps to "Investasi Bank"
+        color: '🔵',
         keys: ['bank', 'cayman']
     },
     'points': {
-        label: '💎 Points',
+        uiKey: 'points', // maps to "Poin"
         color: '🟣',
         keys: ['points']
     },
     'inventory': {
-        label: '🎒 Inventory',
+        uiKey: 'inventory', // maps to "Inventaris"
         color: '🎒',
         keys: ['items', 'displaycase']
     },
     'market_items': {
-        label: '🏪 Market Listings',
+        uiKey: 'market_assets', // maps to "Aset Pasar"
         color: '📦',
         keys: ['bazaar', 'itemmarket', 'auctionhouse', 'trade']
     },
     'properties': {
-        label: '🏠 Properties',
+        uiKey: 'properties', // maps to "Properti"
         color: '🟨',
         keys: ['properties']
     },
     'investments': {
-        label: '📊 Investments',
+        uiKey: 'investments', // maps to "Investasi"
         color: '🟧',
         keys: ['stockmarket', 'company', 'bookie']
     },
     'liabilities': {
-        label: '⚠️ Liabilities',
+        uiKey: 'liabilities', // maps to "Kewajiban"
         color: '🔴',
         keys: ['unpaidfees', 'loan']
     }
-};
-
-// Friendly names for individual keys
-const KEY_LABELS = {
-    wallet: 'Wallet', bank: 'Bank', piggybank: 'Piggy Bank', vault: 'Vault', cayman: 'Cayman Islands',
-    points: 'Points', items: 'Inventory Items', displaycase: 'Display Case',
-    bazaar: 'Bazaar', itemmarket: 'Item Market', auctionhouse: 'Auction House', trade: 'Trades',
-    properties: 'Properties', stockmarket: 'Stocks', company: 'Company Funds', bookie: 'Bookie',
-    unpaidfees: 'Unpaid Fees', loan: 'Bank Loan'
 };
 
 export async function assetDistributionHandler(client) {
@@ -103,28 +96,24 @@ export async function assetDistributionHandler(client) {
         // Identify Zero Items (Individual keys)
         const zeroItemLabels = [];
         const allKeysToCheck = [
-            // Liquid
-            'bank', 'piggybank', 'vault', 'cayman',
-            // Inventory
-            'displaycase',
-            // Market
-            'bazaar', 'auctionhouse', 'trade',
-            // Investments
-            'stockmarket', 'company', 'bookie',
-            // Properties
-            'properties'
+            'bank', 'piggybank', 'vault', 'cayman', // Liquid/Savings
+            'displaycase', // Inventory
+            'bazaar', 'auctionhouse', 'trade', // Market
+            'stockmarket', 'company', 'bookie', // Investments
+            'properties' // Properties
         ];
 
         for (const key of allKeysToCheck) {
             if (!assetValues[key] || assetValues[key] === 0) {
-                if (KEY_LABELS[key]) zeroItemLabels.push(KEY_LABELS[key]);
+                // Try to get localized name from UI (if matches key), fallback to key
+                // For keys like 'stockmarket', 'company', etc. we added them to dictionary
+                const label = getUi(key) || key;
+                zeroItemLabels.push(label);
             }
         }
 
-        // Calculate Gross/Liability Totals for percentage base
+        // Calculate Gross/Liability Totals
         const liabilityTotal = groupTotals['liabilities'] || 0;
-        // Total Networth = Assets + Liabilities (where Liabilities is negative)
-        // Gross Assets = Total - Liabilities
         const grossTotal = total - liabilityTotal;
 
         // Sort positives by value desc
@@ -134,21 +123,25 @@ export async function assetDistributionHandler(client) {
         const assetLines = [];
         for (const { key, value } of positiveGroups) {
             const group = ASSET_GROUPS[key];
-            // Use grossTotal as base for asset percentage
+            const label = getUi(group.uiKey) || key; // Localized Label
+            const combinedLabel = `${group.color} ${label}`;
+
             const percent = grossTotal > 0 ? ((value / grossTotal) * 100).toFixed(1) : 0;
             const percentStr = `${percent}%`.padStart(6);
-            // Label only, no double icon
-            assetLines.push(`${group.label.padEnd(18)} ${percentStr}  (${formatMoney(value)})`);
+
+            assetLines.push(`${combinedLabel.padEnd(20)} ${percentStr}  (${formatMoney(value)})`);
         }
 
         // Build Liabilities Display
         const liabilityLines = [];
         for (const { key, value } of negativeGroups) {
             const group = ASSET_GROUPS[key];
-            // Liability % relative to Gross Assets shows scale of debt
+            const label = getUi(group.uiKey) || key; // Localized Label
+            const combinedLabel = `${group.color} ${label}`;
+
             const percent = grossTotal > 0 ? ((value / grossTotal) * 100).toFixed(1) : 0;
             const percentStr = `${percent}%`.padStart(6);
-            liabilityLines.push(`${group.label.padEnd(18)} ${percentStr}  (${formatMoney(value)})`);
+            liabilityLines.push(`${combinedLabel.padEnd(20)} ${percentStr}  (${formatMoney(value)})`);
         }
 
         // Build Zero Assets String
@@ -164,20 +157,20 @@ export async function assetDistributionHandler(client) {
 
         const embed = new EmbedBuilder()
             .setColor(color)
-            .setTitle('📊 Asset Distribution')
+            .setTitle(`📊 ${getUi('asset_distribution')}`)
 
             // 1. Assets Block
             .addFields({
-                name: '📈 Assets',
-                value: '```\n' + (assetLines.length ? assetLines.join('\n') : 'No assets') + '\n```',
+                name: `📈 ${getUi('assets')}`,
+                value: '```\n' + (assetLines.length ? assetLines.join('\n') : getUi('empty_assets')) + '\n```',
                 inline: false
             });
 
         // 2. Liabilities Block (if any)
         if (liabilityLines.length > 0) {
             embed.addFields({
-                name: '📉 Liabilities',
-                value: '```diff\n' + liabilityLines.join('\n') + '\n```', // diff naming for red text logic if simple formatting used? or just standard code block
+                name: `📉 ${getUi('liabilities')}`,
+                value: '```diff\n' + liabilityLines.join('\n') + '\n```',
                 inline: false
             });
         }
@@ -185,7 +178,7 @@ export async function assetDistributionHandler(client) {
         // 3. Zero Assets (if any)
         if (zeroItemLabels.length > 0) {
             embed.addFields({
-                name: '🚫 Empty Assets',
+                name: `🚫 ${getUi('empty_assets')}`,
                 value: '```' + zeroString + '```',
                 inline: false
             });
@@ -194,12 +187,12 @@ export async function assetDistributionHandler(client) {
         // 4. Totals
         embed.addFields(
             {
-                name: 'Total Networth',
+                name: getUi('networth'), // "Kekayaan Bersih"
                 value: `\`\`\`${formatMoney(total)}\`\`\``,
                 inline: true
             },
             {
-                name: 'Liquidity Ratio',
+                name: getUi('liquidity_ratio'), // "Rasio Likuiditas"
                 value: `\`\`\`${liquidityRatio}%\`\`\``,
                 inline: true
             }

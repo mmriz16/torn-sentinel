@@ -150,13 +150,16 @@ export function addExpense(category, amount) {
 }
 
 /**
- * Increment stats counter
+ * Increment a daily stat counter
+ * @param {string} statName - 'tripCount', 'crimeCount', 'xanaxUsed'
+ * @param {number} value - Increment value (default 1)
  */
-export function incrementStat(statKey, amount = 1) {
+export function incrementStat(statName, value = 1) {
     const state = getProfitState();
-    if (state.stats[statKey] !== undefined) {
-        state.stats[statKey] += amount;
+    if (state.stats[statName] !== undefined) {
+        state.stats[statName] += value;
         saveProfitState();
+        console.log(`🧮 Stat incremented: ${statName} +${value}`);
     }
 }
 

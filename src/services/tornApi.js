@@ -21,8 +21,14 @@ export async function get(apiKey, endpoint, selections, options = {}) {
     url.searchParams.set('key', apiKey);
 
     // Add any additional parameters
-    if (options.id) {
-        url.pathname = `/${endpoint}/${options.id}`;
+    if (options) {
+        Object.keys(options).forEach(key => {
+            if (key === 'id') {
+                url.pathname = `/${endpoint}/${options.id}`;
+            } else {
+                url.searchParams.set(key, options[key]);
+            }
+        });
     }
 
     try {

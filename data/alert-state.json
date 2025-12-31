@@ -2,7 +2,7 @@
   "471702596541743105": {
     "state": {
       "education_current": 43,
-      "education_timeleft": 398725,
+      "education_timeleft": 330342,
       "education_completed": [
         23,
         52,
@@ -16,49 +16,49 @@
       "cayman_bank": 0,
       "vault_amount": 0,
       "company_funds": 0,
-      "daily_networth": 17677667,
-      "money_onhand": 483400,
+      "daily_networth": 21720504,
+      "money_onhand": 512109,
       "city_bank": {
         "amount": 0,
         "time_left": 0
       },
-      "server_time": 1767091420,
+      "server_time": 1767159803,
       "energy": {
-        "current": 55,
+        "current": 20,
         "maximum": 100,
         "increment": 5,
         "interval": 900,
-        "ticktime": 80,
-        "fulltime": 7280
+        "ticktime": 97,
+        "fulltime": 13597
       },
       "nerve": {
-        "current": 22,
+        "current": 15,
         "maximum": 22,
         "increment": 1,
         "interval": 300,
-        "ticktime": 80,
-        "fulltime": 0
+        "ticktime": 97,
+        "fulltime": 1897
       },
       "happy": {
-        "current": 2824,
+        "current": 2795,
         "maximum": 2825,
         "increment": 5,
         "interval": 900,
-        "ticktime": 80,
-        "fulltime": 80
+        "ticktime": 97,
+        "fulltime": 4597
       },
       "life": {
         "current": 625,
         "maximum": 625,
         "increment": 31,
         "interval": 300,
-        "ticktime": 80,
+        "ticktime": 97,
         "fulltime": 0
       },
       "chain": {
-        "current": 2,
+        "current": 0,
         "maximum": 2500,
-        "timeout": 121,
+        "timeout": 0,
         "modifier": 1,
         "cooldown": 0
       },
@@ -70,9 +70,9 @@
       "travel": {
         "destination": "UAE",
         "method": "Airstrip",
-        "timestamp": 1767093075,
-        "departed": 1767082035,
-        "time_left": 1731
+        "timestamp": 1767167677,
+        "departed": 1767155977,
+        "time_left": 7950
       },
       "rank": "Average Intimidator",
       "level": 15,
@@ -151,7 +151,7 @@
         "companies": {
           "12": {
             "name": "Grocery Store",
-            "jobpoints": 32
+            "jobpoints": 36
           }
         }
       },
@@ -293,6 +293,30 @@
         }
       },
       "events": {
+        "fswUz2oBUY3ENExk0R6J": {
+          "timestamp": 1767132767,
+          "event": "Someone attacked you [<a href = http://www.torn.com/\"http://www.torn.com/loader.php?sid=attackLog&ID=5b56d2155e419c37a683ba830648dcb0\">view</a>]"
+        },
+        "fCNYzIzgJ6Yi1T0mUmss": {
+          "timestamp": 1767110907,
+          "event": "You sold 18x Camel Plushie on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3971133'>Deird_Wick</a> for $1,321,830 after $69,570 in fees."
+        },
+        "QFpUhDQk1ivQNigTAEtk": {
+          "timestamp": 1767110869,
+          "event": "You sold 3x Camel Plushie on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3971133'>Deird_Wick</a> for $220,305 after $11,595 in fees."
+        },
+        "gaHo5k6sE1coaJPAt5HF": {
+          "timestamp": 1767110650,
+          "event": "<a href = http://www.torn.com/http://www.torn.com/profiles.php?XID=2127023>Gowdeek</a> successfully busted you out of jail."
+        },
+        "l1h7z4tali768mVvIBKC": {
+          "timestamp": 1767110571,
+          "event": "You have successfully purchased membership in Knuckle Heads."
+        },
+        "yITA9IlPn4JWBcyCSJJb": {
+          "timestamp": 1767096557,
+          "event": "Someone mugged you and stole $25,426 [<a href = http://www.torn.com/\"http://www.torn.com/loader.php?sid=attackLog&ID=e99dd90b89113057a3f8e05ec17e24b5\">view</a>]"
+        },
         "bWmmMUPC5lnpQxFZsDbF": {
           "timestamp": 1767081948,
           "event": "You sold 42x Camel Plushie on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=2738097'>Dwell</a> for $3,136,140 after $165,060 in fees."
@@ -368,35 +392,11 @@
         "5SA8gvVHOsqywxREpgad": {
           "timestamp": 1766902098,
           "event": "You sold 5x MP3 Player on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=2692283'>Sgt_Sleezy</a> for $2,850 after $150 in fees."
-        },
-        "5thy8h8KGvRC15z0EHuH": {
-          "timestamp": 1766902086,
-          "event": "You sold 6x Personal Computer on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3450140'>TatoABangGanger</a> for $1,653 after $87 in fees."
-        },
-        "n4GzaTSmH8ObH3295yvf": {
-          "timestamp": 1766901920,
-          "event": "You sold 15x Camel Plushie on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=2121376'>Serviros</a> for $1,125,750 after $59,250 in fees."
-        },
-        "guEFHbESvLQVf5As5zZR": {
-          "timestamp": 1766901455,
-          "event": "You sold 8x Blank DVDs on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=2347227'>NaVrael_Dramora</a> for $5,396 after $284 in fees."
-        },
-        "odpSG3eEBzBMSo0TS93i": {
-          "timestamp": 1766901368,
-          "event": "You sold 3x Bottle of Minty Mayhem on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3156084'>Urfy</a> for $342,000 after $18,000 in fees."
-        },
-        "hYsCVceeLa3bOGVwg905": {
-          "timestamp": 1766901259,
-          "event": "You sold 3x Box of Chocolate Bars on the Item Market to <a href = http://www.torn.com/http://www.torn.com/'profiles.php?XID=3937880'>Raksasha</a> for $2,134 after $113 in fees."
-        },
-        "203K8BmQ2zs7mK3ng0dU": {
-          "timestamp": 1766876021,
-          "event": "<a href = http://www.torn.com/\"http://www.torn.com/http://www.torn.com/profiles.php?XID=2915891\">Ritteruk</a>, the director of <a href = http://www.torn.com/\"http://www.torn.com/http://www.torn.com/joblist.php#/p=corpinfo&ID=120121\">Sweets, Wine and Taurine</a>, has trained you from the company. You gained 50 END and 25 MAN. "
         }
       }
     },
     "flags": {
-      "NERVE_FULL": true,
+      "NERVE_FULL": false,
       "NEW_MESSAGE": false,
       "NEW_EVENT": false,
       "ENERGY_FULL": false,
@@ -405,20 +405,26 @@
       "TRAVEL_COMPLETED": false,
       "TRAVEL_RETURNING": false,
       "TRAVEL_READY": false,
-      "CASH_DROP": false
+      "CASH_DROP": false,
+      "HAPPY_FULL": false
     },
     "lastAlert": {
       "NERVE_FULL": 1767087595424,
       "NEW_MESSAGE": 1767003006900,
       "NEW_EVENT": 1767081983114,
-      "ENERGY_FULL": 1767070838810,
-      "ENERGY_GYM_OPTIMAL": 1767070839494,
+      "ENERGY_FULL": 1767144831812,
+      "ENERGY_GYM_OPTIMAL": 1767144832748,
       "LIFE_FULL": 1767060046902,
       "TRAVEL_COMPLETED": 1767069383766,
-      "TRAVEL_RETURNING": 1767081822968,
-      "TRAVEL_READY": 1767081823408,
-      "CASH_DROP": 1767082160924
+      "TRAVEL_RETURNING": 1767155657203,
+      "TRAVEL_READY": 1767155657585,
+      "CASH_DROP": 1767082160924,
+      "HAPPY_FULL": 1767144832250
     },
-    "updatedAt": 1767091420554
+    "updatedAt": 1767159831955,
+    "recentAlerts": [
+      1767155657203,
+      1767155657585
+    ]
   }
 }

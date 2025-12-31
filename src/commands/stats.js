@@ -8,6 +8,7 @@ import { get } from '../services/tornApi.js';
 import { getUser } from '../services/userStorage.js';
 import { COLORS, EMOJI, REFRESH_INTERVALS } from '../utils/constants.js';
 import { formatNumber, createProgressBar, getThresholdColor, discordTimestamp } from '../utils/formatters.js';
+import { getUi, getStat } from '../localization/index.js';
 
 export const data = new SlashCommandBuilder()
     .setName('stats')
@@ -51,8 +52,6 @@ export async function execute(interaction, client) {
     client.activeIntervals.set(intervalKey, interval);
 }
 
-
-
 /**
  * Send or update stats embed
  */
@@ -89,6 +88,14 @@ async function sendStatsEmbed(interaction, apiKey, existingMessage) {
 }
 
 /**
+ * Helper to capitalize first letter
+ */
+function capitalize(str) {
+    if (!str) return '';
+    return str.replace(/\b\w/g, c => c.toUpperCase());
+}
+
+/**
  * Build the stats embed
  */
 function buildStatsEmbed(data) {
@@ -105,16 +112,22 @@ function buildStatsEmbed(data) {
 
     const embed = new EmbedBuilder()
         .setColor(embedColor)
-        .setTitle('⚡ Player Stats')
+        .setTitle(`⚡ ${getUi('player_stats')}`)
         .setDescription('────────────────────────────────────────────────')
         .setTimestamp()
         .setFooter({ text: 'Torn Sentinel • Auto refresh every 60 seconds' });
 
+    // Localized labels
+    const energyLabel = capitalize(getStat('energy'));
+    const nerveLabel = capitalize(getStat('nerve'));
+    const happyLabel = capitalize(getStat('happy'));
+    const lifeLabel = capitalize(getStat('life'));
+
     // Row 1: Energy | Nerve
     const energyBar = createProgressBar(energy.current, energy.maximum, 8, 'orange');
     const energyTitle = energy.fulltime > 0
-        ? `⚡ Energy · ${discordTimestamp(Math.floor(Date.now() / 1000) + energy.fulltime, 'R')}`
-        : '⚡ Energy';
+        ? `⚡ ${energyLabel} · ${discordTimestamp(Math.floor(Date.now() / 1000) + energy.fulltime, 'R')}`
+        : `⚡ ${energyLabel}`;
     embed.addFields({
         name: energyTitle,
         value: `${energyBar}\n**${formatNumber(energy.current)}**/${formatNumber(energy.maximum)}`,
@@ -123,8 +136,8 @@ function buildStatsEmbed(data) {
 
     const nerveBar = createProgressBar(nerve.current, nerve.maximum, 8, 'green');
     const nerveTitle = nerve.fulltime > 0
-        ? `🧠 Nerve · ${discordTimestamp(Math.floor(Date.now() / 1000) + nerve.fulltime, 'R')}`
-        : '🧠 Nerve';
+        ? `🧠 ${nerveLabel} · ${discordTimestamp(Math.floor(Date.now() / 1000) + nerve.fulltime, 'R')}`
+        : `🧠 ${nerveLabel}`;
     embed.addFields({
         name: nerveTitle,
         value: `${nerveBar}\n**${formatNumber(nerve.current)}**/${formatNumber(nerve.maximum)}`,
@@ -137,8 +150,8 @@ function buildStatsEmbed(data) {
     // Row 2: Happy | Life
     const happyBar = createProgressBar(happy.current, happy.maximum, 8, 'blue');
     const happyTitle = happy.fulltime > 0
-        ? `😊 Happy · ${discordTimestamp(Math.floor(Date.now() / 1000) + happy.fulltime, 'R')}`
-        : '😊 Happy';
+        ? `😊 ${happyLabel} · ${discordTimestamp(Math.floor(Date.now() / 1000) + happy.fulltime, 'R')}`
+        : `😊 ${happyLabel}`;
     embed.addFields({
         name: happyTitle,
         value: `${happyBar}\n**${formatNumber(happy.current)}**/${formatNumber(happy.maximum)}`,
@@ -147,8 +160,8 @@ function buildStatsEmbed(data) {
 
     const lifeBar = createProgressBar(life.current, life.maximum, 8, 'red');
     const lifeTitle = life.fulltime > 0
-        ? `❤️ Life · ${discordTimestamp(Math.floor(Date.now() / 1000) + life.fulltime, 'R')}`
-        : '❤️ Life';
+        ? `❤️ ${lifeLabel} · ${discordTimestamp(Math.floor(Date.now() / 1000) + life.fulltime, 'R')}`
+        : `❤️ ${lifeLabel}`;
     embed.addFields({
         name: lifeTitle,
         value: `${lifeBar}\n**${formatNumber(life.current)}**/${formatNumber(life.maximum)}`,
@@ -156,7 +169,7 @@ function buildStatsEmbed(data) {
     });
     // Cooldowns section header
     embed.addFields({ name: '** **', value: '** **', inline: false });
-    embed.addFields({ name: '⏱️｜Cooldowns', value: '** **', inline: false });
+    embed.addFields({ name: `⏱️｜${getUi('cooldowns')}`, value: '** **', inline: false });
 
     const cooldowns = data.cooldowns || {};
     const now = Math.floor(Date.now() / 1000);
@@ -164,17 +177,20 @@ function buildStatsEmbed(data) {
     // Get education name
     const educationName = getEducationName(data.education_current);
 
+    const activeText = getUi('active');
+    const readyText = getUi('ready');
+
     // Drug cooldown (Row 1, Col 1)
     if (cooldowns.drug > 0) {
         embed.addFields({
-            name: '💊｜Drug',
+            name: `💊｜${getUi('drug')}`,
             value: `\`\`\`Xanax\`\`\`${discordTimestamp(now + cooldowns.drug, 'R')}`,
             inline: true
         });
     } else {
         embed.addFields({
-            name: '💊｜Drug',
-            value: '```✅ Ready```',
+            name: `💊｜${getUi('drug')}`,
+            value: `\`\`\`✅ ${readyText}\`\`\``,
             inline: true
         });
     }
@@ -182,14 +198,14 @@ function buildStatsEmbed(data) {
     // Booster cooldown (Row 1, Col 2)
     if (cooldowns.booster > 0) {
         embed.addFields({
-            name: '💉｜Booster',
-            value: `\`\`\`Active\`\`\`${discordTimestamp(now + cooldowns.booster, 'R')}`,
+            name: `💉｜${getUi('booster')}`,
+            value: `\`\`\`${activeText}\`\`\`${discordTimestamp(now + cooldowns.booster, 'R')}`,
             inline: true
         });
     } else {
         embed.addFields({
-            name: '💉｜Booster',
-            value: '```✅ Ready```',
+            name: `💉｜${getUi('booster')}`,
+            value: `\`\`\`✅ ${readyText}\`\`\``,
             inline: true
         });
     }
@@ -200,14 +216,14 @@ function buildStatsEmbed(data) {
     // Medical cooldown (Row 2, Col 1)
     if (cooldowns.medical > 0) {
         embed.addFields({
-            name: '🏥｜Medical',
-            value: `\`\`\`Active\`\`\`${discordTimestamp(now + cooldowns.medical, 'R')}`,
+            name: `🏥｜${getUi('medical')}`,
+            value: `\`\`\`${activeText}\`\`\`${discordTimestamp(now + cooldowns.medical, 'R')}`,
             inline: true
         });
     } else {
         embed.addFields({
-            name: '🏥｜Medical',
-            value: '```✅ Ready```',
+            name: `🏥｜${getUi('medical')}`,
+            value: `\`\`\`✅ ${readyText}\`\`\``,
             inline: true
         });
     }
@@ -215,14 +231,14 @@ function buildStatsEmbed(data) {
     // Education cooldown (Row 2, Col 2)
     if (data.education_timeleft > 0) {
         embed.addFields({
-            name: '📚｜Education',
+            name: `📚｜${getUi('education')}`,
             value: `\`\`\`${educationName}\`\`\`${discordTimestamp(now + data.education_timeleft, 'R')}`,
             inline: true
         });
     } else {
         embed.addFields({
-            name: '📚｜Education',
-            value: '```✅ Ready```',
+            name: `📚｜${getUi('education')}`,
+            value: `\`\`\`✅ ${readyText}\`\`\``,
             inline: true
         });
     }
@@ -263,7 +279,7 @@ function getEducationName(educationId) {
         52: 'Stock Market Studies',
         // ... more can be added
     };
-    return educations[educationId] || 'Studying';
+    return educations[educationId] || getUi('studying');
 }
 
 /**

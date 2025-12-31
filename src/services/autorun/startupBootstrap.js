@@ -27,10 +27,13 @@ import { networthDeltaHandler } from './handlers/networthDeltaHandler.js';
 import { assetDistributionHandler } from './handlers/assetDistributionHandler.js';
 import { activityLogHandler } from './handlers/activityLogHandler.js';
 import { profitEngineHandler } from './handlers/profitEngineHandler.js';
+import { financialLogHandler } from './handlers/financialLogHandler.js';
+import { marketAlertHandler } from './handlers/marketAlertHandler.js';
 import { getAllUsers } from '../userStorage.js';
 import { initLogger, logSystem } from '../system/systemLogger.js';
 import { initAnalytics } from '../analytics/travelAnalyticsService.js';
 import { startGlobalFetchScheduler } from '../yataGlobalCache.js';
+import { initDailyReportState } from './dailyReportStateManager.js';
 
 /**
  * Bootstrap all auto-run channels on bot startup
@@ -43,6 +46,9 @@ export async function startupBootstrap(client) {
 
     // Initialize travel analytics (load data from disk)
     initAnalytics();
+
+    // Initialize daily report state (prevent duplicate daily reports on restart)
+    initDailyReportState();
 
     // Initialize runtime state from disk
     initRuntimeState();
@@ -69,6 +75,8 @@ export async function startupBootstrap(client) {
     registerHandler('assetDistributionHandler', assetDistributionHandler);
     registerHandler('activityLogHandler', activityLogHandler);
     registerHandler('profitEngineHandler', profitEngineHandler);
+    registerHandler('financialLogHandler', financialLogHandler);
+    registerHandler('marketAlertHandler', marketAlertHandler);
 
     // Initialize system logger
     initLogger(client);

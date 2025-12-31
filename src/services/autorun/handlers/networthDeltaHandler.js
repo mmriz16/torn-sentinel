@@ -7,6 +7,7 @@ import { EmbedBuilder } from 'discord.js';
 import { getCombinedStats } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney } from '../../../utils/formatters.js';
+import { getUi } from '../../../localization/index.js';
 import {
     getLatestSnapshot,
     getSnapshotDaysAgo,
@@ -29,8 +30,8 @@ const CATEGORY_LABELS = {
     bookie: '🎰 Bookie',
     loan: '💳 Loan',
     unpaidfees: '⚠️ Unpaid Fees',
-    piggybank: '🐷 Piggy Bank'
-};
+    piggybank: '🐷 ' + getUi('piggybank')
+}; // Note: Will use getUi dynamic lookup if not found in map, but explicit here for icons
 
 export async function networthDeltaHandler(client) {
     try {
@@ -50,9 +51,9 @@ export async function networthDeltaHandler(client) {
             // No snapshots yet
             const embed = new EmbedBuilder()
                 .setColor(0x95A5A6)
-                .setTitle('📉 Networth Delta (24h)')
-                .setDescription('```No snapshot data yet. Check back tomorrow!```')
-                .setFooter({ text: 'Torn Sentinel • Snapshots collected daily' })
+                .setTitle(`📉 ${getUi('networth_delta_title')}`)
+                .setDescription(`\`\`\`${getUi('no_snapshot_data')}\`\`\``)
+                .setFooter({ text: `Torn Sentinel • ${getUi('snapshots_collected_daily')}` })
                 .setTimestamp();
             return embed;
         }
@@ -61,14 +62,14 @@ export async function networthDeltaHandler(client) {
             // Only one snapshot
             const embed = new EmbedBuilder()
                 .setColor(0x95A5A6)
-                .setTitle('📉 Networth Delta (24h)')
-                .setDescription('```Need at least 2 days of data for comparison.```')
+                .setTitle(`📉 ${getUi('networth_delta_title')}`)
+                .setDescription(`\`\`\`${getUi('need_more_data')}\`\`\``)
                 .addFields({
-                    name: 'Current Networth',
+                    name: getUi('current_networth'),
                     value: `\`\`\`${formatMoney(current.total)}\`\`\``,
                     inline: false
                 })
-                .setFooter({ text: 'Torn Sentinel • Snapshots collected daily' })
+                .setFooter({ text: `Torn Sentinel • ${getUi('snapshots_collected_daily')}` })
                 .setTimestamp();
             return embed;
         }
@@ -84,10 +85,18 @@ export async function networthDeltaHandler(client) {
         // Build breakdown text
         let breakdownText = '';
         if (sortedBreakdown.length === 0) {
-            breakdownText = '```No significant changes```';
+            breakdownText = `\`\`\`${getUi('no_significant_changes')}\`\`\``;
         } else {
             const lines = sortedBreakdown.slice(0, 8).map(([key, value]) => {
-                const label = CATEGORY_LABELS[key] || key;
+                // Try to get from label map (with icons) or use getUi direct
+                const iconMap = {
+                    wallet: '💵', bank: '🏦', points: '💎', items: '📦', bazaar: '🛒',
+                    displaycase: '🖼️', properties: '🏠', stockmarket: '📊', itemmarket: '🏪',
+                    auctionhouse: '🔨', company: '🏢', bookie: '🎰', loan: '💳',
+                    unpaidfees: '⚠️', piggybank: '🐷', vault: '🔐', cayman: '🏝️'
+                };
+                const icon = iconMap[key] || '';
+                const label = `${icon} ${getUi(key)}`;
                 const sign = value >= 0 ? '+' : '';
                 return `${sign}${formatMoney(value).padStart(12)}  ${label}`;
             });

@@ -1,6 +1,7 @@
+
 /**
  * /market Command
- * Item market lookup and trade logging
+ * Item market lookup, trade logging, and foreign market alerts
  */
 
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
@@ -10,6 +11,8 @@ import { formatMoney, formatNumber } from '../utils/formatters.js';
 import { logTrade } from '../services/analytics/travelAnalyticsService.js';
 import { COUNTRIES as COUNTRIES_MAP } from '../services/autorun/handlers/foreignMarketHandler.js';
 import { getAllCountriesData } from '../services/yataGlobalCache.js';
+import { getUi, translate } from '../localization/index.js';
+import { addAlert, removeAlert, getUserAlerts } from '../services/market/marketAlertStorage.js';
 
 // Cache for items data (24h refresh)
 let itemsCache = null;
@@ -72,6 +75,50 @@ export const data = new SlashCommandBuilder()
                     .setDescription('Price per unit')
                     .setRequired(true)
             )
+    )
+    .addSubcommandGroup(group =>
+        group
+            .setName('alert')
+            .setDescription('Manage foreign market restock alerts')
+            .addSubcommand(subcommand =>
+                subcommand
+                    .setName('add')
+                    .setDescription('Add a new restock alert')
+                    .addStringOption(option =>
+                        option.setName('item')
+                            .setDescription('Item name')
+                            .setRequired(true)
+                            .setAutocomplete(true)
+                    )
+                    .addStringOption(option =>
+                        option.setName('country')
+                            .setDescription('Country')
+                            .setRequired(true)
+                            .setAutocomplete(true)
+                    )
+            )
+            .addSubcommand(subcommand =>
+                subcommand
+                    .setName('remove')
+                    .setDescription('Remove a restock alert')
+                    .addStringOption(option =>
+                        option.setName('item')
+                            .setDescription('Item name')
+                            .setRequired(true)
+                            .setAutocomplete(true)
+                    )
+                    .addStringOption(option =>
+                        option.setName('country')
+                            .setDescription('Country')
+                            .setRequired(true)
+                            .setAutocomplete(true)
+                    )
+            )
+            .addSubcommand(subcommand =>
+                subcommand
+                    .setName('list')
+                    .setDescription('List your active alerts')
+            )
     );
 
 export async function execute(interaction, client) {
@@ -85,13 +132,151 @@ export async function execute(interaction, client) {
     }
 
     const subcommand = interaction.options.getSubcommand();
+    const group = interaction.options.getSubcommandGroup(false);
 
-    if (subcommand === 'lookup') {
-        await handleLookup(interaction, user.apiKey);
-    } else if (subcommand === 'buy' || subcommand === 'sell') {
-        await handleTradeLog(interaction, subcommand, user.apiKey);
+    if (group === 'alert') {
+        if (subcommand === 'add') await handleAlertAdd(interaction, user);
+        else if (subcommand === 'remove') await handleAlertRemove(interaction, user);
+        else if (subcommand === 'list') await handleAlertList(interaction, user);
+    } else {
+        if (subcommand === 'lookup') {
+            await handleLookup(interaction, user.apiKey);
+        } else if (subcommand === 'buy' || subcommand === 'sell') {
+            await handleTradeLog(interaction, subcommand, user.apiKey);
+        }
     }
 }
+
+/**
+ * Handle Autocomplete
+ */
+export async function autocomplete(interaction, client) {
+    const user = getUser(interaction.user.id);
+    // User might not have API key yet, but we allow autocomplete for generic data if possible
+    // But getItemsCache needs apiKey.
+    const apiKey = user ? user.apiKey : process.env.TORN_API_KEY; // Fallback to bot key if available?
+
+    const focusedOption = interaction.options.getFocused(true);
+
+    if (focusedOption.name === 'item') {
+        const query = focusedOption.value.toLowerCase();
+
+        // Use cache logic (needs API key to fill first time)
+        // If no API key, return empty
+        if (!apiKey) return interaction.respond([]);
+
+        try {
+            const items = await getItemsCache(apiKey);
+            const matches = findItems(items, query);
+
+            // Map to choices (Max 25)
+            const choices = matches.slice(0, 25).map(item => ({
+                name: item.name,
+                value: item.name // Store name as value for easier handling
+            }));
+            await interaction.respond(choices);
+        } catch (e) {
+            console.error('Autocomplete item error:', e);
+            await interaction.respond([]);
+        }
+    }
+    else if (focusedOption.name === 'country') {
+        const query = focusedOption.value.toLowerCase();
+        // Static countries list
+        const countries = Object.values(COUNTRIES_MAP).map(c => c.name);
+        const matches = countries.filter(c => c.toLowerCase().includes(query));
+        const choices = matches.slice(0, 25).map(c => ({ name: c, value: c }));
+        await interaction.respond(choices);
+    }
+}
+
+/**
+ * Alert Handlers
+ */
+async function handleAlertAdd(interaction, user) {
+    const itemName = interaction.options.getString('item');
+    const country = interaction.options.getString('country');
+
+    // Validate Item Exists (fetch cache)
+    const items = await getItemsCache(user.apiKey);
+    const itemMatch = findItems(items, itemName.toLowerCase()).find(i => i.name.toLowerCase() === itemName.toLowerCase());
+
+    if (!itemMatch) {
+        return interaction.reply({ content: `❌ Invalid item: **${itemName}**. Please choose from the list.`, ephemeral: true });
+    }
+
+    // Validate Country
+    const validCountry = Object.values(COUNTRIES_MAP).find(c => c.name.toLowerCase() === country.toLowerCase());
+    if (!validCountry) {
+        return interaction.reply({ content: `❌ Invalid country: **${country}**.`, ephemeral: true });
+    }
+
+    // Add Alert
+    addAlert(interaction.user.id, {
+        itemId: parseInt(itemMatch.id),
+        itemName: itemMatch.name,
+        country: validCountry.name
+    });
+
+    await interaction.reply({
+        content: `✅ **Market Alert Added**\nItem: ${itemMatch.name}\nCountry: ${validCountry.name}\nStatus: Idle (Active when traveling)`
+    });
+}
+
+async function handleAlertRemove(interaction, user) {
+    const itemName = interaction.options.getString('item');
+    const country = interaction.options.getString('country');
+
+    // Need Item ID to match storage
+    // We could iterate user alerts and match by Name? Storage stores Name too.
+    // Let's use name match or ID if resolved.
+
+    // Resolve Item ID to be safe
+    const items = await getItemsCache(user.apiKey);
+    const itemMatch = findItems(items, itemName.toLowerCase()).find(i => i.name.toLowerCase() === itemName.toLowerCase());
+
+    if (!itemMatch) {
+        return interaction.reply({ content: `❌ Item not found. Ensure exact name.`, ephemeral: true });
+    }
+
+    const removed = removeAlert(interaction.user.id, parseInt(itemMatch.id), country);
+
+    if (removed) {
+        await interaction.reply({ content: `🗑️ **Alert Removed**: ${itemMatch.name} - ${country}` });
+    } else {
+        await interaction.reply({ content: `⚠️ Alert not found.` });
+    }
+}
+
+async function handleAlertList(interaction, user) {
+    const alerts = getUserAlerts(interaction.user.id);
+
+    if (!alerts || alerts.length === 0) {
+        return interaction.reply({ content: '📋 You have no active market alerts.', ephemeral: true });
+    }
+
+    const embed = new EmbedBuilder()
+        .setColor(0x3498DB)
+        .setTitle('📋 Your Market Alerts')
+        .setDescription('Alerts activate when you travel to the target country.')
+        .setTimestamp();
+
+    const fields = alerts.map(a => {
+        let status = a.state;
+        if (status === 'IDLE') status = '⚪ Idle';
+        else if (status === 'ARMED') status = '🟠 Armed (Near Landing)';
+        else if (status === 'MONITORING') status = '🟢 Monitoring';
+        else if (status === 'TRIGGERED') status = '🔴 Triggered';
+        else if (status === 'COOLDOWN') status = `⏳ Cooldown (<t:${Math.floor(a.cooldownUntil / 1000)}:R>)`;
+
+        return `**${a.itemName}** — ${a.country}\nStatus: \`${status}\``;
+    });
+
+    embed.setDescription(fields.join('\n\n'));
+
+    await interaction.reply({ embeds: [embed], ephemeral: true });
+}
+
 
 /**
  * Handle /market lookup
@@ -110,12 +295,18 @@ async function handleLookup(interaction, apiKey) {
         }
 
         if (matches.length > 1) {
-            const suggestions = matches.slice(0, 10).map(m => `• ${m.name}`).join('\n');
-            await interaction.editReply(`🔍 Multiple items found. Please be specific:\n${suggestions}`);
-            return;
+            // Check for exact match
+            const exact = matches.find(m => m.name.toLowerCase() === searchQuery);
+            if (exact) {
+                // Proceed with exact
+            } else {
+                const suggestions = matches.slice(0, 10).map(m => `• ${m.name}`).join('\n');
+                await interaction.editReply(`🔍 Multiple items found. Please be specific:\n${suggestions}`);
+                return;
+            }
         }
 
-        const item = matches[0];
+        const item = matches.length === 1 ? matches[0] : matches.find(m => m.name.toLowerCase() === searchQuery) || matches[0];
 
         // Fetch market data and foreign stock data in parallel
         const [marketData, foreignStock] = await Promise.all([
@@ -123,7 +314,7 @@ async function handleLookup(interaction, apiKey) {
             getForeignStockInfo(item.id)
         ]);
 
-        const embed = buildMarketEmbed(item, marketData, foreignStock);
+        const embed = await buildMarketEmbed(item, marketData, foreignStock);
         await interaction.editReply({ embeds: [embed] });
 
     } catch (error) {
@@ -139,25 +330,21 @@ async function handleTradeLog(interaction, type, apiKey) {
     const itemName = interaction.options.getString('item');
     const qty = interaction.options.getInteger('qty');
     const price = interaction.options.getInteger('price');
-    const country = interaction.options.getString('country') || 'Torn'; // Default to Torn if not specified? 
-    // Actually, usually users buy abroad.
-    // Let's rely on user input or 'Unknown'. 
-
-    // Note: To be perfect, we should validate item name against API, but for logging speed, raw text is fine.
-    // PRD: "Setiap transaksi dicatat manual oleh bot".
+    const country = interaction.options.getString('country') || 'Torn';
 
     await interaction.deferReply({ ephemeral: true });
 
     try {
-        // Log it directly
+        // Log it directly (logic remains same)
         const entry = logTrade(type, itemName, qty, price, country);
 
         const emoji = type === 'buy' ? '💸' : '💰';
-        const profitText = entry.profit ? `\n📈 **Profit:** ${formatMoney(entry.profit)}` : '';
+        const profitText = entry.profit ? `\n📈 **${getUi('profit')}:** ${formatMoney(entry.profit)}` : '';
+        const tradeLoggedText = type === 'buy' ? getUi('you_bought') : getUi('you_sold');
 
         const embed = new EmbedBuilder()
             .setColor(type === 'buy' ? 0xE74C3C : 0x2ECC71)
-            .setTitle(`${emoji} Trade Logged: ${type.toUpperCase()}`)
+            .setTitle(`${emoji} ${getUi('trade_logged')}: ${type.toUpperCase()}`)
             .setDescription(`**${itemName}** x${qty}\n@ ${formatMoney(price)} each${profitText}`)
             .addFields(
                 { name: 'Total', value: formatMoney(entry.total), inline: true },
@@ -209,7 +396,7 @@ function findItems(items, query) {
     return matches.sort((a, b) => a.name.length - b.name.length);
 }
 
-function buildMarketEmbed(item, marketData, foreignStock) {
+async function buildMarketEmbed(item, marketData, foreignStock) {
     const listings = marketData.itemmarket?.listings || [];
     const prices = listings.map(l => l.price);
     const quantities = listings.map(l => l.amount);
@@ -225,9 +412,9 @@ function buildMarketEmbed(item, marketData, foreignStock) {
     const spreadPercent = lowestAsk > 0 ? ((spread / lowestAsk) * 100).toFixed(1) : 0;
 
     // Calculate Liquidity (Simple heuristic)
-    let liquidity = '🔴 Low';
-    if (totalQuantity > 10000) liquidity = '🟢 High';
-    else if (totalQuantity > 1000) liquidity = '🟡 Medium';
+    let liquidity = `🔴 ${getUi('low')}`;
+    if (totalQuantity > 10000) liquidity = `🟢 ${getUi('high')}`;
+    else if (totalQuantity > 1000) liquidity = `🟡 ${getUi('medium')}`;
 
     // Construct image URL directly to ensure high res
     const imageUrl = `https://www.torn.com/images/items/${item.id}/large.png`;
@@ -238,22 +425,22 @@ function buildMarketEmbed(item, marketData, foreignStock) {
         .setDescription('────────────────────────────────────────────────')
         .setImage(imageUrl)
         .setTimestamp()
-        .setFooter({ text: 'Torn Sentinel • Item Market' });
+        .setFooter({ text: `Torn Sentinel • ${getUi('market')}` });
 
     // 1. Top Row: Type | Price | Foreign/Cheapest
     if (item.type) {
-        embed.addFields({ name: '📋｜Type', value: `\`\`\`${item.type}\`\`\``, inline: true });
+        embed.addFields({ name: `📋｜${getUi('type')}`, value: `\`\`\`${item.type}\`\`\``, inline: true });
     }
 
     if (foreignStock) {
         embed.addFields(
-            { name: '💰｜Buy Price', value: `\`\`\`$${formatCompact(foreignStock.price)}\`\`\``, inline: true },
-            { name: '🌍｜Cheapest', value: `\`\`\`${foreignStock.location}\`\`\``, inline: true }
+            { name: `💰｜${getUi('buy_price')}`, value: `\`\`\`$${formatCompact(foreignStock.price)}\`\`\``, inline: true },
+            { name: `🌍｜${getUi('cheapest')}`, value: `\`\`\`${foreignStock.location}\`\`\``, inline: true }
         );
     } else {
         const val = item.market_value || avgPrice;
         embed.addFields(
-            { name: '💵｜Market Value', value: `\`\`\`$${formatCompact(val)}\`\`\``, inline: true },
+            { name: `💵｜${getUi('market_value')}`, value: `\`\`\`$${formatCompact(val)}\`\`\``, inline: true },
             { name: '\u200b', value: '\u200b', inline: true }
         );
     }
@@ -261,46 +448,44 @@ function buildMarketEmbed(item, marketData, foreignStock) {
     // 2. Description (Wrapped in code block)
     if (item.description) {
         // Truncate if too long (Discord limit 1024)
-        const desc = item.description.length > 1000 ? item.description.substring(0, 990) + '...' : item.description;
-        embed.addFields({ name: '📝｜Description', value: `\`\`\`${desc}\`\`\``, inline: false });
+        // Translate description (Enable AI)
+        const descResult = await translate(item.description, { useAi: true, category: 'items_desc', key: item.id });
+        const desc = descResult.text.length > 1000 ? descResult.text.substring(0, 990) + '...' : descResult.text;
+        embed.addFields({ name: `📝｜${getUi('description')}`, value: `\`\`\`${desc}\`\`\``, inline: false });
     }
 
     // 3. Effect (Wrapped in code block)
     if (item.effect) {
-        embed.addFields({ name: '⚡｜Effect', value: `\`\`\`${item.effect}\`\`\``, inline: false });
+        // Translate effect (Enable AI)
+        const effectResult = await translate(item.effect, { useAi: true, category: 'items_effect', key: item.id });
+        embed.addFields({ name: `⚡｜${getUi('effect')}`, value: `\`\`\`${effectResult.text}\`\`\``, inline: false });
     }
 
     if (totalListings === 0) {
-        embed.addFields({ name: '🏪｜Market', value: '```No listings currently```', inline: false });
+        embed.addFields({ name: `🏪｜${getUi('market')}`, value: `\`\`\`${getUi('no_listings')}\`\`\``, inline: false });
+        // NOTE: "Pasar" might be generic, maybe "Info Pasar" for header?
         return embed;
     }
 
     // 4. Market Stats Rows
     embed.addFields(
         // Row A
-        { name: '💰｜Lowest Ask', value: `\`\`\`$${formatCompact(lowestAsk)}\`\`\``, inline: true },
-        { name: '📈｜Highest Ask', value: `\`\`\`$${formatCompact(highestAsk)}\`\`\``, inline: true },
-        { name: '📊｜Average', value: `\`\`\`$${formatCompact(avgPrice)}\`\`\``, inline: true },
+        { name: `💰｜${getUi('lowest_ask')}`, value: `\`\`\`$${formatCompact(lowestAsk)}\`\`\``, inline: true },
+        { name: `📈｜${getUi('highest_ask')}`, value: `\`\`\`$${formatCompact(highestAsk)}\`\`\``, inline: true },
+        { name: `📊｜${getUi('average')}`, value: `\`\`\`$${formatCompact(avgPrice)}\`\`\``, inline: true },
 
         // Row B
-        { name: '📦｜Listings', value: `\`\`\`${formatNumber(totalListings)}\`\`\``, inline: true },
-        { name: '🔢｜Quantity', value: `\`\`\`${formatNumber(totalQuantity)}\`\`\``, inline: true },
-        { name: '💧｜Liquidity', value: `\`\`\`${liquidity}\`\`\``, inline: true },
+        { name: `📦｜${getUi('listings')}`, value: `\`\`\`${formatNumber(totalListings)}\`\`\``, inline: true },
+        { name: `🔢｜${getUi('quantity')}`, value: `\`\`\`${formatNumber(totalQuantity)}\`\`\``, inline: true },
+        { name: `💧｜${getUi('liquidity')}`, value: `\`\`\`${liquidity}\`\`\``, inline: true },
 
         // Row C (Spread)
-        { name: '📉｜Spread', value: `\`\`\`$${formatCompact(spread)} (+${spreadPercent}%)\`\`\``, inline: false }
+        { name: `📉｜${getUi('spread')}`, value: `\`\`\`$${formatCompact(spread)} (+${spreadPercent}%)\`\`\``, inline: false }
     );
 
     return embed;
 }
 
-/**
- * Format compact number helper (inner usage if not imported, but we imported formatNumber/formatMoney)
- * We'll use formatNumber for simple ints, and a manual compact for Prices if needed to fit?
- * User screenshot shows full numbers "$850,000".
- * So we use formatMoney but maybe without decimals for cleaner look?
- * Re-mapping formatCompact to formatMoney for consistency with screenshot.
- */
 function formatCompact(num) {
     return new Intl.NumberFormat('en-US').format(num);
 }
@@ -340,8 +525,3 @@ async function getForeignStockInfo(itemId) {
         return null;
     }
 }
-
-// Local map purely for name lookup if we can't import the full one cleanly
-// or relies on foreignMarketHandler export.
-// Actually I should just use the exported COUNTRIES from foreignMarketHandler.
-// End of file

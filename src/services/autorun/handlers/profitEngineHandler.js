@@ -8,6 +8,7 @@ import { EmbedBuilder } from 'discord.js';
 import { getCombinedStats, getV2 } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney } from '../../../utils/formatters.js';
+import { getUi } from '../../../localization/index.js';
 import {
     getProfitState,
     addIncome,
@@ -186,50 +187,55 @@ export async function profitEngineHandler(client) {
 
         const embed = new EmbedBuilder()
             .setColor(profitColor)
-            .setTitle('🧮 Personal Profit Engine (Today)')
-            .setDescription(`**💰 Net P&L:** ${profitIcon} ${profitSign}${formatMoney(netProfit)}`)
+            .setTitle(`🧮 ${getUi('profit_engine_title')}`)
+            .setDescription(`**💰 ${getUi('net_pnl')}:** ${profitIcon} ${profitSign}${formatMoney(netProfit)}`)
             .setTimestamp()
-            .setFooter({ text: 'Torn Sentinel • Real-time Accounting' });
+            .setFooter({ text: `Torn Sentinel • ${getUi('real_time_accounting')}` });
 
         // Income breakdown
+        // Dynamic Income Breakdown
         const incomeLines = [];
-        if (state.income.travel > 0) incomeLines.push(`• Travel Sales        +${formatMoney(state.income.travel)}`);
-        if (state.income.crime > 0) incomeLines.push(`• Crime Rewards       +${formatMoney(state.income.crime)}`);
-        if (state.income.job > 0) incomeLines.push(`• Job Salary          +${formatMoney(state.income.job)}`);
-        if (state.income.other > 0) incomeLines.push(`• Other Income        +${formatMoney(state.income.other)}`);
+        for (const [key, value] of Object.entries(state.income)) {
+            if (value > 0) {
+                const label = getUi(`source_${key}`) || getUi(key) || key;
+                incomeLines.push(`• ${label.padEnd(20)} +${formatMoney(value)}`);
+            }
+        }
 
         if (incomeLines.length > 0) {
             embed.addFields({
-                name: '📥 Income',
+                name: `📥 ${getUi('income')}`,
                 value: '```\n' + incomeLines.join('\n') + '\n```',
                 inline: false
             });
         } else {
             embed.addFields({
-                name: '📥 Income',
-                value: '```No income recorded yet```',
+                name: `📥 ${getUi('income')}`,
+                value: `\`\`\`${getUi('no_income')}\`\`\``,
                 inline: false
             });
         }
 
         // Expense breakdown
+        // Dynamic Expense Breakdown
         const expenseLines = [];
-        if (state.expense.property > 0) expenseLines.push(`• Property (API)      -${formatMoney(state.expense.property)}`);
-        if (state.expense.xanax > 0) expenseLines.push(`• Xanax (market)      -${formatMoney(state.expense.xanax)}`);
-        if (state.expense.travel_buy > 0) expenseLines.push(`• Travel Buy          -${formatMoney(state.expense.travel_buy)}`);
-        if (state.expense.tax > 0) expenseLines.push(`• Market Tax (5%)     -${formatMoney(state.expense.tax)}`);
-        if (state.expense.other > 0) expenseLines.push(`• Other Expenses      -${formatMoney(state.expense.other)}`);
+        for (const [key, value] of Object.entries(state.expense)) {
+            if (value > 0) {
+                const label = getUi(`expense_${key}`) || getUi(key) || key;
+                expenseLines.push(`• ${label.padEnd(20)} -${formatMoney(value)}`);
+            }
+        }
 
         if (expenseLines.length > 0) {
             embed.addFields({
-                name: '📤 Expenses',
+                name: `📤 ${getUi('expenses')}`,
                 value: '```\n' + expenseLines.join('\n') + '\n```',
                 inline: false
             });
         } else {
             embed.addFields({
-                name: '📤 Expenses',
-                value: '```No expenses recorded yet```',
+                name: `📤 ${getUi('expenses')}`,
+                value: `\`\`\`${getUi('no_expenses')}\`\`\``,
                 inline: false
             });
         }
@@ -242,12 +248,12 @@ export async function profitEngineHandler(client) {
             : 'N/A';
 
         embed.addFields({
-            name: '📊 Efficiency',
+            name: `📊 ${getUi('efficiency')}`,
             value: [
-                `**Profit/Hour:** ${formatMoney(Math.round(profitPerHour))}`,
-                `**Trips Today:** ${state.stats.tripCount}`,
-                `**Crimes Today:** ${state.stats.crimeCount}`,
-                `**Xanax Used:** ${state.stats.xanaxUsed}`
+                `**${getUi('profit_per_hour')}:** ${formatMoney(Math.round(profitPerHour))}`,
+                `**${getUi('trips_today')}:** ${state.stats.tripCount}`,
+                `**${getUi('crimes_today')}:** ${state.stats.crimeCount}`,
+                `**${getUi('xanax_used')}:** ${state.stats.xanaxUsed}`
             ].join('\n'),
             inline: false
         });
