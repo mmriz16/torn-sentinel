@@ -36,64 +36,64 @@
     "channelId": "1454855530181951564",
     "messageId": "1455120769959989268",
     "createdAt": 1766998056382,
-    "updatedAt": 1767171631792,
-    "lastRun": 1767171631792
+    "updatedAt": 1767171662359,
+    "lastRun": 1767171662359
   },
   "foreignMarket.canada": {
     "enabled": true,
     "channelId": "1454855379488866357",
     "messageId": "1455120771138457661",
     "createdAt": 1766998056584,
-    "updatedAt": 1767171632488,
-    "lastRun": 1767171632488
+    "updatedAt": 1767171662874,
+    "lastRun": 1767171662874
   },
   "foreignMarket.cayman": {
     "enabled": true,
     "channelId": "1455091732671889512",
     "messageId": "1455120773063770226",
     "createdAt": 1766998056787,
-    "updatedAt": 1767171634788,
-    "lastRun": 1767171634788
+    "updatedAt": 1767171665156,
+    "lastRun": 1767171665156
   },
   "foreignMarket.china": {
     "enabled": true,
     "channelId": "1455091662890991762",
     "messageId": "1455120774602952756",
     "createdAt": 1766998056989,
-    "updatedAt": 1767171635610,
-    "lastRun": 1767171635610
+    "updatedAt": 1767171666090,
+    "lastRun": 1767171666090
   },
   "foreignMarket.hawaii": {
     "enabled": true,
     "channelId": "1455091704469131266",
     "messageId": "1455120776373211180",
     "createdAt": 1766998057191,
-    "updatedAt": 1767171636354,
-    "lastRun": 1767171636354
+    "updatedAt": 1767171666731,
+    "lastRun": 1767171666731
   },
   "foreignMarket.japan": {
     "enabled": true,
     "channelId": "1454855192179769549",
     "messageId": "1455120778306654258",
     "createdAt": 1766998057392,
-    "updatedAt": 1767171637156,
-    "lastRun": 1767171637156
+    "updatedAt": 1767171667543,
+    "lastRun": 1767171667543
   },
   "foreignMarket.mexico": {
     "enabled": true,
     "channelId": "1454855303660044490",
     "messageId": "1455120780030640161",
     "createdAt": 1766998057590,
-    "updatedAt": 1767171637975,
-    "lastRun": 1767171637975
+    "updatedAt": 1767171668502,
+    "lastRun": 1767171668502
   },
   "foreignMarket.southafrica": {
     "enabled": true,
     "channelId": "1455091454170103841",
     "messageId": "1455120781704171684",
     "createdAt": 1766998057792,
-    "updatedAt": 1767171638786,
-    "lastRun": 1767171638786
+    "updatedAt": 1767171669162,
+    "lastRun": 1767171669162
   },
   "foreignMarket.switzerland": {
     "enabled": true,

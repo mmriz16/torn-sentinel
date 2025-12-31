@@ -19,17 +19,18 @@ Live dashboards that automatically refresh in dedicated Discord channels:
 - **📦 Trade Detection** — Automatic incoming/outgoing trade notifications
 - **🧮 Profit Engine** — Aggregated profit analytics across all activities
 - **🧾 Financial Logs** — Detailed money flow tracking
-- **💎 Networth Analysis** — Trend tracking, daily delta, and asset distribution
+- **💎 Networth Analysis** — Advanced breakdown splitting liquid assets, inventory, market listings, and liabilities
 
 ### 🔔 **Smart Notifications**
 Get instant alerts for important events:
 
-- **New Activities** — Real-time notifications for every action (sent to alerts channel)
-- **Market Opportunities** — Price alerts and stock availability
-- **Trade Updates** — Incoming/outgoing trade confirmations
+- **🚨 Market Alerts** — Smart stock monitoring with **purchase detection** and **location awareness** (instant alerts in-country)
+- **✈️ Travel Assistant** — Pre-flight checklists (nerve, profit estimates) and landing notifications
+- **📜 New Activities** — Real-time notifications for every action
+- **📦 Trade Updates** — Incoming/outgoing trade confirmations
 
 ### 💬 **Slash Commands**
-Quick access to your data anytime:
+Quick access to specific data. **Now with Global Autocomplete!**
 
 | Command | Description |
 |---------|-------------|
@@ -200,6 +201,12 @@ All user data stored locally in `data/` (gitignored):
 ---
 
 ## 🆕 Recent Updates
+
+### v3.1 - Market & UX Refinements (Dec 31, 2024)
+- ✅ **Global Autocomplete** (Items, Countries, Configs)
+- ✅ **Smart Market Alerts** (Purchase detection & Location awareness)
+- ✅ **Travel Assistant** (Departure/Landing checklists)
+- ✅ **Enhanced Networth** (Detailed liability splitting)
 
 ### v3.0 - Activity Log Pagination (Dec 31, 2024)
 - ✅ Paginated activity log (5 categories per page)
