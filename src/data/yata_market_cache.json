@@ -1,6 +1,6 @@
 {
-  "updatedAt": 1767166894511,
-  "lastSuccessAt": 1767166894511,
+  "updatedAt": 1767167632935,
+  "lastSuccessAt": 1767167632935,
   "isStale": false,
   "error": null,
   "countries": {
@@ -15,7 +15,7 @@
         "id": 258,
         "name": "Jaguar Plushie",
         "cost": 10000,
-        "quantity": 936
+        "quantity": 70
       },
       {
         "id": 426,
@@ -33,7 +33,7 @@
         "id": 108,
         "name": "9mm Uzi",
         "cost": 1100000,
-        "quantity": 50
+        "quantity": 45
       },
       {
         "id": 11,
@@ -51,7 +51,7 @@
         "id": 259,
         "name": "Mayan Statue",
         "cost": 500,
-        "quantity": 195
+        "quantity": 166
       },
       {
         "id": 409,
@@ -123,7 +123,7 @@
         "id": 260,
         "name": "Dahlia",
         "cost": 300,
-        "quantity": 978
+        "quantity": 794
       },
       {
         "id": 159,
@@ -135,7 +135,7 @@
         "id": 432,
         "name": "Crazy Straw",
         "cost": 25,
-        "quantity": 76
+        "quantity": 74
       },
       {
         "id": 177,
@@ -182,7 +182,7 @@
       {
         "id": 1499,
         "name": "Obsidian Point",
-        "cost": 124995,
+        "cost": 125120,
         "quantity": 0
       }
     ],
@@ -191,7 +191,7 @@
         "id": 625,
         "name": "Wetsuit",
         "cost": 30000,
-        "quantity": 16
+        "quantity": 0
       },
       {
         "id": 623,
@@ -203,7 +203,7 @@
         "id": 617,
         "name": "Banana Orchid",
         "cost": 4000,
-        "quantity": 2848
+        "quantity": 2756
       },
       {
         "id": 626,
@@ -239,19 +239,19 @@
         "id": 624,
         "name": "Bikini",
         "cost": 8000,
-        "quantity": 67
+        "quantity": 66
       },
       {
         "id": 616,
         "name": "Trout",
         "cost": 3,
-        "quantity": 0
+        "quantity": 52
       },
       {
         "id": 618,
         "name": "Stingray Plushie",
         "cost": 400,
-        "quantity": 595
+        "quantity": 365
       },
       {
         "id": 614,
@@ -280,7 +280,7 @@
       {
         "id": 1482,
         "name": "Bearer Bond",
-        "cost": 83538,
+        "cost": 83672,
         "quantity": 0
       }
     ],
@@ -306,14 +306,14 @@
       {
         "id": 197,
         "name": "Ecstasy",
-        "cost": 41519,
+        "cost": 41605,
         "quantity": 749
       },
       {
         "id": 261,
         "name": "Wolverine Plushie",
         "cost": 30,
-        "quantity": 2329
+        "quantity": 2275
       },
       {
         "id": 328,
@@ -372,7 +372,7 @@
       {
         "id": 206,
         "name": "Xanax",
-        "cost": 835086,
+        "cost": 836417,
         "quantity": 844
       },
       {
@@ -491,7 +491,7 @@
         "id": 267,
         "name": "Heather",
         "cost": 5000,
-        "quantity": 8070
+        "quantity": 8023
       },
       {
         "id": 438,
@@ -521,12 +521,12 @@
         "id": 268,
         "name": "Red Fox Plushie",
         "cost": 1000,
-        "quantity": 910
+        "quantity": 719
       },
       {
         "id": 197,
         "name": "Ecstasy",
-        "cost": 31089,
+        "cost": 31166,
         "quantity": 495
       },
       {
@@ -538,7 +538,7 @@
       {
         "id": 196,
         "name": "Cannabis",
-        "cost": 3015,
+        "cost": 3018,
         "quantity": 369
       },
       {
@@ -551,7 +551,7 @@
         "id": 266,
         "name": "Nessie Plushie",
         "cost": 200,
-        "quantity": 889
+        "quantity": 668
       },
       {
         "id": 397,
@@ -574,7 +574,7 @@
       {
         "id": 201,
         "name": "PCP",
-        "cost": 5933,
+        "cost": 5950,
         "quantity": 1010
       },
       {
@@ -610,7 +610,7 @@
       {
         "id": 206,
         "name": "Xanax",
-        "cost": 818056,
+        "cost": 818799,
         "quantity": 2286
       },
       {
@@ -655,13 +655,13 @@
         "id": 271,
         "name": "Ceibo Flower",
         "cost": 500,
-        "quantity": 5325
+        "quantity": 4966
       },
       {
         "id": 269,
         "name": "Monkey Plushie",
         "cost": 400,
-        "quantity": 1202
+        "quantity": 0
       },
       {
         "id": 257,
@@ -672,19 +672,19 @@
       {
         "id": 196,
         "name": "Cannabis",
-        "cost": 3144,
+        "cost": 3141,
         "quantity": 1002
       },
       {
         "id": 198,
         "name": "Ketamine",
-        "cost": 1046,
+        "cost": 1044,
         "quantity": 471
       },
       {
         "id": 204,
         "name": "Speed",
-        "cost": 5153,
+        "cost": 5136,
         "quantity": 1000
       },
       {
@@ -714,14 +714,14 @@
       {
         "id": 199,
         "name": "LSD",
-        "cost": 18595,
+        "cost": 18630,
         "quantity": 47
       },
       {
         "id": 256,
         "name": "Tear Gas",
         "cost": 15000,
-        "quantity": 0
+        "quantity": 81
       },
       {
         "id": 270,
@@ -732,7 +732,7 @@
       {
         "id": 203,
         "name": "Shrooms",
-        "cost": 1038,
+        "cost": 1039,
         "quantity": 547
       },
       {
@@ -744,19 +744,19 @@
       {
         "id": 1503,
         "name": "Chalcedony Point",
-        "cost": 125230,
-        "quantity": 457
+        "cost": 125186,
+        "quantity": 396
       },
       {
         "id": 1488,
         "name": "Meteorite Fragment",
-        "cost": 444704,
+        "cost": 443471,
         "quantity": 0
       },
       {
         "id": 1487,
         "name": "Patagonian Fossil",
-        "cost": 656974,
+        "cost": 656290,
         "quantity": 0
       }
     ],
@@ -765,13 +765,13 @@
         "id": 273,
         "name": "Chamois Plushie",
         "cost": 400,
-        "quantity": 501
+        "quantity": 269
       },
       {
         "id": 272,
         "name": "Edelweiss",
         "cost": 900,
-        "quantity": 5882
+        "quantity": 5794
       },
       {
         "id": 436,
@@ -794,7 +794,7 @@
       {
         "id": 204,
         "name": "Speed",
-        "cost": 5075,
+        "cost": 5082,
         "quantity": 219
       },
       {
@@ -812,7 +812,7 @@
       {
         "id": 201,
         "name": "PCP",
-        "cost": 6719,
+        "cost": 6691,
         "quantity": 389
       },
       {
@@ -824,7 +824,7 @@
       {
         "id": 199,
         "name": "LSD",
-        "cost": 26971,
+        "cost": 26956,
         "quantity": 134
       },
       {
@@ -837,7 +837,7 @@
         "id": 222,
         "name": "Flash Grenade",
         "cost": 12000,
-        "quantity": 242
+        "quantity": 165
       },
       {
         "id": 435,
@@ -848,7 +848,7 @@
       {
         "id": 203,
         "name": "Shrooms",
-        "cost": 963,
+        "cost": 964,
         "quantity": 713
       },
       {
@@ -860,14 +860,14 @@
       {
         "id": 1491,
         "name": "Ergotamine Ampoule",
-        "cost": 4628,
-        "quantity": 2091
+        "cost": 4623,
+        "quantity": 1987
       },
       {
         "id": 1490,
         "name": "Safrole Oil",
         "cost": 4821,
-        "quantity": 1000
+        "quantity": 976
       }
     ],
     "jap": [
@@ -1221,7 +1221,7 @@
         "id": 385,
         "name": "Tribulus Omanense",
         "cost": 6000,
-        "quantity": 7656
+        "quantity": 7532
       },
       {
         "id": 381,
@@ -1233,25 +1233,25 @@
         "id": 384,
         "name": "Camel Plushie",
         "cost": 14000,
-        "quantity": 2433
+        "quantity": 1464
       },
       {
         "id": 1264,
         "name": "Potassium Nitrate",
         "cost": 3750,
-        "quantity": 1921
+        "quantity": 1752
       },
       {
         "id": 1495,
         "name": "Ambergris Lump",
-        "cost": 328026,
+        "cost": 328139,
         "quantity": 0
       },
       {
         "id": 1496,
         "name": "Natural Pearls",
-        "cost": 91014,
-        "quantity": 952
+        "cost": 91102,
+        "quantity": 889
       }
     ],
     "sou": [

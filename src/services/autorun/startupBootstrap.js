@@ -22,6 +22,7 @@ import { botStatusHandler } from './handlers/botStatusHandler.js';
 import { jobHandler } from './handlers/jobHandler.js';
 import { workPerformanceHandler } from './handlers/workPerformanceHandler.js';
 import { bazaarHandler } from './handlers/bazaarHandler.js';
+import { itemMarketHandler } from './handlers/itemMarketHandler.js';
 import { networthTrendHandler } from './handlers/networthTrendHandler.js';
 import { networthDeltaHandler } from './handlers/networthDeltaHandler.js';
 import { assetDistributionHandler } from './handlers/assetDistributionHandler.js';
@@ -70,6 +71,7 @@ export async function startupBootstrap(client) {
     registerHandler('jobHandler', jobHandler);
     registerHandler('workPerformanceHandler', workPerformanceHandler);
     registerHandler('bazaarHandler', bazaarHandler);
+    registerHandler('itemMarketHandler', itemMarketHandler);
     registerHandler('networthTrendHandler', networthTrendHandler);
     registerHandler('networthDeltaHandler', networthDeltaHandler);
     registerHandler('assetDistributionHandler', assetDistributionHandler);

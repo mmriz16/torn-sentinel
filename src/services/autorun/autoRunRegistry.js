@@ -301,6 +301,16 @@ export const AUTO_RUNNERS = {
         enabled: true
     },
 
+    itemMarketListings: {
+        key: 'itemMarketListings',
+        name: 'Item Market Listings',
+        emoji: '🏪',
+        interval: 5 * 60 * 1000, // 5m
+        channelEnvKey: 'ITEM_MARKET_CHANNEL_ID',
+        handler: 'itemMarketHandler',
+        enabled: true
+    },
+
     // ═══════════════════════════════════════════════════════════════════
     // 📊 MARKET & ECONOMY (NETWORTH ANALYZER)
     // ═══════════════════════════════════════════════════════════════════
