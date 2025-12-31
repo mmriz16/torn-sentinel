@@ -4,144 +4,144 @@
     "channelId": "1454852371560796180",
     "messageId": "1455378119429980200",
     "createdAt": 1766998053635,
-    "updatedAt": 1767162892220,
-    "lastRun": 1767162892220
+    "updatedAt": 1767166865449,
+    "lastRun": 1767166865449
   },
   "personalStats": {
     "enabled": true,
     "channelId": "1454852447938936832",
     "messageId": "1455378123033022569",
     "createdAt": 1766998054308,
-    "updatedAt": 1767162833263,
-    "lastRun": 1767162833263
+    "updatedAt": 1767166866475,
+    "lastRun": 1767166866475
   },
   "gym": {
     "enabled": true,
     "channelId": "1454852547918561340",
     "messageId": "1455120053434323036",
     "createdAt": 1766998054915,
-    "updatedAt": 1767162894213,
-    "lastRun": 1767162894213
+    "updatedAt": 1767166867678,
+    "lastRun": 1767166867678
   },
   "work": {
     "enabled": true,
     "channelId": "1454852668957786216",
     "messageId": "1455120056148168889",
     "createdAt": 1766998055777,
-    "updatedAt": 1767162534440,
-    "lastRun": 1767162534440
+    "updatedAt": 1767166868860,
+    "lastRun": 1767166868860
   },
   "foreignMarket.argentina": {
     "enabled": true,
     "channelId": "1454855530181951564",
     "messageId": "1455120769959989268",
     "createdAt": 1766998056382,
-    "updatedAt": 1767162895732,
-    "lastRun": 1767162895732
+    "updatedAt": 1767166901302,
+    "lastRun": 1767166901302
   },
   "foreignMarket.canada": {
     "enabled": true,
     "channelId": "1454855379488866357",
     "messageId": "1455120771138457661",
     "createdAt": 1766998056584,
-    "updatedAt": 1767162896448,
-    "lastRun": 1767162896448
+    "updatedAt": 1767166900704,
+    "lastRun": 1767166900704
   },
   "foreignMarket.cayman": {
     "enabled": true,
     "channelId": "1455091732671889512",
     "messageId": "1455120773063770226",
     "createdAt": 1766998056787,
-    "updatedAt": 1767162897299,
-    "lastRun": 1767162897299
+    "updatedAt": 1767166901617,
+    "lastRun": 1767166901617
   },
   "foreignMarket.china": {
     "enabled": true,
     "channelId": "1455091662890991762",
     "messageId": "1455120774602952756",
     "createdAt": 1766998056989,
-    "updatedAt": 1767162898027,
-    "lastRun": 1767162898027
+    "updatedAt": 1767166902496,
+    "lastRun": 1767166902496
   },
   "foreignMarket.hawaii": {
     "enabled": true,
     "channelId": "1455091704469131266",
     "messageId": "1455120776373211180",
     "createdAt": 1766998057191,
-    "updatedAt": 1767162898791,
-    "lastRun": 1767162898791
+    "updatedAt": 1767166903332,
+    "lastRun": 1767166903332
   },
   "foreignMarket.japan": {
     "enabled": true,
     "channelId": "1454855192179769549",
     "messageId": "1455120778306654258",
     "createdAt": 1766998057392,
-    "updatedAt": 1767162899623,
-    "lastRun": 1767162899623
+    "updatedAt": 1767166904061,
+    "lastRun": 1767166904061
   },
   "foreignMarket.mexico": {
     "enabled": true,
     "channelId": "1454855303660044490",
     "messageId": "1455120780030640161",
     "createdAt": 1766998057590,
-    "updatedAt": 1767162900209,
-    "lastRun": 1767162900209
+    "updatedAt": 1767166904727,
+    "lastRun": 1767166904727
   },
   "foreignMarket.southafrica": {
     "enabled": true,
     "channelId": "1455091454170103841",
     "messageId": "1455120781704171684",
     "createdAt": 1766998057792,
-    "updatedAt": 1767162900917,
-    "lastRun": 1767162900917
+    "updatedAt": 1767166905613,
+    "lastRun": 1767166905613
   },
   "foreignMarket.switzerland": {
     "enabled": true,
     "channelId": "1454855598452510891",
     "messageId": "1455120783469838460",
     "createdAt": 1766998058000,
-    "updatedAt": 1767162901782,
-    "lastRun": 1767162901782
+    "updatedAt": 1767166906456,
+    "lastRun": 1767166906456
   },
   "foreignMarket.uk": {
     "enabled": true,
     "channelId": "1454855463928598741",
     "messageId": "1455120785202221089",
     "createdAt": 1766998058201,
-    "updatedAt": 1767162902601,
-    "lastRun": 1767162902601
+    "updatedAt": 1767166876895,
+    "lastRun": 1767166876895
   },
   "foreignMarket.uae": {
     "enabled": true,
     "channelId": "1454855653649813566",
     "messageId": "1455120786808639665",
     "createdAt": 1766998058401,
-    "updatedAt": 1767162903226,
-    "lastRun": 1767162903226
+    "updatedAt": 1767166878013,
+    "lastRun": 1767166878013
   },
   "bestTravelRoute": {
     "enabled": true,
     "channelId": "1454853799532429322",
     "messageId": "1455140868045672500",
     "createdAt": 1767003017690,
-    "updatedAt": 1767162903935,
-    "lastRun": 1767162903935
+    "updatedAt": 1767166878715,
+    "lastRun": 1767166878715
   },
   "travelProfitSummary": {
     "enabled": true,
     "channelId": "1454853903589048394",
     "messageId": "1455140870054482044",
     "createdAt": 1767003018329,
-    "updatedAt": 1767162544433,
-    "lastRun": 1767162544433
+    "updatedAt": 1767166879676,
+    "lastRun": 1767166879676
   },
   "cooldownCheck": {
     "enabled": true,
     "channelId": "1454853966079852636",
     "messageId": "1455140872760070208",
     "createdAt": 1767003018903,
-    "updatedAt": 1767162906167,
-    "lastRun": 1767162906167
+    "updatedAt": 1767166880594,
+    "lastRun": 1767166880594
   },
   "tradeDetection": {
     "enabled": true,
@@ -155,40 +155,40 @@
     "channelId": "1454850868888338659",
     "messageId": "1455404462125482028",
     "createdAt": 1767065863705,
-    "updatedAt": 1767162906845,
-    "lastRun": 1767162906845
+    "updatedAt": 1767166881750,
+    "lastRun": 1767166881750
   },
   "companyInfo": {
     "enabled": true,
     "channelId": "1454853520804020377",
     "messageId": "1455455375242563768",
     "createdAt": 1767077644725,
-    "updatedAt": 1767162547478,
-    "lastRun": 1767162547478
+    "updatedAt": 1767166883062,
+    "lastRun": 1767166883062
   },
   "jobOverview": {
     "enabled": true,
     "channelId": "1454853586696540285",
     "messageId": "1455455379843580019",
     "createdAt": 1767077644944,
-    "updatedAt": 1767162548837,
-    "lastRun": 1767162548837
+    "updatedAt": 1767166884414,
+    "lastRun": 1767166884414
   },
   "workPerformance": {
     "enabled": true,
     "channelId": "1454853656410325054",
     "messageId": "1455455383219863553",
     "createdAt": 1767077645213,
-    "updatedAt": 1767162549817,
-    "lastRun": 1767162549817
+    "updatedAt": 1767166885531,
+    "lastRun": 1767166885531
   },
   "bazaarCheck": {
     "enabled": true,
     "channelId": "1454853117026766961",
     "messageId": "1455460896447926314",
     "createdAt": 1767079317596,
-    "updatedAt": 1767162853371,
-    "lastRun": 1767162853371
+    "updatedAt": 1767166887360,
+    "lastRun": 1767166887360
   },
   "networthTrend": {
     "enabled": true,
@@ -219,15 +219,15 @@
     "channelId": "1455480520325726291",
     "messageId": "1455485015331700818",
     "createdAt": 1767085003801,
-    "updatedAt": 1767162853422,
-    "lastRun": 1767162853422
+    "updatedAt": 1767166888525,
+    "lastRun": 1767166888525
   },
   "profitEngine": {
     "enabled": true,
     "channelId": "1455486834686824573",
     "messageId": "1455490029244911714",
     "createdAt": 1767086264033,
-    "updatedAt": 1767162854658,
-    "lastRun": 1767162854658
+    "updatedAt": 1767166889833,
+    "lastRun": 1767166889833
   }
 }

@@ -4,7 +4,7 @@
  * Uses direct API log selection for accurate event tracking
  */
 
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import { get } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney } from '../../../utils/formatters.js';
@@ -21,6 +21,7 @@ import {
 } from '../../../localization/index.js';
 
 const STATE_FILE = './data/activity-log-state.json';
+const ITEMS_PER_PAGE = 5;
 
 // Category icons mapping
 const CATEGORY_ICONS = {
@@ -43,6 +44,17 @@ const CATEGORY_ICONS = {
     'Education': '📚',
     'Drug': '💊',
     'Points': '💎',
+    'Bounty': '💰',
+    'Property': '🏠',
+    'Bazaar': '🏪',
+    'Stock market': '📈',
+    'Bank': '🏦',
+    'Messages': '💬',
+    'Events': '🎉',
+    'Classified Ads': '📰',
+    'Awards': '🏆',
+    'Points market': '💎',
+    'Item use': '🎁',
     'default': '📌'
 };
 
@@ -59,11 +71,33 @@ const CATEGORY_COLORS = {
     'Missions': 0xF39C12,    // Yellow
     'Merits': 0xF1C40F,      // Gold
     'Authentication': 0x95A5A6, // Gray
+    'Casino': 0xF39C12,      // Yellow-orange
+    'Racing': 0xE74C3C,      // Red
+    'Faction': 0xE74C3C,     // Red
+    'War': 0xE74C3C,         // Red
+    'Trade': 0x2ECC71,       // Green
+    'Education': 0x3498DB,   // Blue
+    'Drug': 0x9B59B6,        // Purple
+    'Points': 0xF1C40F,      // Gold
+    'Bounty': 0xF39C12,      // Yellow-orange
+    'Property': 0x1ABC9C,    // Teal
+    'Bazaar': 0x2ECC71,      // Green
+    'Stock market': 0x2ECC71, // Green
+    'Bank': 0x1ABC9C,        // Teal
+    'Messages': 0x3498DB,    // Blue
+    'Events': 0xF39C12,      // Yellow-orange
+    'Classified Ads': 0x95A5A6, // Gray
+    'Awards': 0xF1C40F,      // Gold
+    'Points market': 0xF1C40F,  // Gold
+    'Item use': 0x9B59B6,    // Purple
     'default': 0x3498DB
 };
 
 // Last processed log timestamp to avoid duplicates - persisted
 let lastProcessedTimestamp = loadLastTimestamp();
+
+// Category tracking
+const CATEGORY_STATE_FILE = './data/activity-categories.json';
 
 function loadLastTimestamp() {
     if (existsSync(STATE_FILE)) {
@@ -83,6 +117,42 @@ function saveLastTimestamp(timestamp) {
         writeFileSync(STATE_FILE, JSON.stringify({ lastProcessedTimestamp: timestamp }, null, 2));
     } catch (e) {
         console.error('❌ Error saving activity log state:', e.message);
+    }
+}
+
+/**
+ * Load known categories from persistent storage
+ */
+function loadKnownCategories() {
+    if (existsSync(CATEGORY_STATE_FILE)) {
+        try {
+            const data = JSON.parse(readFileSync(CATEGORY_STATE_FILE, 'utf8'));
+            return data.categories || {};
+        } catch (e) {
+            return {};
+        }
+    }
+    return {};
+}
+
+/**
+ * Save a newly discovered category
+ */
+function saveKnownCategory(category) {
+    const known = loadKnownCategories();
+    if (!known[category]) {
+        known[category] = {
+            firstSeen: Date.now(),
+            icon: CATEGORY_ICONS[category] || CATEGORY_ICONS.default,
+            color: CATEGORY_COLORS[category] || CATEGORY_COLORS.default
+        };
+
+        try {
+            writeFileSync(CATEGORY_STATE_FILE, JSON.stringify({ categories: known }, null, 2));
+            console.log(`📌 New activity category discovered: "${category}"`);
+        } catch (e) {
+            console.error('❌ Error saving category:', e.message);
+        }
     }
 }
 
@@ -189,9 +259,19 @@ function formatNumber(num) {
 /**
  * Activity Log Handler
  * @param {Client} client - Discord client
- * @returns {EmbedBuilder|null}
+ * @returns {Object|null} - { embeds: [...], components: [...] }
  */
 export async function activityLogHandler(client) {
+    return getActivityLogPage(client, 0);
+}
+
+/**
+ * Get activity log page with pagination
+ * @param {Client} client - Discord client
+ * @param {number} page - Page number (0-indexed)
+ * @returns {Object|null} - { embeds: [...], components: [...] }
+ */
+export async function getActivityLogPage(client, page = 0) {
     try {
         const users = getAllUsers();
         const userIds = Object.keys(users);
@@ -217,43 +297,49 @@ export async function activityLogHandler(client) {
                 .setDescription('```Tidak ada aktivitas terbaru```')
                 .setFooter({ text: 'Torn Sentinel • API Logs' })
                 .setTimestamp();
-            return embed;
+            return { embeds: [embed], components: [] };
         }
 
-        // Send notifications for NEW events (since last check)
-        const channelId = process.env.ACTIVITY_LOG_CHANNEL_ID;
-        if (channelId && lastProcessedTimestamp > 0) {
-            const newEntries = entries.filter(e => e.timestamp > lastProcessedTimestamp);
+        // Send notifications for NEW events (since last check) - only on page 0
+        if (page === 0) {
+            const channelId = process.env.ALERT_CHANNEL_ID; // Send to alerts channel, not activity log channel
+            if (channelId && lastProcessedTimestamp > 0) {
+                const newEntries = entries.filter(e => e.timestamp > lastProcessedTimestamp);
 
-            if (newEntries.length > 0 && newEntries.length <= 5) {
-                try {
-                    const channel = await client.channels.fetch(channelId);
+                if (newEntries.length > 0 && newEntries.length <= 5) {
+                    try {
+                        const channel = await client.channels.fetch(channelId);
 
-                    for (const entry of newEntries.reverse()) { // Send oldest first
-                        const color = CATEGORY_COLORS[entry.category] || CATEGORY_COLORS.default;
-                        const miniEmbed = new EmbedBuilder()
-                            .setColor(color)
-                            .setDescription(formatLogEntry(entry))
-                            .setTimestamp(new Date(entry.timestamp * 1000));
+                        for (const entry of newEntries.reverse()) { // Send oldest first
+                            const color = CATEGORY_COLORS[entry.category] || CATEGORY_COLORS.default;
+                            const miniEmbed = new EmbedBuilder()
+                                .setColor(color)
+                                .setDescription(formatLogEntry(entry))
+                                .setTimestamp(new Date(entry.timestamp * 1000));
 
-                        await channel.send({ embeds: [miniEmbed] });
+                            await channel.send({ embeds: [miniEmbed] });
+                        }
+                    } catch (e) {
+                        console.error('❌ Failed to send activity notification:', e.message);
                     }
-                } catch (e) {
-                    console.error('❌ Failed to send activity notification:', e.message);
                 }
             }
-        }
 
-        // Update last processed timestamp and persist
-        if (entries.length > 0) {
-            lastProcessedTimestamp = entries[0].timestamp;
-            saveLastTimestamp(lastProcessedTimestamp);
+            // Update last processed timestamp and persist
+            if (entries.length > 0) {
+                lastProcessedTimestamp = entries[0].timestamp;
+                saveLastTimestamp(lastProcessedTimestamp);
+            }
         }
 
         // Group by category - only keep the LATEST entry per category
         const latestByCategory = new Map();
         for (const entry of entries) {
             const cat = entry.category || 'Other';
+
+            // Auto-register new category
+            saveKnownCategory(cat);
+
             if (!latestByCategory.has(cat)) {
                 latestByCategory.set(cat, entry);
             }
@@ -263,15 +349,24 @@ export async function activityLogHandler(client) {
         const sortedCategories = Array.from(latestByCategory.entries())
             .sort((a, b) => b[1].timestamp - a[1].timestamp);
 
+        // Pagination
+        const totalCategories = sortedCategories.length;
+        const totalPages = Math.ceil(totalCategories / ITEMS_PER_PAGE);
+        const currentPage = Math.max(0, Math.min(page, totalPages - 1)); // Clamp page
+
+        const start = currentPage * ITEMS_PER_PAGE;
+        const end = start + ITEMS_PER_PAGE;
+        const paginatedCategories = sortedCategories.slice(start, end);
+
         // Find the newest entry overall
         const newestTimestamp = sortedCategories.length > 0 ? sortedCategories[0][1].timestamp : 0;
 
         const lines = [];
         lines.push('─────────────────────────────────────────────────────────────');
 
-        // Add entries sorted by time (newest first)
-        for (const [cat, entry] of sortedCategories) {
-            const isNewest = entry.timestamp === newestTimestamp;
+        // Add paginated entries
+        for (const [cat, entry] of paginatedCategories) {
+            const isNewest = entry.timestamp === newestTimestamp && currentPage === 0;
             lines.push(formatCategoryBlock(entry, isNewest));
         }
 
@@ -279,10 +374,29 @@ export async function activityLogHandler(client) {
             .setColor(0x3498DB)
             .setTitle(getUi('activity_log'))
             .setDescription(lines.join('\n'))
-            .setFooter({ text: `Torn Sentinel • ${latestByCategory.size} categories` })
+            .setFooter({ text: `Page ${currentPage + 1}/${totalPages} • ${latestByCategory.size} categories total` })
             .setTimestamp();
 
-        return embed;
+        // Create pagination buttons
+        const components = [];
+        if (totalPages > 1) {
+            const buttons = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId(`activity_log_prev:${currentPage}`)
+                        .setLabel('◀ Previous')
+                        .setStyle(ButtonStyle.Secondary)
+                        .setDisabled(currentPage === 0),
+                    new ButtonBuilder()
+                        .setCustomId(`activity_log_next:${currentPage}`)
+                        .setLabel('Next ▶')
+                        .setStyle(ButtonStyle.Secondary)
+                        .setDisabled(currentPage >= totalPages - 1)
+                );
+            components.push(buttons);
+        }
+
+        return { embeds: [embed], components };
 
     } catch (error) {
         console.error('❌ Activity Log Handler Error:', error.message);
@@ -448,6 +562,35 @@ function formatLogText(entry) {
 
         case 'Authentication':
             return applyTemplate('login', {});
+
+        case 'Awards':
+            // Title change awards
+            if (entry.log === 5140 && entry.data?.title) {
+                return `Berganti title menjadi "${entry.data.title}"`;
+            }
+            return entry.title;
+
+        case 'Faction':
+            // Faction position change, member joined/left, etc.
+            if (entry.data?.position_after !== undefined) {
+                return `Posisi faction berubah`;
+            }
+            return entry.title;
+
+        case 'Points market':
+            // Points market transactions
+            if (entry.data?.cost_total) {
+                return `Transaksi Points Market: $${formatMoney(entry.data.cost_total)}`;
+            }
+            return entry.title;
+
+        case 'Item use':
+            // Item usage
+            if (entry.data?.item) {
+                const itemName = getItemName(entry.data.item);
+                return `Menggunakan ${itemName}`;
+            }
+            return entry.title;
 
         default:
             return entry.title || 'Activity recorded';

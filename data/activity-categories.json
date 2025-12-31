@@ -1,0 +1,79 @@
+{
+  "categories": {
+    "Awards": {
+      "firstSeen": 1767166187603,
+      "icon": "📌",
+      "color": 3447003
+    },
+    "Travel": {
+      "firstSeen": 1767166187604,
+      "icon": "✈️",
+      "color": 3447003
+    },
+    "Crimes": {
+      "firstSeen": 1767166187605,
+      "icon": "🧠",
+      "color": 10181046
+    },
+    "Gym": {
+      "firstSeen": 1767166187608,
+      "icon": "🏋️",
+      "color": 5811455
+    },
+    "Missions": {
+      "firstSeen": 1767166187610,
+      "icon": "🎯",
+      "color": 15965202
+    },
+    "Merits": {
+      "firstSeen": 1767166187611,
+      "icon": "🏅",
+      "color": 15844367
+    },
+    "Hospital": {
+      "firstSeen": 1767166187613,
+      "icon": "🏥",
+      "color": 15158332
+    },
+    "Attacking": {
+      "firstSeen": 1767166187614,
+      "icon": "⚔️",
+      "color": 15158332
+    },
+    "Company": {
+      "firstSeen": 1767166187618,
+      "icon": "🏢",
+      "color": 1752220
+    },
+    "Authentication": {
+      "firstSeen": 1767166187619,
+      "icon": "🔐",
+      "color": 9807270
+    },
+    "Item market": {
+      "firstSeen": 1767166187621,
+      "icon": "🛒",
+      "color": 3066993
+    },
+    "Jail": {
+      "firstSeen": 1767166187625,
+      "icon": "🔒",
+      "color": 15105570
+    },
+    "Points market": {
+      "firstSeen": 1767166187632,
+      "icon": "📌",
+      "color": 3447003
+    },
+    "Item use": {
+      "firstSeen": 1767166187652,
+      "icon": "📌",
+      "color": 3447003
+    },
+    "Faction": {
+      "firstSeen": 1767166187662,
+      "icon": "⚔️",
+      "color": 15158332
+    }
+  }
+}

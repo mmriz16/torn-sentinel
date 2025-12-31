@@ -138,22 +138,33 @@ async function runTick(runnerKey, runner, handler, channelId) {
         const userList = Object.values(users);
         const user = userList.length > 0 ? userList[0] : null;
 
-        // Call handler to get embed content (can be single embed or array)
+        // Call handler to get embed content
         const result = await handler(discordClient, user);
 
         if (!result) {
             return; // Handler returned nothing (e.g., error)
         }
 
-        // Handle both single embed and array of embeds
-        const embeds = Array.isArray(result) ? result : [result];
+        // Handle different return formats:
+        // 1. New format: { embeds: [...], components: [...] }
+        // 2. Old format: single EmbedBuilder or array of EmbedBuilder
+        let embeds, components = [];
+
+        if (result.embeds && Array.isArray(result.embeds)) {
+            // New format with components
+            embeds = result.embeds;
+            components = result.components || [];
+        } else {
+            // Old format - single embed or array
+            embeds = Array.isArray(result) ? result : [result];
+        }
 
         if (message) {
-            // Edit existing message (use all embeds in one message)
-            await message.edit({ embeds: embeds });
+            // Edit existing message
+            await message.edit({ embeds, components });
         } else {
-            // Create new message with all embeds
-            const newMessage = await channel.send({ embeds: embeds });
+            // Create new message
+            const newMessage = await channel.send({ embeds, components });
             setMessageId(runnerKey, newMessage.id);
             console.log(`✅ Created new message for ${runnerKey} (${embeds.length} embeds)`);
         }

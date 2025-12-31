@@ -98,6 +98,11 @@ async function handleButton(interaction, client) {
                 await handleStopRefresh(interaction, client, params[0]);
                 break;
 
+            case 'activity_log_prev':
+            case 'activity_log_next':
+                await handleActivityLogPagination(interaction, client, action, params);
+                break;
+
             default:
                 console.warn(`⚠️ Unknown button action: ${action}`);
         }
@@ -135,6 +140,38 @@ async function handleStopRefresh(interaction, client, intervalKey) {
     } else {
         await interaction.reply({
             content: '⚠️ No active refresh to stop.',
+            ephemeral: true
+        });
+    }
+}
+
+/**
+ * Handle activity log pagination buttons
+ */
+async function handleActivityLogPagination(interaction, client, action, params) {
+    const currentPage = parseInt(params[0]) || 0;
+    const newPage = action === 'activity_log_next' ? currentPage + 1 : currentPage - 1;
+
+    try {
+        // Import handler
+        const { getActivityLogPage } = await import('../services/autorun/handlers/activityLogHandler.js');
+
+        // Get new page
+        const result = await getActivityLogPage(client, newPage);
+
+        if (result) {
+            // Update message with new page
+            await interaction.update(result);
+        } else {
+            await interaction.reply({
+                content: '❌ Failed to load activity log',
+                ephemeral: true
+            });
+        }
+    } catch (error) {
+        console.error('❌ Error loading activity log page:', error);
+        await interaction.reply({
+            content: '❌ An error occurred while loading the page',
             ephemeral: true
         });
     }
