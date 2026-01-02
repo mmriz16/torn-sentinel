@@ -1,17 +1,17 @@
 /**
  * Bot Status Handler for Auto-Run
  * Displays real-time health overview of bot systems
+ * Includes per-runner health check with failure alerts
  */
 
 import { EmbedBuilder } from 'discord.js';
-import { getActiveSchedulers } from '../schedulerEngine.js';
+import { getActiveSchedulers, getSchedulerHealth } from '../schedulerEngine.js';
 import { getAllRunnerStates } from '../runtimeStateManager.js';
 import { getAllUsers } from '../../userStorage.js';
 import { getLogStats } from '../../system/systemLogger.js';
 import { getUi } from '../../../localization/index.js';
 import { AUTO_RUNNERS } from '../autoRunRegistry.js';
 import { formatTimeShort } from '../../../utils/formatters.js';
-
 
 // Track bot start time
 const BOT_START_TIME = Date.now();
@@ -23,6 +23,13 @@ let apiStats = {
     requestCount: 0,
     errorCount: 0
 };
+
+// Track last alert time to prevent spam
+let lastAlertTime = 0;
+const ALERT_COOLDOWN = 5 * 60 * 1000; // 5 minutes between alerts
+
+// Store client reference for alerts
+let discordClient = null;
 
 /**
  * Update API stats (called from API wrapper)
@@ -48,12 +55,108 @@ export function getApiStats() {
 }
 
 /**
+ * Check runner health and send alert if needed
+ */
+async function checkAndAlertHealth(client, runnerStates, activeSchedulers) {
+    const now = Date.now();
+    const problems = [];
+
+    // Check each active runner for staleness
+    for (const key of activeSchedulers) {
+        const state = runnerStates[key];
+        const runner = AUTO_RUNNERS[key];
+
+        if (!state || !runner) continue;
+
+        // Skip if lastRun is missing (not an error, just not tracked)
+        if (!state.lastRun) continue;
+
+        // Check if stale (10x the expected interval)
+        const maxAge = runner.interval * 10;
+        const age = now - state.lastRun;
+
+        if (age > maxAge) {
+            const agoMins = Math.floor(age / 60000);
+            problems.push({
+                name: runner.name || key,
+                emoji: runner.emoji || '❓',
+                age: `${agoMins}m ago`,
+                error: state.lastError || null
+            });
+        }
+
+        // Check consecutive errors
+        if (state.errorCount && state.errorCount >= 5) {
+            if (!problems.find(p => p.name === (runner.name || key))) {
+                problems.push({
+                    name: runner.name || key,
+                    emoji: runner.emoji || '❓',
+                    age: 'Error',
+                    error: state.lastError || 'Multiple consecutive failures'
+                });
+            }
+        }
+    }
+
+    // Send alert if problems found and cooldown passed
+    if (problems.length > 0 && (now - lastAlertTime) > ALERT_COOLDOWN) {
+        await sendHealthAlert(client, problems);
+        lastAlertTime = now;
+    }
+
+    return problems;
+}
+
+/**
+ * Send health alert to notification channel
+ */
+async function sendHealthAlert(client, problems) {
+    const alertChannelId = process.env.ALERT_CHANNEL_ID;
+    if (!alertChannelId) return;
+
+    try {
+        const channel = await client.channels.fetch(alertChannelId);
+        if (!channel) return;
+
+        const embed = new EmbedBuilder()
+            .setColor(0xE74C3C) // Red
+            .setTitle('🚨 System Health Alert')
+            .setDescription(`**${problems.length}** runner(s) are experiencing issues!`)
+            .setTimestamp();
+
+        // List problems
+        const problemList = problems.slice(0, 10).map(p =>
+            `${p.emoji} **${p.name}**: ${p.age}${p.error ? ` - \`${p.error.substring(0, 50)}\`` : ''}`
+        ).join('\n');
+
+        embed.addFields({
+            name: '⚠️ Affected Runners',
+            value: problemList || 'Unknown issues',
+            inline: false
+        });
+
+        embed.addFields({
+            name: '💡 Suggested Action',
+            value: 'Check Render logs or restart the bot if issues persist.',
+            inline: false
+        });
+
+        await channel.send({ embeds: [embed] });
+        console.log(`🚨 Sent health alert for ${problems.length} runners`);
+
+    } catch (error) {
+        console.error('❌ Failed to send health alert:', error.message);
+    }
+}
+
+/**
  * Bot status handler - builds health overview embed
  * @param {Client} client - Discord client
  * @returns {EmbedBuilder}
  */
 export async function botStatusHandler(client) {
     try {
+        discordClient = client;
         const now = Math.floor(Date.now() / 1000);
         const uptimeMs = Date.now() - BOT_START_TIME;
 
@@ -68,44 +171,69 @@ export async function botStatusHandler(client) {
         const users = getAllUsers();
         const userCount = Object.keys(users).length;
         const logStats = getLogStats();
+        const schedulerHealth = getSchedulerHealth();
+
+        // Check health and send alerts if needed
+        const problems = await checkAndAlertHealth(client, runnerStates, activeSchedulers);
 
         // Count runner types
         const foreignMarketRunners = activeSchedulers.filter(k => k.startsWith('foreignMarket.')).length;
         const globalRunners = activeSchedulers.filter(k => !k.startsWith('foreignMarket.') && !k.includes(':')).length;
         const personalRunners = activeSchedulers.filter(k => k.includes(':')).length;
 
+        // Count healthy runners
+        const healthyCount = Object.values(schedulerHealth).filter(h => h.healthy).length;
+        const totalCount = Object.keys(schedulerHealth).length;
+
+        // Determine overall status color
+        const statusColor = problems.length === 0 ? 0x2ECC71 : (problems.length < 3 ? 0xF39C12 : 0xE74C3C);
+        const statusEmoji = problems.length === 0 ? '🟢' : (problems.length < 3 ? '🟡' : '🔴');
+        const statusText = problems.length === 0 ? 'All Systems Operational' : `${problems.length} Runner(s) Degraded`;
+
         // Build embed
         const embed = new EmbedBuilder()
-            .setColor(0x2ECC71) // Green = healthy
+            .setColor(statusColor)
             .setTitle(`🤖 Torn Sentinel — ${getUi('system_status')}`)
-            .setDescription('────────────────────────────────────────────────');
+            .setDescription(`**${statusEmoji} ${statusText}**\n────────────────────────────────────────────────`);
 
         // Bot Status section
         embed.addFields({
-            name: `🟢 ${getUi('bot_status')}`,
+            name: `📊 ${getUi('bot_status')}`,
             value: [
                 `• ${getUi('online_since')}: <t:${Math.floor(BOT_START_TIME / 1000)}:f>`,
                 `• ${getUi('uptime')}: \`${uptimeStr}\``,
-                `• ${getUi('version')}: \`v1.4.0\``,
-                `• ${getUi('environment')}: \`${process.env.RENDER_SERVICE_NAME || 'Local'}\``
+                `• ${getUi('version')}: \`v1.5.0\``,
+                `• ${getUi('environment')}: \`${process.env.RENDER_SERVICE_NAME || 'Local'}\``,
+                `• Memory: \`${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB\``
             ].join('\n'),
             inline: false
         });
 
-        // Core Systems section
-        const schedulerStatus = activeSchedulers.length > 0 ? '✅ Running' : '⚠️ Idle';
-        const alertStatus = process.env.ALERT_ENABLED !== 'false' ? '✅ Active' : '❌ Disabled';
-        const tradeStatus = process.env.TRADE_HISTORY_CHANNEL_ID ? '✅ Active' : '⚠️ Not configured';
+        // Runner Health section (NEW)
+        const healthStatus = problems.length === 0
+            ? '✅ All runners healthy'
+            : problems.slice(0, 5).map(p => `❌ ${p.emoji} ${p.name}`).join('\n');
 
         embed.addFields({
-            name: `⚙️ ${getUi('core_systems')}`,
+            name: '🏥 Runner Health',
             value: [
-                `• Scheduler Engine: ${schedulerStatus}`,
-                `• Auto-Run Bootstrap: ✅ Loaded`,
-                `• Alert Engine: ${alertStatus}`,
-                `• Trade Detection: ${tradeStatus}`
+                `• Healthy: \`${healthyCount}/${totalCount}\``,
+                `• Stale/Error: \`${problems.length}\``,
+                '',
+                healthStatus
             ].join('\n'),
-            inline: false
+            inline: true
+        });
+
+        // Runners section
+        embed.addFields({
+            name: '🧠 Active Runners',
+            value: [
+                `• Global: \`${globalRunners}\``,
+                `• Personal: \`${personalRunners}\``,
+                `• Foreign Markets: \`${foreignMarketRunners}\``
+            ].join('\n'),
+            inline: true
         });
 
         // API Health section
@@ -115,20 +243,10 @@ export async function botStatusHandler(client) {
         embed.addFields({
             name: `📡 ${getUi('api_health')}`,
             value: [
-                `• Torn API: ${apiHealth} (avg ${avgMs}ms)`,
-                `• ${getUi('requests')}: \`${apiStats.requestCount}\``,
-                `• ${getUi('errors')}: \`${apiStats.errorCount}\``
-            ].join('\n'),
-            inline: true
-        });
-
-        // Runners section
-        embed.addFields({
-            name: '🧠 Runners',
-            value: [
-                `• Global: \`${globalRunners}\` active`,
-                `• Personal: \`${personalRunners}\` users`,
-                `• Foreign Markets: \`${foreignMarketRunners}\` countries`
+                `• Torn API: ${apiHealth}`,
+                `• Avg Response: \`${avgMs}ms\``,
+                `• Requests: \`${apiStats.requestCount}\``,
+                `• Errors: \`${apiStats.errorCount}\``
             ].join('\n'),
             inline: true
         });
@@ -142,19 +260,18 @@ export async function botStatusHandler(client) {
         embed.addFields({
             name: `💾 ${getUi('storage')}`,
             value: [
-                `• Users loaded: \`${userCount}\``,
+                `• Users: \`${userCount}\``,
                 `• Runners tracked: \`${Object.keys(runnerStates).length}\``,
-                `• Log entries: \`${logStats.total}\``,
-                `• Last update: \`${lastUpdateAgo}s ago\``
+                `• Logs: \`${logStats.total}\``,
+                `• Last update: \`${lastUpdateAgo}s\``
             ].join('\n'),
-            inline: false
+            inline: true
         });
 
         // Footer with last update timestamp
         const interval = formatTimeShort(AUTO_RUNNERS.botStatus.interval);
         embed.setTimestamp()
-            .setFooter({ text: `Last Update: <t:${now}:R> • Refresh every ${interval}` });
-
+            .setFooter({ text: `Health check every ${interval} • Alerts to #notifications` });
 
         return embed;
 

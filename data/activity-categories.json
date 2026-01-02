@@ -79,6 +79,26 @@
       "firstSeen": 1767167567553,
       "icon": "💬",
       "color": 3447003
+    },
+    "Level up": {
+      "firstSeen": 1767318287140,
+      "icon": "📌",
+      "color": 3447003
+    },
+    "Life": {
+      "firstSeen": 1767318287141,
+      "icon": "📌",
+      "color": 3447003
+    },
+    "Drugs": {
+      "firstSeen": 1767318287145,
+      "icon": "📌",
+      "color": 3447003
+    },
+    "Viruses": {
+      "firstSeen": 1767318287150,
+      "icon": "📌",
+      "color": 3447003
     }
   }
 }

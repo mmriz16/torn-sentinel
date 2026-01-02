@@ -11,7 +11,8 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { startDailySummary } from './services/dailySummary.js';
 import { startAlertScheduler, stopAlertScheduler } from './services/alerts/index.js';
-import { startupBootstrap, stopAllSchedulers, forceSaveRuntimeState } from './services/autorun/index.js';
+import { startupBootstrap, stopAllSchedulers, forceSaveRuntimeState, getActiveSchedulers, getSchedulerHealth } from './services/autorun/index.js';
+import { getAllRunnerStates } from './services/autorun/runtimeStateManager.js';
 
 // Load environment variables
 config();
@@ -22,6 +23,57 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     res.send('Torn Sentinel is alive');
+});
+
+// Enhanced health endpoint for monitoring
+app.get('/health', (req, res) => {
+    const schedulerHealth = getSchedulerHealth();
+    const runnerStates = getAllRunnerStates();
+    const activeSchedulers = getActiveSchedulers();
+
+    // Count healthy vs unhealthy
+    const healthyCount = Object.values(schedulerHealth).filter(h => h.healthy).length;
+    const totalCount = Object.keys(schedulerHealth).length;
+
+    // Find stale runners (not updated in 10x their interval)
+    const now = Date.now();
+    const staleRunners = [];
+    for (const [key, state] of Object.entries(runnerStates)) {
+        if (state.lastRun && (now - state.lastRun) > 10 * 60 * 1000) { // 10 min threshold
+            staleRunners.push(key);
+        }
+    }
+
+    res.json({
+        status: healthyCount === totalCount && staleRunners.length === 0 ? 'ok' : 'degraded',
+        uptime: Math.floor(process.uptime()),
+        memory: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + 'MB',
+        schedulers: {
+            active: activeSchedulers.length,
+            healthy: healthyCount,
+            total: totalCount
+        },
+        staleRunners: staleRunners.slice(0, 5), // Show first 5
+        timestamp: new Date().toISOString()
+    });
+});
+
+// Detailed status endpoint
+app.get('/status', (req, res) => {
+    const runnerStates = getAllRunnerStates();
+    const now = Date.now();
+
+    const status = {};
+    for (const [key, state] of Object.entries(runnerStates)) {
+        const ago = state.lastRun ? Math.floor((now - state.lastRun) / 1000) : null;
+        status[key] = {
+            lastRun: ago !== null ? `${ago}s ago` : 'never',
+            errorCount: state.errorCount || 0,
+            lastError: state.lastError || null
+        };
+    }
+
+    res.json(status);
 });
 
 app.listen(PORT, () => {

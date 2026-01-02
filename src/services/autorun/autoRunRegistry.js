@@ -238,7 +238,7 @@ export const AUTO_RUNNERS = {
         name: 'Market Alerts',
         emoji: '🔔',
         interval: 30 * 1000, // 30s (match cache update)
-        channelEnvKey: null, // User specific channels, logic handled in engine
+        channelEnvKey: 'FOREIGN_MARKET_ALERTS_CHANNEL_ID',
         handler: 'marketAlertHandler',
         enabled: true
     },

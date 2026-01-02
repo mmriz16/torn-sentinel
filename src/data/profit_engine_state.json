@@ -1,5 +1,5 @@
 {
-  "date": "2025-12-31",
+  "date": "2026-01-02",
   "income": {
     "travel": 0,
     "crime": 0,
@@ -7,7 +7,7 @@
     "other": 0
   },
   "expense": {
-    "property": 712710,
+    "property": 712700,
     "xanax": 0,
     "travel_buy": 0,
     "tax": 0,
@@ -19,5 +19,5 @@
     "xanaxUsed": 0,
     "hoursActive": 0
   },
-  "lastUpdate": 1767144856241
+  "lastUpdate": 1767318288297
 }

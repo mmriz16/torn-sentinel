@@ -26,6 +26,10 @@ const handlers = new Map();
 // Discord client reference
 let discordClient = null;
 
+// Error tracking for consecutive failures
+const errorCounts = new Map();
+const MAX_CONSECUTIVE_ERRORS = 5;
+
 /**
  * Set Discord client reference
  */
@@ -142,7 +146,10 @@ async function runTick(runnerKey, runner, handler, channelId) {
         const result = await handler(discordClient, user);
 
         if (!result) {
-            return; // Handler returned nothing (e.g., error)
+            // Handler returned nothing - it may handle its own messages (e.g., tradeHandler)
+            // Still update lastRun to track that it executed successfully
+            setRunnerState(runnerKey, { lastRun: Date.now() });
+            return;
         }
 
         // Handle different return formats:
@@ -178,8 +185,23 @@ async function runTick(runnerKey, runner, handler, channelId) {
         }
 
     } catch (error) {
-        console.error(`❌ Error in ${runnerKey} tick:`, error.message);
-        // Don't stop scheduler on error - just skip this tick
+        // Track consecutive errors
+        const errorCount = (errorCounts.get(runnerKey) || 0) + 1;
+        errorCounts.set(runnerKey, errorCount);
+
+        console.error(`❌ Error in ${runnerKey} tick (${errorCount}/${MAX_CONSECUTIVE_ERRORS}):`, error.message);
+
+        // Update state with error info
+        setRunnerState(runnerKey, {
+            lastError: error.message,
+            lastErrorTime: Date.now(),
+            errorCount
+        });
+
+        // If too many consecutive errors, log warning but keep trying
+        if (errorCount >= MAX_CONSECUTIVE_ERRORS) {
+            console.warn(`⚠️ ${runnerKey} has failed ${errorCount} times consecutively`);
+        }
     }
 }
 
@@ -218,4 +240,19 @@ export function getActiveSchedulers() {
  */
 export function isSchedulerRunning(runnerKey) {
     return activeSchedulers.has(runnerKey);
+}
+
+/**
+ * Get health status of all schedulers
+ */
+export function getSchedulerHealth() {
+    const health = {};
+    for (const key of activeSchedulers.keys()) {
+        health[key] = {
+            running: true,
+            errorCount: errorCounts.get(key) || 0,
+            healthy: (errorCounts.get(key) || 0) < MAX_CONSECUTIVE_ERRORS
+        };
+    }
+    return health;
 }
