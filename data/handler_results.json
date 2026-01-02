@@ -1,0 +1,162 @@
+{
+  "jobHandler": {
+    "status": "SUCCESS",
+    "fields": [
+      {
+        "name": "Posisi",
+        "value": "Cashier"
+      },
+      {
+        "name": "Perusahaan",
+        "value": "Sweets, Wine and Taurine"
+      },
+      {
+        "name": "Rating",
+        "value": "⭐ 4"
+      },
+      {
+        "name": "JP Perusahaan",
+        "value": "```44```"
+      },
+      {
+        "name": "Masa Kerja",
+        "value": "```11 Hari```"
+      },
+      {
+        "name": "JP/Hari",
+        "value": "```4```"
+      },
+      {
+        "name": "Perk Aktif",
+        "value": "• + 10% consumable cooldown reduction"
+      },
+      {
+        "name": "Perk Berikutnya",
+        "value": "• Cek panel perusahaan"
+      }
+    ]
+  },
+  "workHandler": {
+    "status": "SUCCESS",
+    "fields": [
+      {
+        "name": "📊｜Total Stats",
+        "value": "```20,482```"
+      },
+      {
+        "name": "🧠｜Kecerdasan",
+        "value": "```5,567```"
+      },
+      {
+        "name": "💪｜Ketahanan",
+        "value": "```10,275```"
+      },
+      {
+        "name": "🔧｜Kerja Manual",
+        "value": "```4,640```"
+      },
+      {
+        "name": "🏢｜Perusahaan",
+        "value": "```Sweets, Wine and Taurine```"
+      },
+      {
+        "name": "🏭｜Tipe",
+        "value": "```Grocery Store```"
+      },
+      {
+        "name": "👷｜Posisi",
+        "value": "```Cashier```"
+      },
+      {
+        "name": "📅｜Hari",
+        "value": "```11```"
+      },
+      {
+        "name": "💵｜Gaji",
+        "value": "```$50,000/hari```"
+      },
+      {
+        "name": "⭐｜Rating",
+        "value": "```⭐⭐☆☆☆```"
+      },
+      {
+        "name": "💰｜Poin Kerja",
+        "value": "```0```"
+      }
+    ]
+  },
+  "workPerformanceHandler": {
+    "status": "SUCCESS",
+    "fields": [
+      {
+        "name": "Job Points Rate",
+        "value": "4 / Hari"
+      },
+      {
+        "name": "Rating",
+        "value": "4 ⭐"
+      },
+      {
+        "name": "Posisi",
+        "value": "Cashier"
+      },
+      {
+        "name": "Perusahaan",
+        "value": "Sweets, Wine and Taurine"
+      },
+      {
+        "name": "Masa Kerja",
+        "value": "11 Hari"
+      },
+      {
+        "name": "Siap Promosi",
+        "value": "❓ Cek panel perusahaan"
+      },
+      {
+        "name": "recommendation",
+        "value": "```✔ Lumayan. Cari perusahaan 7*+ untuk perk lebih baik.```"
+      }
+    ]
+  },
+  "companyHandler": {
+    "status": "SUCCESS",
+    "fields": [
+      {
+        "name": "Nama",
+        "value": "Sweets, Wine and Taurine"
+      },
+      {
+        "name": "Tipe",
+        "value": "Grocery Store"
+      },
+      {
+        "name": "Rating",
+        "value": "⭐ 4"
+      },
+      {
+        "name": "Karyawan",
+        "value": "12 / 12"
+      },
+      {
+        "name": "Umur (Hari)",
+        "value": "58 Hari"
+      },
+      {
+        "name": "​",
+        "value": "​"
+      },
+      {
+        "name": "Pendapatan Harian",
+        "value": "```$1,723,207```"
+      },
+      {
+        "name": "Pendapatan Mingguan",
+        "value": "```$11,385,251```"
+      },
+      {
+        "name": "Pelanggan Harian",
+        "value": "```23.689```"
+      }
+    ]
+  }
+}

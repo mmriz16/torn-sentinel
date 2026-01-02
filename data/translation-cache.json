@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "lastSaved": 1767162571930,
+  "lastSaved": 1767345775070,
   "stats": {
     "hits": 0,
-    "misses": 6,
-    "aiCalls": 6
+    "misses": 8,
+    "aiCalls": 8
   },
   "entries": {
     "2c0c02ce3248903c": {
@@ -54,6 +54,22 @@
       "confidence": "ai",
       "createdAt": 1767162571929,
       "lastUsed": 1767162571929
+    },
+    "d9b06d2ac836f925": {
+      "sourceText": "A very large box of chocolate bars. Provides a small happiness increase when consumed.",
+      "translatedText": "Sebuah kotak besar permen cokelat. Memberikan peningkatan kebahagiaan kecil ketika dikonsumsi.",
+      "lang": "id",
+      "confidence": "ai",
+      "createdAt": 1767345774714,
+      "lastUsed": 1767345774714
+    },
+    "0669e412bf26203a": {
+      "sourceText": "Increases happiness by 35 and booster cooldown by 30 minutes.",
+      "translatedText": "Meningkatkan kebahagiaan oleh 35 dan mengurangi waktu istirahat booster oleh 30 menit.",
+      "lang": "id",
+      "confidence": "ai",
+      "createdAt": 1767345775070,
+      "lastUsed": 1767345775070
     }
   }
 }

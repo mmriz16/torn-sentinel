@@ -21,17 +21,16 @@ export async function workPerformanceHandler(client) {
         const user = users[userId];
         if (!user.apiKey) return null;
 
-        // 1. Fetch Job data (V2 API with selections)
+        // v2 for job data (rating, days_in_company only available in v2)
         const jobData = await getV2(user.apiKey, 'user?selections=job');
 
         if (!jobData.job) return null;
 
         const job = jobData.job;
-        const companyId = job.id;
 
-        // 2. Fetch Company details for more info
+        // Company rating = JP per day
         let companyRating = job.rating || 0;
-        let jpRate = companyRating; // Company rating = JP per day
+        let jpRate = companyRating;
 
         // 3. Determine if optimal
         const isOptimal = jpRate >= 7;

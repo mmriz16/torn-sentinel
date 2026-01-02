@@ -4,7 +4,7 @@
  */
 
 import { EmbedBuilder } from 'discord.js';
-import { getV2, getCombinedStats } from '../../tornApi.js';
+import { getCombinedStats, getV2 } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatNumber, formatTimeShort } from '../../../utils/formatters.js';
 import { getUi } from '../../../localization/index.js';
@@ -21,26 +21,23 @@ export async function jobHandler(client) {
         const user = users[userId];
         if (!user.apiKey) return null;
 
-        // Fetch Job data (V2 API with selections)
-        const jobData = await getV2(user.apiKey, 'user?selections=job');
+        // Fetch in parallel:
+        // - v2 for job (rating, days_in_company only available in v2)
+        // - v1 for jobpoints and perks
+        const [v2JobData, v1Data] = await Promise.all([
+            getV2(user.apiKey, 'user?selections=job'),
+            getCombinedStats(user.apiKey, 'jobpoints,perks')
+        ]);
 
-        if (!jobData.job) return null;
+        const job = v2JobData.job || {};
+        const companyPoints = v1Data.jobpoints?.companies || {};
+        const jobPerks = v1Data.job_perks || [];
 
-        const job = jobData.job;
+        if (!job.id) return null; // Not employed
 
-        // Fetch Job Points (V2 API with selections)
-        const jpData = await getV2(user.apiKey, 'user?selections=jobpoints').catch(() => ({ jobpoints: {} }));
-
-        // Calculate total job points from all sources
-        const jobPoints = jpData.jobpoints?.jobs || {};
-        const companyPoints = jpData.jobpoints?.companies || [];
-
-        // Current company JP
-        const currentCompanyJP = companyPoints.find(c => c.company?.id === job.type_id)?.points || 0;
-
-        // Perks from V1 API (still works!)
-        const perksData = await getCombinedStats(user.apiKey, 'perks').catch(() => ({ job_perks: [] }));
-        const jobPerks = perksData.job_perks || [];
+        // Current company JP - companies is keyed by company TYPE (type_id), not company ID!
+        const companyJP = companyPoints[job.type_id];
+        const currentCompanyJP = companyJP?.jobpoints || 0;
 
         // Active Perks List
         const activePerksList = jobPerks.length > 0

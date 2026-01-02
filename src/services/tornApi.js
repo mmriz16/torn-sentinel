@@ -7,6 +7,62 @@ const TORN_API_BASE = 'https://api.torn.com';
 const TORN_API_V2_BASE = 'https://api.torn.com/v2';
 const REQUEST_TIMEOUT = 10000; // 10 seconds
 
+// ═══════════════════════════════════════════════════════════════════
+// 📊 API REQUEST RATE MONITOR
+// ═══════════════════════════════════════════════════════════════════
+
+const requestLog = [];
+const RATE_WINDOW_MS = 60 * 1000; // 1 minute window
+const RATE_LIMIT_WARNING = 80; // Warn at 80 requests/minute
+const RATE_LIMIT_MAX = 100; // Torn's limit is ~100/minute
+
+/**
+ * Track a new API request
+ */
+function trackRequest(endpoint) {
+    const now = Date.now();
+    requestLog.push({ timestamp: now, endpoint });
+
+    // Cleanup old entries (older than 1 minute)
+    while (requestLog.length > 0 && requestLog[0].timestamp < now - RATE_WINDOW_MS) {
+        requestLog.shift();
+    }
+
+    // Log warning if approaching limit
+    if (requestLog.length >= RATE_LIMIT_WARNING && requestLog.length % 10 === 0) {
+        console.warn(`⚠️ API Rate Warning: ${requestLog.length}/${RATE_LIMIT_MAX} requests/min`);
+    }
+}
+
+/**
+ * Get current API request stats
+ * @returns {Object} Stats object with current request count and rate
+ */
+export function getApiStats() {
+    const now = Date.now();
+
+    // Filter to only requests within last minute
+    const recentRequests = requestLog.filter(r => r.timestamp > now - RATE_WINDOW_MS);
+
+    // Group by endpoint
+    const byEndpoint = {};
+    for (const req of recentRequests) {
+        const key = req.endpoint || 'unknown';
+        byEndpoint[key] = (byEndpoint[key] || 0) + 1;
+    }
+
+    return {
+        requestsPerMinute: recentRequests.length,
+        limit: RATE_LIMIT_MAX,
+        usage: `${recentRequests.length}/${RATE_LIMIT_MAX}`,
+        usagePercent: Math.round((recentRequests.length / RATE_LIMIT_MAX) * 100),
+        byEndpoint,
+        status: recentRequests.length >= RATE_LIMIT_WARNING ? '⚠️ HIGH' :
+            recentRequests.length >= RATE_LIMIT_MAX * 0.5 ? '🟡 MEDIUM' : '🟢 LOW'
+    };
+}
+
+
 /**
  * Make a request to Torn API v1
  * @param {string} apiKey - User's Torn API key
@@ -16,6 +72,9 @@ const REQUEST_TIMEOUT = 10000; // 10 seconds
  * @returns {Promise<object>} API response data
  */
 export async function get(apiKey, endpoint, selections, options = {}) {
+    // Track this request for rate monitoring
+    trackRequest(`v1/${endpoint}/${selections}`);
+
     const url = new URL(`${TORN_API_BASE}/${endpoint}`);
     url.searchParams.set('selections', selections);
     url.searchParams.set('key', apiKey);
@@ -76,6 +135,9 @@ export async function get(apiKey, endpoint, selections, options = {}) {
  * @returns {Promise<object>} API response data
  */
 export async function getV2(apiKey, endpoint) {
+    // Track this request for rate monitoring
+    trackRequest(`v2/${endpoint}`);
+
     const url = new URL(`${TORN_API_V2_BASE}/${endpoint}`);
     url.searchParams.set('key', apiKey);
 
@@ -171,5 +233,6 @@ export default {
     get,
     getV2,
     verifyApiKey,
+    getApiStats,
     TornApiError
 };

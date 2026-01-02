@@ -1,0 +1,60 @@
+{
+  "user/jobs": {
+    "error": "Wrong fields"
+  },
+  "user/jobpoints": {
+    "jobpoints": {
+      "jobs": {
+        "army": 2,
+        "medical": 5,
+        "casino": 2113,
+        "education": 5,
+        "law": 5,
+        "grocer": 1
+      },
+      "companies": {
+        "12": {
+          "name": "Grocery Store",
+          "jobpoints": 44
+        }
+      }
+    }
+  },
+  "user/workstats": {
+    "manual_labor": 4640,
+    "intelligence": 5567,
+    "endurance": 10275
+  },
+  "user/perks": {
+    "faction_perks": [
+      "+ 34% drug addiction gain reduction",
+      "+ 6 travel item capacity"
+    ],
+    "job_perks": [
+      "+ 10% consumable cooldown reduction"
+    ],
+    "property_perks": [
+      "+ Access to airstrip",
+      "+ 2% damage",
+      "+ 2% gym gains"
+    ],
+    "education_perks": [
+      "+ Ability to create websites in Bootlegging and Scamming",
+      "+ Cracking unlocked",
+      "+ Ability to code Simple viruses",
+      "+ Driving crimes unlocked",
+      "+ 1.0 temporary weapon accuracy"
+    ],
+    "enhancer_perks": [
+      "+ 4 travel items (Large Suitcase)"
+    ],
+    "book_perks": [],
+    "stock_perks": [],
+    "merit_perks": [
+      "+ 7 maximum nerve",
+      "+ 20% awareness",
+      "+ 3% passive crime XP",
+      "+ 8% education length reduction"
+    ]
+  }
+}

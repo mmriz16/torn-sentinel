@@ -77,25 +77,43 @@ export function wasDetectedRecently(type, uniqueId, thresholdMs = 60000) {
 
 /**
  * Detect BUY Trades
- * Logic: User Abroad + Cash Dropped
+ * Logic: User was/is Abroad + Cash Dropped
  * Method: Find item in that country where (Price * Qty) ≈ CashDrop
+ * 
+ * Enhanced: Also detects BUY when user is traveling BACK to Torn or just arrived
+ * by checking if the previous snapshot was from a foreign country.
  */
 async function detectBuyTrades(userId, prevSnapshot, currentSnapshot) {
     const trades = [];
 
-    // Must be abroad or traveling
-    if (currentSnapshot.location === 'Torn') return [];
+    // Determine the relevant country for item lookup
+    // Priority: 
+    // 1. If currently abroad → use current location
+    // 2. If currently Torn/Traveling but prevSnapshot was abroad → use prevSnapshot location
+    let buyCountry = null;
+
+    if (currentSnapshot.location !== 'Torn' && currentSnapshot.location !== 'Traveling') {
+        // Currently abroad
+        buyCountry = currentSnapshot.location;
+    } else if (prevSnapshot.location && prevSnapshot.location !== 'Torn' && prevSnapshot.location !== 'Traveling') {
+        // Was abroad in previous snapshot, now traveling back or in Torn
+        buyCountry = prevSnapshot.location;
+        console.log(`📍 User moved from ${prevSnapshot.location} → ${currentSnapshot.location}, checking for pending BUY...`);
+    }
+
+    // If we don't have a foreign country to check, skip BUY detection
+    if (!buyCountry) return [];
 
     // Must have lost cash
     const cashDiff = prevSnapshot.cash - currentSnapshot.cash;
     if (cashDiff <= CONFIG.MIN_BUY_COST) return []; // No significant spending
 
-    console.log(`📉 Cash Drop Detected in ${currentSnapshot.location}: $${cashDiff}`);
+    console.log(`📉 Cash Drop Detected (from ${buyCountry}): $${cashDiff.toLocaleString()}`);
 
     // Fetch items available in this country
-    const countryItems = await getCountryItems(currentSnapshot.location);
+    const countryItems = await getCountryItems(buyCountry);
     if (countryItems.length === 0) {
-        console.log(`⚠️ No YATA item data for ${currentSnapshot.location}`);
+        console.log(`⚠️ No YATA item data for ${buyCountry}`);
         return [];
     }
 
@@ -152,8 +170,8 @@ async function detectBuyTrades(userId, prevSnapshot, currentSnapshot) {
                 qty: bestMatch.qty,
                 unitPrice: bestMatch.unitPrice,
                 totalCost: bestMatch.totalCost,
-                country: currentSnapshot.location,
-                countryFlag: COUNTRIES[Object.keys(COUNTRIES).find(k => COUNTRIES[k].name === currentSnapshot.location)]?.emoji || '🌍'
+                country: buyCountry,
+                countryFlag: COUNTRIES[Object.keys(COUNTRIES).find(k => COUNTRIES[k].name === buyCountry)]?.emoji || '🌍'
             };
 
             const record = recordBuy(userId, trade);

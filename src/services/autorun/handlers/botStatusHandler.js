@@ -241,15 +241,22 @@ export async function botStatusHandler(client) {
         embeds.push(activeRunnersEmbed);
 
         // 4. API Health embed
+        // Get rate stats from tornApi
+        const { getApiStats: getTornApiStats } = await import('../../tornApi.js');
+        const rateStats = getTornApiStats();
+
         const apiHealth = apiStats.errorCount === 0 ? '🟢 OK' : '🟡 Degraded';
         const avgMs = apiStats.avgResponseTime || 0;
+        const rateStatus = rateStats.status;
 
         const apiHealthEmbed = new EmbedBuilder()
             .setColor(statusColor)
             .setTitle('📡｜Kesehatan API')
             .setDescription(separator)
             .addFields(
-                { name: 'Torn API', value: `\`\`\`${apiHealth}\`\`\``, inline: false },
+                { name: 'Torn API', value: `\`\`\`${apiHealth}\`\`\``, inline: true },
+                { name: 'Rate/Min', value: `\`\`\`${rateStats.usage} ${rateStatus}\`\`\``, inline: true },
+                { name: '\u200B', value: '\u200B', inline: true }, // spacer
                 { name: 'Avg Response', value: `\`\`\`${avgMs}ms\`\`\``, inline: true },
                 { name: 'Requests', value: `\`\`\`${apiStats.requestCount}\`\`\``, inline: true },
                 { name: 'Errors', value: `\`\`\`${apiStats.errorCount}\`\`\``, inline: true }

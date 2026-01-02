@@ -1,9 +1,9 @@
 {
   "471702596541743105": {
     "lastSnapshot": {
-      "timestamp": 1767328003,
+      "timestamp": 1767349041,
       "location": "UAE",
-      "cash": 1127600,
+      "cash": 777600,
       "inventory": {},
       "listings": [
         {
@@ -17,9 +17,9 @@
       ]
     },
     "currentSnapshot": {
-      "timestamp": 1767328011,
+      "timestamp": 1767349071,
       "location": "UAE",
-      "cash": 1127600,
+      "cash": 777600,
       "inventory": {},
       "listings": [
         {

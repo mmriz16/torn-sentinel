@@ -1,0 +1,13 @@
+{
+  "v1_profile_job": {
+    "job": "Employee",
+    "position": "Cashier",
+    "company_id": 120121,
+    "company_name": "Sweets, Wine and Taurine",
+    "company_type": 12
+  },
+  "missing_fields": [
+    "rating",
+    "days_in_company"
+  ]
+}

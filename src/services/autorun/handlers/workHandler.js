@@ -4,7 +4,7 @@
  */
 
 import { EmbedBuilder } from 'discord.js';
-import { get, getV2 } from '../../tornApi.js';
+import { get } from '../../tornApi.js';
 import { getAllUsers, getUser } from '../../userStorage.js';
 import { formatNumber, formatTimeShort } from '../../../utils/formatters.js';
 import { getUi, getStat, fromDictionary } from '../../../localization/index.js';
@@ -55,12 +55,25 @@ export async function workHandler(client) {
         const user = users[discordUserId];
         const tornId = user.tornId;
 
-        // Fetch from API v1 (company) and v2 (workstats, jobpoints)
-        const [companyData, workstatsData, jobpointsData] = await Promise.all([
+        // OPTIMIZED: Reduced from 3 calls to 2
+        // - Company data (v1) - separate endpoint
+        // - User data (v1) - workstats + jobpoints combined
+        const [companyData, userData] = await Promise.all([
             get(user.apiKey, 'company', 'employees,profile'),
-            getV2(user.apiKey, 'user/workstats'),
-            getV2(user.apiKey, 'user/jobpoints')
+            get(user.apiKey, 'user', 'workstats,jobpoints')
         ]);
+
+        // Map v1 response structure to expected format
+        // v1 returns workstats fields at root level: manual_labor, intelligence, endurance
+        const workstatsData = {
+            workstats: {
+                manual_labor: userData.manual_labor || 0,
+                intelligence: userData.intelligence || 0,
+                endurance: userData.endurance || 0,
+                total: (userData.manual_labor || 0) + (userData.intelligence || 0) + (userData.endurance || 0)
+            }
+        };
+        const jobpointsData = { jobpoints: userData.jobpoints || {} };
 
         return buildWorkEmbed(companyData, workstatsData, jobpointsData, tornId);
     } catch (error) {

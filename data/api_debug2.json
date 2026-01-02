@@ -1,0 +1,96 @@
+{
+  "user/profile": {
+    "rank": "Average Scavenger",
+    "level": 16,
+    "honor": 20,
+    "gender": "Male",
+    "property": "Private Island",
+    "signup": "2019-09-12 12:35:36",
+    "awards": 46,
+    "friends": 0,
+    "enemies": 0,
+    "forum_posts": 1,
+    "karma": 0,
+    "age": 2303,
+    "role": "Civilian",
+    "donator": 0,
+    "player_id": 2381000,
+    "name": "mmriz16",
+    "property_id": 5819211,
+    "revivable": 1,
+    "profile_image": "https://profileimages.torn.com/7dc51b28-55c5-4806-8bd4-3d11c7181ff4-2381000.png",
+    "life": {
+      "current": 675,
+      "maximum": 675
+    },
+    "status": {
+      "description": "Returning to Torn from UAE",
+      "details": "",
+      "state": "Traveling",
+      "color": "blue",
+      "until": 0,
+      "plane_image_type": "light_aircraft"
+    },
+    "job": {
+      "job": "Employee",
+      "position": "Cashier",
+      "company_id": 120121,
+      "company_name": "Sweets, Wine and Taurine",
+      "company_type": 12
+    },
+    "faction": {
+      "position": "Initiate",
+      "faction_id": 51896,
+      "days_in_faction": 7,
+      "faction_name": "We Are Rising II",
+      "faction_tag": "WAR",
+      "faction_tag_image": "51896-99816.png"
+    },
+    "married": {
+      "spouse_id": 0,
+      "spouse_name": "None",
+      "duration": 0
+    },
+    "basicicons": {
+      "icon6": "Male",
+      "icon27": "Company - Cashier of Sweets, Wine and Taurine (Grocery Store)",
+      "icon9": "Faction - Initiate of We Are Rising II",
+      "icon71": "Traveling"
+    },
+    "states": {
+      "hospital_timestamp": 0,
+      "jail_timestamp": 0
+    },
+    "last_action": {
+      "status": "Idle",
+      "timestamp": 1767332364,
+      "relative": "2 hours ago"
+    },
+    "competition": {
+      "name": "Rock, Paper, Scissors",
+      "status": "scissors",
+      "current_hp": 29,
+      "max_hp": 30
+    }
+  },
+  "user/basic": {
+    "level": 16,
+    "gender": "Male",
+    "player_id": 2381000,
+    "name": "mmriz16",
+    "status": {
+      "description": "Returning to Torn from UAE",
+      "details": "",
+      "state": "Traveling",
+      "color": "blue",
+      "until": 0,
+      "plane_image_type": "light_aircraft"
+    }
+  },
+  "user/job": {
+    "error": "This selection is only available in API v2"
+  },
+  "user/company": {
+    "error": "Wrong fields"
+  }
+}

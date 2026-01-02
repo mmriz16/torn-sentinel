@@ -18,7 +18,7 @@
         }
       },
       "education_current": 43,
-      "education_timeleft": 162180,
+      "education_timeleft": 141002,
       "education_completed": [
         23,
         52,
@@ -33,42 +33,42 @@
       "vault_amount": 0,
       "company_funds": 0,
       "daily_networth": 29766139,
-      "money_onhand": 1127600,
+      "money_onhand": 777600,
       "city_bank": {
         "amount": 0,
         "time_left": 0
       },
-      "server_time": 1767328025,
+      "server_time": 1767349083,
       "energy": {
-        "current": 55,
+        "current": 45,
         "maximum": 100,
         "increment": 5,
         "interval": 900,
-        "ticktime": 175,
-        "fulltime": 7375
+        "ticktime": 717,
+        "fulltime": 9717
       },
       "nerve": {
         "current": 22,
         "maximum": 22,
         "increment": 1,
         "interval": 300,
-        "ticktime": 175,
+        "ticktime": 117,
         "fulltime": 0
       },
       "happy": {
-        "current": 2825,
+        "current": 2819,
         "maximum": 2825,
         "increment": 5,
         "interval": 900,
-        "ticktime": 175,
-        "fulltime": 0
+        "ticktime": 717,
+        "fulltime": 1617
       },
       "life": {
         "current": 675,
         "maximum": 675,
         "increment": 33,
         "interval": 300,
-        "ticktime": 175,
+        "ticktime": 117,
         "fulltime": 0
       },
       "chain": {
@@ -86,9 +86,9 @@
       "travel": {
         "destination": "UAE",
         "method": "Airstrip",
-        "timestamp": 1767329286,
-        "departed": 1767317706,
-        "time_left": 1345
+        "timestamp": 1767353192,
+        "departed": 1767342152,
+        "time_left": 4182
       },
       "level": 16,
       "gender": "Male",
@@ -356,18 +356,26 @@
       "NEW_MESSAGE": false,
       "NEW_EVENT": false,
       "NERVE_FULL": true,
-      "HAPPY_FULL": true
+      "HAPPY_FULL": false,
+      "ENERGY_FULL": false,
+      "ENERGY_GYM_OPTIMAL": false,
+      "TRAVEL_RETURNING": false,
+      "TRAVEL_READY": false
     },
     "lastAlert": {
       "LIFE_FULL": 1767318260949,
       "NEW_MESSAGE": 1767318262045,
       "NEW_EVENT": 1767318262776,
-      "NERVE_FULL": 1767324418638,
-      "HAPPY_FULL": 1767325548315
+      "NERVE_FULL": 1767347107122,
+      "HAPPY_FULL": 1767325548315,
+      "ENERGY_FULL": 1767336276462,
+      "ENERGY_GYM_OPTIMAL": 1767336277037,
+      "TRAVEL_RETURNING": 1767340938521,
+      "TRAVEL_READY": 1767340938960
     },
-    "updatedAt": 1767328025173,
+    "updatedAt": 1767349083936,
     "recentAlerts": [
-      1767325548315
+      1767347107122
     ]
   }
 }

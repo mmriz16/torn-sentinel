@@ -4,7 +4,7 @@
  */
 
 import { EmbedBuilder } from 'discord.js';
-import { getV2 } from '../../tornApi.js';
+import { get, getV2 } from '../../tornApi.js';
 import { getAllUsers } from '../../userStorage.js';
 import { formatMoney, formatTimeShort } from '../../../utils/formatters.js';
 import { getUi, applyTemplate } from '../../../localization/index.js';
@@ -21,12 +21,12 @@ export async function companyHandler(client) {
         const user = users[userId];
         if (!user.apiKey) return null;
 
-        // 1. Get User Job to find Company ID (V2 API with selections)
-        const jobData = await getV2(user.apiKey, 'user?selections=job');
-        if (!jobData.job || !jobData.job.id) return null;
+        // 1. Get User Job to find Company ID (v1 API - profile contains job info)
+        const jobData = await get(user.apiKey, 'user', 'profile');
+        const job = jobData.job || {};
+        if (!job.company_id) return null; // Not employed at a company
 
-        const job = jobData.job;
-        const companyId = job.id;
+        const companyId = job.company_id;
 
         // 2. Get Company Profile (V2 API - direct endpoint)
         const companyRes = await getV2(user.apiKey, `company/${companyId}`);
