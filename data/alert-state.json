@@ -18,7 +18,7 @@
         }
       },
       "education_current": 43,
-      "education_timeleft": 167795,
+      "education_timeleft": 162180,
       "education_completed": [
         23,
         52,
@@ -38,37 +38,37 @@
         "amount": 0,
         "time_left": 0
       },
-      "server_time": 1767322290,
+      "server_time": 1767328025,
       "energy": {
-        "current": 25,
+        "current": 55,
         "maximum": 100,
         "increment": 5,
         "interval": 900,
-        "ticktime": 510,
-        "fulltime": 13110
+        "ticktime": 175,
+        "fulltime": 7375
       },
       "nerve": {
-        "current": 16,
+        "current": 22,
         "maximum": 22,
         "increment": 1,
         "interval": 300,
-        "ticktime": 210,
-        "fulltime": 1710
+        "ticktime": 175,
+        "fulltime": 0
       },
       "happy": {
-        "current": 2805,
+        "current": 2825,
         "maximum": 2825,
         "increment": 5,
         "interval": 900,
-        "ticktime": 510,
-        "fulltime": 3210
+        "ticktime": 175,
+        "fulltime": 0
       },
       "life": {
         "current": 675,
         "maximum": 675,
         "increment": 33,
         "interval": 300,
-        "ticktime": 210,
+        "ticktime": 175,
         "fulltime": 0
       },
       "chain": {
@@ -88,7 +88,7 @@
         "method": "Airstrip",
         "timestamp": 1767329286,
         "departed": 1767317706,
-        "time_left": 7011
+        "time_left": 1345
       },
       "level": 16,
       "gender": "Male",
@@ -354,18 +354,20 @@
     "flags": {
       "LIFE_FULL": true,
       "NEW_MESSAGE": false,
-      "NEW_EVENT": false
+      "NEW_EVENT": false,
+      "NERVE_FULL": true,
+      "HAPPY_FULL": true
     },
     "lastAlert": {
       "LIFE_FULL": 1767318260949,
       "NEW_MESSAGE": 1767318262045,
-      "NEW_EVENT": 1767318262776
+      "NEW_EVENT": 1767318262776,
+      "NERVE_FULL": 1767324418638,
+      "HAPPY_FULL": 1767325548315
     },
-    "updatedAt": 1767322291994,
+    "updatedAt": 1767328025173,
     "recentAlerts": [
-      1767318260949,
-      1767318262045,
-      1767318262776
+      1767325548315
     ]
   }
 }

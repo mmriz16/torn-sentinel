@@ -242,8 +242,118 @@ export function isSchedulerRunning(runnerKey) {
     return activeSchedulers.has(runnerKey);
 }
 
+// Health Monitoring State
+let healthMonitorInterval = null;
+let maxActiveRunners = 0;
+
 /**
- * Get health status of all schedulers
+ * Start the health monitoring service
+ */
+export function startHealthMonitor(client) {
+    if (healthMonitorInterval) return;
+
+    console.log('🏥 Health Monitor Service started (30s cycle)');
+
+    // Initial check
+    checkRunnerHealth(client);
+
+    healthMonitorInterval = setInterval(() => {
+        checkRunnerHealth(client);
+    }, 30000); // Check every 30s
+}
+
+/**
+ * Stop health monitor
+ */
+export function stopHealthMonitor() {
+    if (healthMonitorInterval) {
+        clearInterval(healthMonitorInterval);
+        healthMonitorInterval = null;
+    }
+}
+
+/**
+ * Core Health Check Logic
+ */
+async function checkRunnerHealth(client) {
+    const activeCount = activeSchedulers.size;
+
+    // 1. High-Water Mark Tracking
+    if (activeCount > maxActiveRunners) {
+        maxActiveRunners = activeCount;
+        console.log(`📈 New Runner Peak: ${maxActiveRunners} active runners`);
+    }
+
+    // 2. Staleness Check
+    const now = Date.now();
+    const TOLERANCE = 30000; // 30s tolerance
+
+    for (const runnerKey of activeSchedulers.keys()) {
+        const state = getRunnerState(runnerKey);
+        const runner = getRunner(runnerKey);
+
+        if (!runner) continue; // Should not happen if in activeSchedulers
+
+        const lastRun = state?.lastRun || 0;
+
+        // If never run, skip (it's starting up)
+        if (lastRun === 0) continue;
+
+        // Check if dead
+        const expectedNextRun = lastRun + runner.interval;
+        const deadThreshold = expectedNextRun + TOLERANCE;
+
+        if (now > deadThreshold) {
+            const lateMs = now - expectedNextRun;
+            const lateSec = Math.floor(lateMs / 1000);
+
+            console.warn(`🔴 DEAD RUNNER DETECTED: ${runnerKey} (Late by ${lateSec}s)`);
+
+            // Send Alert
+            await sendDeadRunnerAlert(client, runner, lateSec);
+        }
+    }
+}
+
+/**
+ * Send Dead Runner Alert
+ */
+async function sendDeadRunnerAlert(client, runner, lateSec) {
+    // Prevent spamming alerts (simple debounce could be added here if needed)
+    // For now, we alert every 30s if it stays dead, which is annoying but effective request.
+    // Better: Check if we recently alerted for this runner.
+
+    // We can reuse errorCounts for alert throttling or add a new state
+    const LOG_CHANNEL_ID = process.env.LOG_CHANNEL_ID || process.env.BOT_LOGS_CHANNEL_ID;
+    if (!LOG_CHANNEL_ID) return;
+
+    try {
+        const channel = await client.channels.fetch(LOG_CHANNEL_ID).catch(() => null);
+        if (!channel) return;
+
+        const embed = {
+            color: 0xE74C3C, // Red
+            title: '🔴 DEAD RUNNER DETECTED',
+            description: `**${runner.name}** has stopped updating!`,
+            fields: [
+                { name: 'Func ID', value: `\`${runner.key}\``, inline: true },
+                { name: 'Interval', value: `${runner.interval / 1000}s`, inline: true },
+                { name: 'Late By', value: `**${lateSec}s**`, inline: true },
+                { name: 'Status', value: '❌ Stalled / Hanging', inline: false }
+            ],
+            timestamp: new Date().toISOString(),
+            footer: { text: 'Torn Sentinel Health Monitor' }
+        };
+
+        await channel.send({ embeds: [embed] });
+
+    } catch (e) {
+        console.error('Failed to send dead runner alert:', e.message);
+    }
+}
+
+/**
+ * Get health status of all schedulers (Updated for Health Monitor)
  */
 export function getSchedulerHealth() {
     const health = {};
@@ -254,5 +364,14 @@ export function getSchedulerHealth() {
             healthy: (errorCounts.get(key) || 0) < MAX_CONSECUTIVE_ERRORS
         };
     }
+    // Inject maxActiveRunners info if needed externally?
+    // Using a property on the object or return separate stats
     return health;
+}
+
+export function getHealthStats() {
+    return {
+        activeRunners: activeSchedulers.size,
+        maxActiveRunners: maxActiveRunners
+    };
 }

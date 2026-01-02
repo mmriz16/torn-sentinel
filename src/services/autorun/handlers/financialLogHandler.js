@@ -5,30 +5,35 @@ import { addIncome, addExpense, incrementStat } from '../../analytics/profitEngi
 import { getAllUsers } from '../../userStorage.js';
 
 // Mapping of Log Types to Profit Categories
-// IDs based on research and observation
+// NOTE: Market/Bazaar buy/sell handled by tradeHandler (via inventory delta) - NOT here to avoid double counting
+// Categories match profitEngineStorage: income (travel, crime, job, other), expense (property, xanax, travel_buy, tax, other)
 const LOG_TYPES = {
-    // Market (Item Market)
-    1103: { type: 'expense', cat: 'expense_travel_buy', desc: 'Market Buy' },
-    1104: { type: 'income', cat: 'source_travel', desc: 'Market Sell' },
-    // Bazaar
-    1220: { type: 'expense', cat: 'expense_travel_buy', desc: 'Bazaar Buy' },
-    1221: { type: 'income', cat: 'source_travel', desc: 'Bazaar Sell' },
-    // Trades
-    3600: { type: 'expense', cat: 'expense_other', desc: 'Trade Accept (Buy?)' }, // Needs filtering
-    3602: { type: 'income', cat: 'source_other', desc: 'Trade Accept (Sell?)' }, // Needs filtering
-    // Properties
-    5937: { type: 'income', cat: 'source_other', desc: 'Property Rental' },
-    // Company
-    6300: { type: 'income', cat: 'source_job', desc: 'Company Pay' },
-    6301: { type: 'income', cat: 'source_job', desc: 'Company Bonus' },
-    // Faction
-    6811: { type: 'income', cat: 'source_other', desc: 'Faction Pay' },
-    // Missions
-    7815: { type: 'income', cat: 'source_crime', desc: 'Mission Reward' },
-    // Casino
-    8300: { type: 'income', cat: 'source_other', desc: 'Casino Win' }, // Slots
-    8301: { type: 'expense', cat: 'expense_other', desc: 'Casino Lose' },
-    // Generic fallback for others manually added later
+    // Trades (P2P trades - only money exchange, not inventory-based)
+    // 3600/3602 skipped - tradeHandler detects trades via inventory delta
+
+    // Properties - landlord income (not detected by tradeHandler)
+    5937: { type: 'income', cat: 'other', desc: 'Property Rental Income' },
+
+    // Company - company pay/bonus (not detected by tradeHandler)
+    6300: { type: 'income', cat: 'job', desc: 'Company Pay' },
+    6301: { type: 'income', cat: 'job', desc: 'Company Bonus' },
+
+    // Faction - faction pay (not detected by tradeHandler)
+    6811: { type: 'income', cat: 'other', desc: 'Faction Pay' },
+
+    // Crime/Missions - rewards (not detected by tradeHandler)
+    7815: { type: 'income', cat: 'crime', desc: 'Mission Reward' },
+    7800: { type: 'income', cat: 'crime', desc: 'Crime Reward' },
+
+    // Casino - wins/losses (not detected by tradeHandler)
+    8300: { type: 'income', cat: 'other', desc: 'Casino Win' },
+    8301: { type: 'expense', cat: 'other', desc: 'Casino Lose' },
+
+    // Bounties - bounty income (not detected by tradeHandler)
+    3101: { type: 'income', cat: 'crime', desc: 'Bounty Collected' },
+
+    // Mugging - mugging income (not detected by tradeHandler)
+    3401: { type: 'income', cat: 'crime', desc: 'Mugging Success' },
 };
 
 const processedLogIds = new Set(); // Runtime cache (reset on restart is OK if we check timestamp/state)

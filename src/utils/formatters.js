@@ -167,6 +167,26 @@ export function formatTime(seconds) {
 }
 
 /**
+ * Format timestamp to full relative time string with days (e.g. "2d 5h 30m")
+ * @param {number} seconds - Duration in seconds
+ * @returns {string} Formatted duration string with days
+ */
+export function formatTimeFull(seconds) {
+    if (!seconds || seconds <= 0) return 'Siap';
+
+    const d = Math.floor(seconds / 86400);
+    const h = Math.floor((seconds % 86400) / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+
+    const parts = [];
+    if (d > 0) parts.push(`${d}d`);
+    if (h > 0 || d > 0) parts.push(`${h}h`); // Always show hours if days exist
+    parts.push(`${m}m`); // Always show minutes
+
+    return parts.join(' ');
+}
+
+/**
  * Format milliseconds to short compact string (e.g. "5m", "30s")
  * @param {number} ms - Duration in milliseconds
  * @returns {string} Compact formatted string

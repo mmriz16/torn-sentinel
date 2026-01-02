@@ -5,7 +5,7 @@
 
 import { initRuntimeState, setRunnerEnabled, initRunner, isRunnerEnabled } from './runtimeStateManager.js';
 import { getConfiguredRunners, AUTO_RUNNERS, isForeignMarketRunner } from './autoRunRegistry.js';
-import { setSchedulerClient, startScheduler, registerHandler } from './schedulerEngine.js';
+import { setSchedulerClient, startScheduler, registerHandler, startHealthMonitor } from './schedulerEngine.js';
 
 // Import handlers
 import { walletHandler } from './handlers/walletHandler.js';
@@ -152,6 +152,10 @@ export async function startupBootstrap(client) {
             console.error(`❌ Failed to start ${runner.name}:`, error.message);
         }
     }
+
+
+    // Start Health Monitor (Watch dog)
+    startHealthMonitor(client);
 
     console.log('✅ Auto-Run Bootstrap complete!\n');
 }

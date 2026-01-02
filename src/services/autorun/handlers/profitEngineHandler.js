@@ -22,6 +22,7 @@ import { getRecentEvents } from '../../analytics/activityDetectionEngine.js';
 
 import { AUTO_RUNNERS } from '../autoRunRegistry.js';
 import { formatTimeShort } from '../../../utils/formatters.js';
+import { getRunnerFooter } from '../../../utils/footerHelper.js';
 
 // Track initialization and last update
 let initialized = false;
@@ -116,24 +117,31 @@ function processActivityEvents() {
 }
 
 /**
- * Calculate property expense from API data
+ * Calculate property expense from API data (V2 format)
+ * Only counts the ACTIVE property (the one user is currently using)
+ * Note: Rent is paid upfront, so only daily upkeep + staff is counted
  */
-function calculatePropertyExpense(properties) {
-    if (!properties || typeof properties !== 'object') return 0;
+function calculatePropertyExpense(properties, myTornId) {
+    if (!properties || !Array.isArray(properties)) return 0;
 
     let dailyExpense = 0;
 
-    for (const propId of Object.keys(properties)) {
-        const prop = properties[propId];
+    for (const prop of properties) {
         if (!prop) continue;
 
-        // Add upkeep
-        const upkeep = prop.upkeep || 0;
-        dailyExpense += upkeep;
+        // Check if I am actively using this property (my ID is in used_by)
+        let isActivelyUsing = false;
+        if (prop.used_by && Array.isArray(prop.used_by)) {
+            isActivelyUsing = prop.used_by.some(u => u.id == myTornId);
+        }
 
-        // Add rent if rented
-        if (prop.rented && prop.rented.cost_per_day) {
-            dailyExpense += prop.rented.cost_per_day;
+        // Only count the property I'm actively using
+        if (isActivelyUsing) {
+            // Daily costs: upkeep (property + staff)
+            const upkeep = prop.upkeep?.property || 0;
+            const staffCost = prop.upkeep?.staff || 0;
+            dailyExpense += upkeep + staffCost;
+            break; // Only one active property at a time
         }
     }
 
@@ -160,8 +168,12 @@ export async function profitEngineHandler(client) {
         if (!user.apiKey) return null;
 
         // Fetch user data
-        const data = await getCombinedStats(user.apiKey, 'money,properties,networth');
+        const data = await getCombinedStats(user.apiKey, 'money,networth');
         if (!data) return null;
+
+        // Fetch V2 properties for accurate used_by data
+        const propData = await getV2(user.apiKey, 'user/properties');
+        const properties = propData?.properties ? Object.values(propData.properties) : [];
 
         // Update market prices
         await updateXanaxPrice(user.apiKey);
@@ -169,9 +181,8 @@ export async function profitEngineHandler(client) {
         // Process recent activity events
         processActivityEvents();
 
-        // Calculate property expense (runs once per update, not accumulated)
-        // Property expense is calculated as daily rate, tracked separately
-        const propertyDailyExpense = calculatePropertyExpense(data.properties);
+        // Calculate property expense (only active property)
+        const propertyDailyExpense = calculatePropertyExpense(properties, user.tornId);
 
         // Get current state and totals
         const state = getProfitState();
@@ -194,8 +205,7 @@ export async function profitEngineHandler(client) {
             .setTitle(`🧮 ${getUi('profit_engine_title')}`)
             .setDescription(`**💰 ${getUi('net_pnl')}:** ${profitIcon} ${profitSign}${formatMoney(netProfit)}`)
             .setTimestamp();
-        const interval = formatTimeShort(AUTO_RUNNERS.profitEngine.interval);
-        embed.setFooter({ text: `Torn Sentinel • ${getUi('real_time_accounting')} • Updated every ${interval}` });
+        embed.setFooter(getRunnerFooter('profitEngine'));
 
         // Income breakdown
         // Dynamic Income Breakdown

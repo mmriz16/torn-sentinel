@@ -12,10 +12,12 @@ import {
     createProgressBar,
     getThresholdColor,
     discordTimestamp,
-    formatTimeShort
+    formatTimeShort,
+    formatTimeFull
 } from '../../../utils/formatters.js';
 import { getUi, getStat } from '../../../localization/index.js';
 import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+import { getRunnerFooter } from '../../../utils/footerHelper.js';
 
 
 // Education name mapping (same as /stats command)
@@ -78,8 +80,7 @@ function buildStatsEmbed(data) {
         .setDescription('────────────────────────────────────────────────')
         .setTimestamp()
         .setTimestamp();
-    const interval = formatTimeShort(AUTO_RUNNERS.personalStats.interval);
-    embed.setFooter({ text: `Torn Sentinel • Auto refresh every ${interval}` });
+    embed.setFooter(getRunnerFooter('personalStats'));
 
 
     // Localized labels
@@ -195,7 +196,7 @@ function buildStatsEmbed(data) {
     if (cooldowns.drug > 0) {
         embed.addFields({
             name: `💊｜${getUi('drug')}`,
-            value: `\`\`\`Xanax\`\`\`${discordTimestamp(now + cooldowns.drug, 'R')}`,
+            value: `\`\`\`Xanax\`\`\`in ${formatTimeFull(cooldowns.drug)}`,
             inline: true
         });
     } else {
@@ -210,7 +211,7 @@ function buildStatsEmbed(data) {
     if (cooldowns.booster > 0) {
         embed.addFields({
             name: `💉｜${getUi('booster')}`,
-            value: `\`\`\`${activeText}\`\`\`${discordTimestamp(now + cooldowns.booster, 'R')}`,
+            value: `\`\`\`${activeText}\`\`\`in ${formatTimeFull(cooldowns.booster)}`,
             inline: true
         });
     } else {
@@ -228,7 +229,7 @@ function buildStatsEmbed(data) {
     if (cooldowns.medical > 0) {
         embed.addFields({
             name: `🏥｜${getUi('medical')}`,
-            value: `\`\`\`${activeText}\`\`\`${discordTimestamp(now + cooldowns.medical, 'R')}`,
+            value: `\`\`\`${activeText}\`\`\`in ${formatTimeFull(cooldowns.medical)}`,
             inline: true
         });
     } else {
@@ -243,7 +244,7 @@ function buildStatsEmbed(data) {
     if (data.education_timeleft > 0) {
         embed.addFields({
             name: `📚｜${getUi('education')}`,
-            value: `\`\`\`${educationName}\`\`\`${discordTimestamp(now + data.education_timeleft, 'R')}`,
+            value: `\`\`\`${educationName}\`\`\`in ${formatTimeFull(data.education_timeleft)}`,
             inline: true
         });
     } else {

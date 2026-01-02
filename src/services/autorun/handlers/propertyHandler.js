@@ -49,10 +49,10 @@ export async function propertyHandler(client) {
 
             // Check if active (used by me)
             if (prop.used_by && Array.isArray(prop.used_by)) {
-                isActive = prop.used_by.some(user => user.id === myTornId);
+                isActive = prop.used_by.some(user => user.id == myTornId);
             }
             // Fallback active check
-            if (!isActive && prop.status && prop.status.toLowerCase() === 'rented' && prop.rented_by?.id === myTornId) {
+            if (!isActive && prop.status && prop.status.toLowerCase() === 'rented' && prop.rented_by?.id == myTornId) {
                 // If I assume rented = active if used_by is missing/empty, but usually used_by is accurate.
                 // We'll stick to used_by preference, but this fallback exists.
                 // However, distinguishing "rented active" vs "rented inactive" relies on used_by.
@@ -66,8 +66,8 @@ export async function propertyHandler(client) {
             // Let's rely on used_by primarily.
 
             // Check ownership and tenancy
-            const isOwned = prop.owner && prop.owner.id === myTornId;
-            const isTenant = prop.rented_by && prop.rented_by.id === myTornId;
+            const isOwned = prop.owner && prop.owner.id == myTornId;
+            const isTenant = prop.rented_by && prop.rented_by.id == myTornId;
 
             if (isActive) {
                 activeProperty = prop;

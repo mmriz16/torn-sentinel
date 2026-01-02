@@ -10,6 +10,7 @@ import { getAllRunnerStates } from '../runtimeStateManager.js';
 import { getAllUsers } from '../../userStorage.js';
 import { getLogStats } from '../../system/systemLogger.js';
 import { AUTO_RUNNERS } from '../autoRunRegistry.js';
+import { getRunnerFooter } from '../../../utils/footerHelper.js';
 
 // Track bot start time
 const BOT_START_TIME = Date.now();
@@ -271,7 +272,7 @@ export async function botStatusHandler(client) {
                 { name: 'Logs', value: `\`\`\`${logStats.total}\`\`\``, inline: true },
                 { name: 'Last Update', value: `\`\`\`${lastUpdateAgo}s\`\`\``, inline: false }
             )
-            .setFooter({ text: `🔄 Update setiap 30 detik` })
+            .setFooter(getRunnerFooter('botStatus'))
             .setTimestamp();
         embeds.push(storageEmbed);
 

@@ -18,6 +18,7 @@ import { addIncome, addExpense, incrementStat } from '../../analytics/profitEngi
 import { getUi } from '../../../localization/index.js';
 import { AUTO_RUNNERS } from '../autoRunRegistry.js';
 import { formatTimeShort } from '../../../utils/formatters.js';
+import { getRunnerFooter } from '../../../utils/footerHelper.js';
 
 
 /**
@@ -90,10 +91,7 @@ export async function tradeHandler(client) {
                         console.error('❌ Error logging trade to analytics:', logErr);
                     }
 
-                    // Log to Profit Engine
-                    /* 
-                    // PROFIT LOGGING HANDLED BY financialLogHandler NOW
-                    // Preserving logic for reference or fallback if needed
+                    // Log to Profit Engine (handles foreign market buy/sell)
                     try {
                         if (trade.type === 'SELL') {
                             const netRevenue = trade.netRevenue || (trade.totalCost * 0.95);
@@ -101,12 +99,12 @@ export async function tradeHandler(client) {
                             addExpense('tax', trade.tax || (trade.totalCost * 0.05));
                             incrementStat('tripCount');
                         } else if (trade.type === 'BUY') {
+                            // This catches foreign market purchases (via inventory delta)
                             addExpense('travel_buy', trade.totalCost || 0);
                         }
                     } catch (profitErr) {
                         console.error('❌ Error updating profit engine:', profitErr);
                     }
-                    */
 
                 } catch (sendErr) {
                     console.error('❌ Error sending trade notification:', sendErr);
@@ -159,10 +157,8 @@ function buildBuyEmbed(trade) {
             value: `${trade.countryFlag} ${trade.country}`,
             inline: true
         })
-        .setTimestamp()
         .setTimestamp();
-    const interval = formatTimeShort(AUTO_RUNNERS.tradeDetection.interval);
-    embed.setFooter({ text: `${getUi('detected_via')} • Updated every ${interval}` });
+    embed.setFooter(getRunnerFooter('tradeDetection'));
 
 
     return embed;
@@ -203,10 +199,8 @@ function buildSellEmbed(trade) {
             value: `${trade.countryFlag} ${trade.country}`,
             inline: true
         })
-        .setTimestamp()
         .setTimestamp();
-    const interval = formatTimeShort(AUTO_RUNNERS.tradeDetection.interval);
-    embed.setFooter({ text: `${getUi('detected_via')} • Updated every ${interval}` });
+    embed.setFooter(getRunnerFooter('tradeDetection'));
 
 
     return embed;
