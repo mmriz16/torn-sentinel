@@ -9,9 +9,7 @@ import { getActiveSchedulers, getSchedulerHealth } from '../schedulerEngine.js';
 import { getAllRunnerStates } from '../runtimeStateManager.js';
 import { getAllUsers } from '../../userStorage.js';
 import { getLogStats } from '../../system/systemLogger.js';
-import { getUi } from '../../../localization/index.js';
 import { AUTO_RUNNERS } from '../autoRunRegistry.js';
-import { formatTimeShort } from '../../../utils/formatters.js';
 
 // Track bot start time
 const BOT_START_TIME = Date.now();
@@ -150,20 +148,31 @@ async function sendHealthAlert(client, problems) {
 }
 
 /**
- * Bot status handler - builds health overview embed
+ * Bot status handler - builds health overview embeds (multi-embed format)
  * @param {Client} client - Discord client
- * @returns {EmbedBuilder}
+ * @returns {EmbedBuilder[]} Array of embeds
  */
 export async function botStatusHandler(client) {
     try {
         discordClient = client;
-        const now = Math.floor(Date.now() / 1000);
         const uptimeMs = Date.now() - BOT_START_TIME;
 
         // Calculate uptime
         const uptimeHours = Math.floor(uptimeMs / (1000 * 60 * 60));
         const uptimeMins = Math.floor((uptimeMs % (1000 * 60 * 60)) / (1000 * 60));
         const uptimeStr = `${uptimeHours}h ${uptimeMins}m`;
+
+        // Format online since date
+        const onlineSince = new Date(BOT_START_TIME);
+        const onlineSinceStr = onlineSince.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        }) + ' ' + onlineSince.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
 
         // Get system data
         const activeSchedulers = getActiveSchedulers();
@@ -187,104 +196,97 @@ export async function botStatusHandler(client) {
 
         // Determine overall status color
         const statusColor = problems.length === 0 ? 0x2ECC71 : (problems.length < 3 ? 0xF39C12 : 0xE74C3C);
-        const statusEmoji = problems.length === 0 ? '🟢' : (problems.length < 3 ? '🟡' : '🔴');
-        const statusText = problems.length === 0 ? 'All Systems Operational' : `${problems.length} Runner(s) Degraded`;
 
-        // Build embed
-        const embed = new EmbedBuilder()
+        const separator = '─────────────────────────────────────────────────────────────';
+
+        // Build multiple embeds
+        const embeds = [];
+
+        // 1. Bot Status embed
+        const botStatusEmbed = new EmbedBuilder()
             .setColor(statusColor)
-            .setTitle(`🤖 Torn Sentinel — ${getUi('system_status')}`)
-            .setDescription(`**${statusEmoji} ${statusText}**\n────────────────────────────────────────────────`);
+            .setTitle('📊｜Status Bot')
+            .setDescription(separator)
+            .addFields(
+                { name: 'Online Sejak', value: `\`\`\`${onlineSinceStr}\`\`\``, inline: true },
+                { name: 'Uptime', value: `\`\`\`${uptimeStr}\`\`\``, inline: true },
+                { name: 'Versi', value: '```v1.50.0```', inline: true },
+                { name: 'Lingkungan', value: `\`\`\`${process.env.RENDER_SERVICE_NAME || 'Local'}\`\`\``, inline: true },
+                { name: 'Memory', value: `\`\`\`${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB\`\`\``, inline: true }
+            );
+        embeds.push(botStatusEmbed);
 
-        // Bot Status section
-        embed.addFields({
-            name: `📊 ${getUi('bot_status')}`,
-            value: [
-                `• ${getUi('online_since')}: <t:${Math.floor(BOT_START_TIME / 1000)}:f>`,
-                `• ${getUi('uptime')}: \`${uptimeStr}\``,
-                `• ${getUi('version')}: \`v1.5.0\``,
-                `• ${getUi('environment')}: \`${process.env.RENDER_SERVICE_NAME || 'Local'}\``,
-                `• Memory: \`${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB\``
-            ].join('\n'),
-            inline: false
-        });
+        // 2. Runner Health embed
+        const runnerHealthEmbed = new EmbedBuilder()
+            .setColor(statusColor)
+            .setTitle('🏥｜Runner Health')
+            .setDescription(separator)
+            .addFields(
+                { name: 'Healthy', value: `\`\`\`${healthyCount} / ${totalCount}\`\`\``, inline: true },
+                { name: 'Stale/Error', value: `\`\`\`${problems.length}\`\`\``, inline: true }
+            );
+        embeds.push(runnerHealthEmbed);
 
-        // Runner Health section (NEW)
-        const healthStatus = problems.length === 0
-            ? '✅ All runners healthy'
-            : problems.slice(0, 5).map(p => `❌ ${p.emoji} ${p.name}`).join('\n');
+        // 3. Active Runners embed
+        const activeRunnersEmbed = new EmbedBuilder()
+            .setColor(statusColor)
+            .setTitle('🧠｜Active Runners')
+            .setDescription(separator)
+            .addFields(
+                { name: 'Global', value: `\`\`\`${globalRunners}\`\`\``, inline: true },
+                { name: 'Personal', value: `\`\`\`${personalRunners}\`\`\``, inline: true },
+                { name: 'Foreign Markets', value: `\`\`\`${foreignMarketRunners}\`\`\``, inline: true }
+            );
+        embeds.push(activeRunnersEmbed);
 
-        embed.addFields({
-            name: '🏥 Runner Health',
-            value: [
-                `• Healthy: \`${healthyCount}/${totalCount}\``,
-                `• Stale/Error: \`${problems.length}\``,
-                '',
-                healthStatus
-            ].join('\n'),
-            inline: true
-        });
-
-        // Runners section
-        embed.addFields({
-            name: '🧠 Active Runners',
-            value: [
-                `• Global: \`${globalRunners}\``,
-                `• Personal: \`${personalRunners}\``,
-                `• Foreign Markets: \`${foreignMarketRunners}\``
-            ].join('\n'),
-            inline: true
-        });
-
-        // API Health section
+        // 4. API Health embed
         const apiHealth = apiStats.errorCount === 0 ? '🟢 OK' : '🟡 Degraded';
-        const avgMs = apiStats.avgResponseTime || 'N/A';
+        const avgMs = apiStats.avgResponseTime || 0;
 
-        embed.addFields({
-            name: `📡 ${getUi('api_health')}`,
-            value: [
-                `• Torn API: ${apiHealth}`,
-                `• Avg Response: \`${avgMs}ms\``,
-                `• Requests: \`${apiStats.requestCount}\``,
-                `• Errors: \`${apiStats.errorCount}\``
-            ].join('\n'),
-            inline: true
-        });
+        const apiHealthEmbed = new EmbedBuilder()
+            .setColor(statusColor)
+            .setTitle('📡｜Kesehatan API')
+            .setDescription(separator)
+            .addFields(
+                { name: 'Torn API', value: `\`\`\`${apiHealth}\`\`\``, inline: false },
+                { name: 'Avg Response', value: `\`\`\`${avgMs}ms\`\`\``, inline: true },
+                { name: 'Requests', value: `\`\`\`${apiStats.requestCount}\`\`\``, inline: true },
+                { name: 'Errors', value: `\`\`\`${apiStats.errorCount}\`\`\``, inline: true }
+            );
+        embeds.push(apiHealthEmbed);
 
-        // Storage section
+        // 5. Storage embed
         const lastRunnerUpdate = Object.values(runnerStates)
             .map(r => r.lastRun || 0)
             .sort((a, b) => b - a)[0];
         const lastUpdateAgo = lastRunnerUpdate ? Math.floor((Date.now() - lastRunnerUpdate) / 1000) : 0;
 
-        embed.addFields({
-            name: `💾 ${getUi('storage')}`,
-            value: [
-                `• Users: \`${userCount}\``,
-                `• Runners tracked: \`${Object.keys(runnerStates).length}\``,
-                `• Logs: \`${logStats.total}\``,
-                `• Last update: \`${lastUpdateAgo}s\``
-            ].join('\n'),
-            inline: true
-        });
+        const storageEmbed = new EmbedBuilder()
+            .setColor(statusColor)
+            .setTitle('💾｜Penyimpanan')
+            .setDescription(separator)
+            .addFields(
+                { name: 'Users', value: `\`\`\`${userCount}\`\`\``, inline: true },
+                { name: 'Running Tracked', value: `\`\`\`${Object.keys(runnerStates).length}\`\`\``, inline: true },
+                { name: 'Logs', value: `\`\`\`${logStats.total}\`\`\``, inline: true },
+                { name: 'Last Update', value: `\`\`\`${lastUpdateAgo}s\`\`\``, inline: false }
+            )
+            .setFooter({ text: `🔄 Update setiap 30 detik` })
+            .setTimestamp();
+        embeds.push(storageEmbed);
 
-        // Footer with last update timestamp
-        const interval = formatTimeShort(AUTO_RUNNERS.botStatus.interval);
-        embed.setTimestamp()
-            .setFooter({ text: `Health check every ${interval} • Alerts to #notifications` });
-
-        return embed;
+        return embeds;
 
     } catch (error) {
         console.error('❌ Bot status handler error:', error.message);
 
-        // Return error embed
-        return new EmbedBuilder()
+        // Return error embed as array
+        return [new EmbedBuilder()
             .setColor(0xE74C3C)
             .setTitle('🤖 Torn Sentinel — System Status')
             .setDescription('❌ Error generating status')
             .addFields({ name: 'Error', value: error.message })
-            .setTimestamp();
+            .setTimestamp()];
     }
 }
 

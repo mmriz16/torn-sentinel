@@ -18,7 +18,7 @@
         }
       },
       "education_current": 43,
-      "education_timeleft": 169877,
+      "education_timeleft": 167795,
       "education_completed": [
         23,
         52,
@@ -38,37 +38,37 @@
         "amount": 0,
         "time_left": 0
       },
-      "server_time": 1767320268,
+      "server_time": 1767322290,
       "energy": {
-        "current": 15,
+        "current": 25,
         "maximum": 100,
         "increment": 5,
         "interval": 900,
-        "ticktime": 732,
-        "fulltime": 15132
+        "ticktime": 510,
+        "fulltime": 13110
       },
       "nerve": {
-        "current": 9,
+        "current": 16,
         "maximum": 22,
         "increment": 1,
         "interval": 300,
-        "ticktime": 132,
-        "fulltime": 3732
+        "ticktime": 210,
+        "fulltime": 1710
       },
       "happy": {
-        "current": 2795,
+        "current": 2805,
         "maximum": 2825,
         "increment": 5,
         "interval": 900,
-        "ticktime": 732,
-        "fulltime": 5232
+        "ticktime": 510,
+        "fulltime": 3210
       },
       "life": {
         "current": 675,
         "maximum": 675,
         "increment": 33,
         "interval": 300,
-        "ticktime": 132,
+        "ticktime": 210,
         "fulltime": 0
       },
       "chain": {
@@ -88,7 +88,7 @@
         "method": "Airstrip",
         "timestamp": 1767329286,
         "departed": 1767317706,
-        "time_left": 9033
+        "time_left": 7011
       },
       "level": 16,
       "gender": "Male",
@@ -361,7 +361,7 @@
       "NEW_MESSAGE": 1767318262045,
       "NEW_EVENT": 1767318262776
     },
-    "updatedAt": 1767320629548,
+    "updatedAt": 1767322291994,
     "recentAlerts": [
       1767318260949,
       1767318262045,
