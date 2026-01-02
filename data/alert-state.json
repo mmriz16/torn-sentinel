@@ -38,21 +38,21 @@
         "amount": 0,
         "time_left": 0
       },
-      "server_time": 1767349083,
+      "server_time": 1767349143,
       "energy": {
         "current": 45,
         "maximum": 100,
         "increment": 5,
         "interval": 900,
-        "ticktime": 717,
-        "fulltime": 9717
+        "ticktime": 657,
+        "fulltime": 9657
       },
       "nerve": {
         "current": 22,
         "maximum": 22,
         "increment": 1,
         "interval": 300,
-        "ticktime": 117,
+        "ticktime": 57,
         "fulltime": 0
       },
       "happy": {
@@ -60,15 +60,15 @@
         "maximum": 2825,
         "increment": 5,
         "interval": 900,
-        "ticktime": 717,
-        "fulltime": 1617
+        "ticktime": 657,
+        "fulltime": 1557
       },
       "life": {
         "current": 675,
         "maximum": 675,
         "increment": 33,
         "interval": 300,
-        "ticktime": 117,
+        "ticktime": 57,
         "fulltime": 0
       },
       "chain": {
@@ -88,7 +88,7 @@
         "method": "Airstrip",
         "timestamp": 1767353192,
         "departed": 1767342152,
-        "time_left": 4182
+        "time_left": 4122
       },
       "level": 16,
       "gender": "Male",
@@ -373,7 +373,7 @@
       "TRAVEL_RETURNING": 1767340938521,
       "TRAVEL_READY": 1767340938960
     },
-    "updatedAt": 1767349083936,
+    "updatedAt": 1767349143877,
     "recentAlerts": [
       1767347107122
     ]
